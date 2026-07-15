@@ -1,0 +1,70 @@
+"use client";
+import Link from "next/link";
+import { useState } from "react";
+
+type Props = {
+  user: { email?: string | null } | null;
+  profile: { full_name?: string | null; avatar_url?: string | null; role?: string | null; is_admin?: boolean | null; so_du?: number | null } | null;
+};
+
+export default function HeaderActions({ user, profile }: Props) {
+  const [open, setOpen] = useState(false);
+  const isStaff = profile?.role === "admin" || profile?.role === "pho_cong_dong" || profile?.is_admin;
+
+  if (!user) {
+    return (
+      <div className="flex items-center gap-2">
+        <Link href="/dang-nhap" className="btn-ghost hidden sm:inline-flex">
+          Đăng nhập
+        </Link>
+        <Link href="/dang-tin" className="btn-primary">
+          Đăng tin
+        </Link>
+      </div>
+    );
+  }
+
+  return (
+    <div className="flex items-center gap-2">
+      <Link href="/dang-tin" className="btn-primary">
+        + Đăng tin
+      </Link>
+      <div className="relative">
+        <button
+          onClick={() => setOpen((o) => !o)}
+          className="flex h-10 w-10 items-center justify-center rounded-full border border-paper-line bg-brand-50 text-sm font-bold text-brand-700"
+        >
+          {(profile?.full_name || user.email || "U").slice(0, 1).toUpperCase()}
+        </button>
+        {open && (
+          <div className="absolute right-0 mt-2 w-56 overflow-hidden rounded-2xl border border-paper-line bg-white py-1 shadow-lift">
+            <div className="border-b border-paper-line px-4 py-3">
+              <p className="truncate text-sm font-semibold text-ink">{profile?.full_name || "Thành viên"}</p>
+              <p className="truncate text-xs text-ink-muted">{user.email}</p>
+              <p className="mt-1 text-xs font-semibold text-brand-700">
+                Số dư: {new Intl.NumberFormat("vi-VN").format(profile?.so_du || 0)}đ
+              </p>
+            </div>
+            <MenuLink href="/tai-khoan">Tài khoản</MenuLink>
+            <MenuLink href="/tai-khoan/tin-cua-toi">Tin của tôi</MenuLink>
+            <MenuLink href="/tai-khoan/nap-tien">Nạp tiền</MenuLink>
+            <MenuLink href="/tai-khoan/tin-yeu-thich">Tin yêu thích</MenuLink>
+            {isStaff && <MenuLink href="/admin">Quản trị</MenuLink>}
+            <div className="my-1 border-t border-paper-line" />
+            <Link href="/dang-xuat" className="block px-4 py-2.5 text-sm font-medium text-red-600 hover:bg-red-50">
+              Đăng xuất
+            </Link>
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}
+
+function MenuLink({ href, children }: { href: string; children: React.ReactNode }) {
+  return (
+    <Link href={href} className="block px-4 py-2.5 text-sm font-medium text-ink-soft hover:bg-brand-50 hover:text-brand-700">
+      {children}
+    </Link>
+  );
+}
