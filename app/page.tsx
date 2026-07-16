@@ -22,6 +22,24 @@ export default async function HomePage() {
     .limit(13);
   type NewsItem = { id: string; tieu_de: string; mo_ta: string | null; anh_bia: string | null; loai: string | null; created_at: string };
   const news = (newsData || []) as NewsItem[];
+
+  const { data: videoData } = await supabase
+    .from("home_videos")
+    .select("id, title, tiktok_url")
+    .eq("active", true)
+    .order("sort_order", { ascending: true })
+    .limit(6);
+  type VideoItem = { id: number; title: string | null; tiktok_url: string | null };
+  const videos = (videoData || []) as VideoItem[];
+  function embed(url: string | null): string {
+    if (!url) return "";
+    if (url.includes("/embed")) return url;
+    const s = url.match(/youtu\.be\/([\w-]+)/);
+    if (s) return "https://www.youtube.com/embed/" + s[1];
+    const w = url.match(/[?&]v=([\w-]+)/);
+    if (w) return "https://www.youtube.com/embed/" + w[1];
+    return url;
+  }
   const featured = news[0];
   const rest = news.slice(1);
 
@@ -108,6 +126,31 @@ export default async function HomePage() {
           </div>
         )}
       </section>
+
+      {/* VIDEO - market news */}
+      {videos.length > 0 && (
+        <section className="border-t border-neutral-100 bg-white">
+          <div className="container-app py-12">
+            <div className="mb-6 flex items-end justify-between">
+              <div>
+                <h2 className="section-title">Video tin tức thị trường</h2>
+                <p className="mt-1 text-ink-muted">Cập nhật tin nóng và phân tích bất động sản cả nước</p>
+              </div>
+              <Link href="/video" className="btn-soft">Xem tất cả &rarr;</Link>
+            </div>
+            <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+              {videos.map((v) => (
+                <div key={v.id} className="flex flex-col overflow-hidden rounded-2xl border border-neutral-200 bg-white shadow-sm">
+                  <div className="aspect-video w-full bg-neutral-100">
+                    <iframe src={embed(v.tiktok_url)} title={v.title || "Video"} className="h-full w-full" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowFullScreen />
+                  </div>
+                  {v.title && <div className="p-4 text-sm font-semibold text-ink line-clamp-2">{v.title}</div>}
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
 
       {/* LISTINGS - secondary */}
       <section className="border-t border-neutral-100 bg-neutral-50/50">
