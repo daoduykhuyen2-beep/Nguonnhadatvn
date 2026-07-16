@@ -10,7 +10,7 @@ const GROUPS: { key: string; title: string; desc: string }[] = [
   { key: "day", title: "Đẩy tin", desc: "Đưa tin của bạn lên đầu danh sách" },
 ];
 
-function PlanCard({ plan, highlight }: { plan: any; highlight?: boolean }) {
+function PlanCard({ plan, highlight, postId }: { plan: any; highlight?: boolean; postId?: string }) {
   const eff = getEffectivePrice(plan);
   const promo = isPromoActive(plan);
   const disc = getDiscountPercent(plan);
@@ -31,13 +31,16 @@ function PlanCard({ plan, highlight }: { plan: any; highlight?: boolean }) {
       </ul>
       <form action={createOrder} className="mt-5">
         <input type="hidden" name="plan" value={plan.code} />
+        {postId && <input type="hidden" name="post_id" value={postId} />}
         <button className="w-full rounded-xl bg-brand px-4 py-3 text-sm font-semibold text-white transition hover:bg-brand-dark">Chọn gói</button>
       </form>
     </div>
   );
 }
 
-export default async function Page() {
+export default async function Page({ searchParams }: { searchParams: Promise<{ post?: string }> }) {
+  const sp = await searchParams;
+  const postId = sp?.post;
   const supabase = await createClient();
   await supabase.auth.getUser();
   return (
@@ -47,13 +50,14 @@ export default async function Page() {
         <p className="mt-2 text-neutral-500">Chọn gói phù hợp — thanh toán nhanh qua chuyển khoản, kích hoạt tự động.</p>
       </div>
       {GROUPS.map((g) => {
+        if (postId && g.key === "hoi_vien") return null;
         const plans = PLANS.filter((p) => p.group === g.key);
         if (!plans.length) return null;
         return (
           <section key={g.key} className="mt-12">
             <div className="mb-5"><h2 className="text-xl font-bold text-neutral-900">{g.title}</h2><p className="text-sm text-neutral-500">{g.desc}</p></div>
             <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-              {plans.map((p, i) => <PlanCard key={p.code} plan={p} highlight={g.key === "hoi_vien" && i === 1} />)}
+              {plans.map((p, i) => <PlanCard key={p.code} plan={p} highlight={g.key === "hoi_vien" && i === 1} postId={postId} />)}
             </div>
           </section>
         );
