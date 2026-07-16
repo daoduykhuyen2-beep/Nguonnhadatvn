@@ -42,7 +42,7 @@ export async function createPost(_prev: ActionState, formData: FormData): Promis
     gia: d.gia, dien_tich: d.dien_tich, chieu_ngang: d.chieu_ngang, chieu_dai: d.chieu_dai,
     so_tang: d.so_tang, contact_name: d.contact_name, contact_phone: d.contact_phone,
     mota: d.mota, video: d.video, anh: d.anh, anh_bia: d.anh_bia,
-    status: "cho_duyet", trang_thai: "cho_duyet",
+    status: "thuong", trang_thai: "duyet",
   }).select("id").single();
   if (error) return { error: error.message };
   revalidatePath("/tai-khoan/tin-cua-toi");
