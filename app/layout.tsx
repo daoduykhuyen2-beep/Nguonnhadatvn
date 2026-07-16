@@ -13,8 +13,8 @@ const beVietnam = Be_Vietnam_Pro({
 
 export const metadata: Metadata = {
   title: {
-    default: "Nguồn Nhà Đất Việt Nam",
-    template: "%s | Nguồn Nhà Đất Việt Nam",
+    default: "Nhà Đất Việt Nam",
+    template: "%s | Nhà Đất Việt Nam",
   },
   description:
     "Sàn đăng tin bất động sản toàn quốc — nhà phố, đất nền, căn hộ. Đăng tin nhanh, tiếp cận khách mua thật.",
@@ -22,7 +22,7 @@ export const metadata: Metadata = {
   openGraph: {
     type: "website",
     locale: "vi_VN",
-    siteName: "Nguồn Nhà Đất Việt Nam",
+    siteName: "Nhà Đất Việt Nam",
   },
 };
 
