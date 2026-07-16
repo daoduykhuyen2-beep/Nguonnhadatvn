@@ -21,7 +21,7 @@ export default async function Header() {
   const nav = [
     { href: "/tin-dang", label: "Tin đăng" },
     { href: "/tin-tuc", label: "Tin tức" },
-    { href: "/goi-thanh-vien", label: "Bảng giá" },
+    { href: "/bang-gia", label: "Bảng giá" },
     { href: "/tuyen-dung", label: "Tuyển dụng" },
     { href: "/gioi-thieu", label: "Giới thiệu" },
   ];
