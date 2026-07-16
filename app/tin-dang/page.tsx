@@ -51,10 +51,12 @@ export default async function TinDangPage({
       <h1 className="section-title mb-4">Tin đăng bất động sản</h1>
       <PostFilter />
 
-      <p className="mt-4 text-sm text-ink-muted">Tìm thấy {total} tin</p>
+      <p className="mt-4 text-sm text-ink-muted">Tìm thấy {total} tin đăng{sp.quan ? " tại " + sp.quan : ""}.</p>
 
       {posts.length === 0 ? (
-        <div className="card mt-4 p-12 text-center text-ink-muted">Không có tin phù hợp bộ lọc.</div>
+        <div className="card mt-4 p-10 text-center text-ink-muted">
+          Không tìm thấy tin đăng phù hợp. Hãy thử bỏ bớt bộ lọc.
+        </div>
       ) : (
         <div className="mt-4 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
           {posts.map((p) => <PostCard key={p.id} post={p} />)}
@@ -62,10 +64,16 @@ export default async function TinDangPage({
       )}
 
       {totalPages > 1 && (
-        <div className="mt-8 flex items-center justify-center gap-2">
-          {page > 1 && <Link href={pageUrl(page - 1)} className="btn-ghost">← Trước</Link>}
-          <span className="px-3 text-sm text-ink-muted">Trang {page}/{totalPages}</span>
-          {page < totalPages && <Link href={pageUrl(page + 1)} className="btn-ghost">Sau →</Link>}
+        <div className="mt-8 flex flex-wrap justify-center gap-2">
+          {Array.from({ length: totalPages }, (_, i) => i + 1).map((p) => (
+            <Link
+              key={p}
+              href={pageUrl(p)}
+              className={`rounded-lg px-3 py-1.5 text-sm font-medium ${p === page ? "bg-brand text-white" : "border border-neutral-200 text-ink-soft hover:bg-neutral-50"}`}
+            >
+              {p}
+            </Link>
+          ))}
         </div>
       )}
     </div>
