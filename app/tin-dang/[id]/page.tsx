@@ -70,6 +70,23 @@ export default async function PostDetail({ params }: { params: Promise<{ id: str
     favorited = !!fav;
   }
 
+  // Kiểm tra quyền xem thông tin liên hệ: chỉ hội viên còn hạn (hoặc admin) mới được xem.
+  let hasAccess = false;
+  if (user) {
+    const { data: profile } = await supabase
+      .from("profiles")
+      .select("is_admin, role, membership_expires_at")
+      .eq("id", user.id)
+      .maybeSingle();
+    if (profile) {
+      const isAdmin = profile.is_admin === true || profile.role === "admin";
+      const active = profile.membership_expires_at
+        ? new Date(profile.membership_expires_at).getTime() > Date.now()
+        : false;
+      hasAccess = isAdmin || active;
+    }
+  }
+
   return (
     <div className="container-app py-8">
       <div className="grid gap-8 lg:grid-cols-[1fr_360px]">
@@ -118,7 +135,7 @@ export default async function PostDetail({ params }: { params: Promise<{ id: str
         {/* Contact sidebar */}
         <aside>
           <div className="sticky top-24">
-            <ContactBox postId={post.id} contactName={post.contact_name} contactPhone={post.contact_phone} favorited={favorited} />
+            <ContactBox postId={post.id} contactName={post.contact_name} contactPhone={post.contact_phone} favorited={favorited} hasAccess={hasAccess} />
           </div>
         </aside>
       </div>
