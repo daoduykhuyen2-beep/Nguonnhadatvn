@@ -93,7 +93,7 @@ export async function POST(req: NextRequest) {
     const { error } = await supabase.rpc("apply_topup", { p_payment_id: order.id });
     if (error) return NextResponse.json({ success: false, error: "topup failed" }, { status: 500 });
     await supabase.from("notifications").insert({
-      user_id: order.user_id,
+      target_user: order.user_id,
       tieu_de: "Nạp tiền thành công",
       noi_dung: "Bạn đã nạp thành công " + Number(order.amount).toLocaleString("vi-VN") + "đ vào ví.",
       loai: "tai_chinh",
@@ -116,7 +116,7 @@ export async function POST(req: NextRequest) {
   }
 
   await supabase.from("notifications").insert({
-    user_id: order.user_id,
+    target_user: order.user_id,
     tieu_de: "Đăng ký gói thành công",
     noi_dung: "Đơn " + order.plan_code + " đã được kích hoạt. Cảm ơn bạn!",
     loai: "goi_dich_vu",
