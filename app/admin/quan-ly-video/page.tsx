@@ -10,7 +10,12 @@ export default async function Page() {
   return (
     <div className="space-y-6">
       <h1 className="text-xl font-bold text-neutral-900">Video trang chủ (TikTok)</h1>
-      <form action={saveHomeVideo} className="rounded-2xl border border-neutral-100 bg-white p-5 shadow-sm">
+      <form
+        action={async (formData: FormData) => {
+          "use server";
+          await saveHomeVideo({}, formData);
+        }}
+        className="rounded-2xl border border-neutral-100 bg-white p-5 shadow-sm">
         <div className="grid gap-4 sm:grid-cols-2">
           <div><label className="mb-1.5 block text-sm font-medium text-neutral-700">Tiêu đề</label><input name="title" className={inputCls} /></div>
           <div><label className="mb-1.5 block text-sm font-medium text-neutral-700">Link TikTok</label><input name="tiktok_url" className={inputCls} required /></div>
