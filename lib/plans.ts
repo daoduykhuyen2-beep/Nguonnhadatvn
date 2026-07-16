@@ -14,6 +14,7 @@ export type Plan = {
   pushCredits?: number;
   tier?: string;
   desc?: string;
+  features?: string[];
 };
 
 // Chỉ còn 1 gói duy nhất: mua xong được xem toàn bộ danh sách nhà (kho nhà phố toàn quốc).
@@ -27,7 +28,17 @@ export const PLANS: Plan[] = [
     days: 30,
     tier: "vip",
     quota: 999999,
-    desc: "Mở khóa xem toàn bộ danh sách nhà phố trên toàn quốc trong 30 ngày: xem thông tin liên hệ chính chủ, giá bán, địa chỉ, hình ảnh và video thực tế của từng bất động sản.",
+    desc: "Chỉ với 1 gói duy nhất, mở khóa TOÀN BỘ kho hơn 20.000 căn nhà phố đang bán trên khắp cả nước trong 30 ngày. Xem trực tiếp số điện thoại chính chủ, địa chỉ số nhà chi tiết, giá bán thật và hình ảnh – video thực tế để chốt được căn nhà ưng ý mà không mất phí môi giới.",
+    features: [
+      "Xem hơn 20.000 nhà phố đang bán trên toàn quốc – cập nhật liên tục mỗi ngày",
+      "Mở khóa số điện thoại CHÍNH CHỦ, liên hệ trực tiếp – không qua trung gian, không phí môi giới",
+      "Xem địa chỉ & số nhà chi tiết để đi khảo sát thực tế ngay",
+      "Nắm giá bán thật, diện tích, chiều ngang, số tầng của từng căn để so sánh và trả giá",
+      "Xem hình ảnh và video thực tế của bất động sản trước khi đi xem nhà",
+      "Lọc nhanh theo tỉnh/thành, khu vực, tầm giá để tìm đúng căn phù hợp túi tiền",
+      "Tiết kiệm hàng chục triệu tiền hoa hồng môi giới cho mỗi giao dịch",
+      "Thời hạn sử dụng 30 ngày kể từ khi kích hoạt",
+    ],
   },
 ];
 
