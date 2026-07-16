@@ -39,7 +39,6 @@ export async function getPlanMerged(code: string): Promise<Plan | null> {
         promoPrice: data.promo_price ?? base.promoPrice,
         promoLabel: data.promo_label ?? base.promoLabel,
         promoUntil: data.promo_until ?? base.promoUntil,
-        badge: data.badge ?? base.badge,
       } as Plan;
     }
   } catch {}
