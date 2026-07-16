@@ -1,7 +1,6 @@
 import Link from "next/link";
 import { createClient } from "@/lib/supabase/server";
 import PostCard from "@/components/PostCard";
-import PostFilter from "@/components/PostFilter";
 import type { Post } from "@/lib/types";
 
 export const revalidate = 60;
@@ -13,105 +12,123 @@ export default async function HomePage() {
     .select("*")
     .eq("trang_thai", "duyet")
     .order("created_at", { ascending: false })
-    .limit(12);
+    .limit(8);
   const posts = (data || []) as Post[];
 
   const { data: newsData } = await supabase
     .from("news")
     .select("id, tieu_de, mo_ta, anh_bia, loai, created_at")
     .order("created_at", { ascending: false })
-    .limit(3);
-  const news = (newsData || []) as { id: string; tieu_de: string; mo_ta: string | null; anh_bia: string | null; loai: string | null; created_at: string }[];
+    .limit(13);
+  type NewsItem = { id: string; tieu_de: string; mo_ta: string | null; anh_bia: string | null; loai: string | null; created_at: string };
+  const news = (newsData || []) as NewsItem[];
+  const featured = news[0];
+  const rest = news.slice(1);
 
   return (
     <div>
       {/* HERO */}
-      <section className="relative overflow-hidden bg-gradient-to-b from-brand-50 to-white">
-        <div className="container-app py-16 md:py-24">
-          <div className="mx-auto max-w-3xl text-center">
-            <span className="chip mx-auto">Sàn bất động sản toàn quốc</span>
-            <h1 className="mt-4 text-4xl font-extrabold leading-tight tracking-tight text-ink md:text-5xl">
-              Tìm ngôi nhà mơ ước tại{" "}
-              <span className="text-brand-600">Nguồn Nhà Đất Việt Nam</span>
-            </h1>
-            <p className="mx-auto mt-4 max-w-xl text-base text-ink-muted md:text-lg">
-              Hàng nghìn tin nhà phố, đất nền, căn hộ được cập nhật mỗi ngày. Đăng tin nhanh — tiếp cận khách mua thật.
-            </p>
-          </div>
-          <div className="mx-auto mt-8 max-w-4xl">
-            <PostFilter />
-          </div>
-          <div className="mt-6 flex flex-wrap items-center justify-center gap-3">
-            <Link href="/dang-tin" className="btn-primary">Đăng tin miễn phí</Link>
-            <Link href="/bang-gia" className="btn-ghost">Xem bảng giá</Link>
+      <section className="relative overflow-hidden border-b border-neutral-100 bg-gradient-to-b from-brand-50/60 to-white">
+        <div className="container-app py-14 text-center">
+          <span className="inline-block rounded-full bg-brand-100 px-4 py-1 text-sm font-semibold text-brand-700">Nguồn Nhà Đất Việt Nam</span>
+          <h1 className="mx-auto mt-4 max-w-3xl text-4xl font-extrabold tracking-tight text-ink sm:text-5xl">Tin tức &amp; kiến thức bất động sản cập nhật mỗi ngày</h1>
+          <p className="mx-auto mt-4 max-w-2xl text-lg text-ink-muted">Thị trường, pháp lý, kinh nghiệm mua bán và đầu tư nhà đất - tất cả trong một nơi.</p>
+          <div className="mt-8 flex flex-wrap justify-center gap-3">
+            <Link href="/tin-tuc" className="btn-primary">Xem tin tức</Link>
+            <Link href="/tin-dang" className="btn-soft">Xem tin đăng</Link>
           </div>
         </div>
       </section>
 
-      {/* STATS */}
-      <section className="container-app -mt-6">
-        <div className="card grid grid-cols-2 divide-x divide-paper-line md:grid-cols-4">
-          {[
-            { n: "10.000+", l: "Tin đăng" },
-            { n: "63", l: "Tỉnh thành" },
-            { n: "5.000+", l: "Thành viên" },
-            { n: "24/7", l: "Hỗ trợ" },
-          ].map((s) => (
-            <div key={s.l} className="p-5 text-center">
-              <p className="text-2xl font-extrabold text-brand-700">{s.n}</p>
-              <p className="text-sm text-ink-muted">{s.l}</p>
-            </div>
-          ))}
-        </div>
-      </section>
-
-      {/* FEATURED */}
+      {/* NEWS - main content */}
       <section className="container-app py-14">
         <div className="mb-6 flex items-end justify-between">
           <div>
-            <h2 className="section-title">Tin đăng mới nhất</h2>
-            <p className="mt-1 text-ink-muted">Bất động sản vừa được cập nhật</p>
+            <h2 className="section-title">Tin tức &amp; Cẩm nang</h2>
+            <p className="mt-1 text-ink-muted">Cập nhật thị trường bất động sản mới nhất</p>
           </div>
-          <Link href="/tin-dang" className="btn-soft">Xem tất cả →</Link>
+          <Link href="/tin-tuc" className="btn-soft">Xem tất cả &rarr;</Link>
         </div>
 
-        {posts.length === 0 ? (
-          <div className="card p-12 text-center text-ink-muted">Chưa có tin đăng nào.</div>
+        {news.length === 0 ? (
+          <div className="card p-12 text-center text-ink-muted">Chưa có bài viết nào.</div>
         ) : (
-          <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-            {posts.map((p) => <PostCard key={p.id} post={p} />)}
-          </div>
-        )}
-      </section>
-
-      {/* NEWS */}
-      {news.length > 0 && (
-        <section className="bg-brand-50/40 py-14">
-          <div className="container-app">
-            <div className="mb-6 flex items-end justify-between">
-              <div>
-                <h2 className="section-title">Tin tức &amp; Cẩm nang</h2>
-                <p className="mt-1 text-ink-muted">Cập nhật thị trường bất động sản mới nhất</p>
-              </div>
-              <Link href="/tin-tuc" className="btn-soft">Xem tất cả &rarr;</Link>
-            </div>
-            <div className="grid grid-cols-1 gap-5 sm:grid-cols-3">
-              {news.map((n) => (
-                <Link key={n.id} href={"/tin-tuc/" + n.id} className="group flex flex-col overflow-hidden rounded-2xl border border-neutral-100 bg-white shadow-sm transition hover:shadow-md">
-                  <div className="aspect-video w-full overflow-hidden bg-neutral-100">
-                    {n.anh_bia && /* eslint-disable-next-line @next/next/no-img-element */ (
+          <div className="grid gap-6 lg:grid-cols-3">
+            {featured && (
+              <Link href={"/tin-tuc/" + featured.id} className="group col-span-1 flex flex-col overflow-hidden rounded-2xl border border-neutral-100 bg-white shadow-sm transition hover:shadow-md lg:col-span-2">
+                <div className="aspect-[16/9] w-full overflow-hidden bg-neutral-100">
+                  {featured.anh_bia && (
+                    /* eslint-disable-next-line @next/next/no-img-element */
+                    <img src={featured.anh_bia} alt={featured.tieu_de} className="h-full w-full object-cover transition group-hover:scale-105" />
+                  )}
+                </div>
+                <div className="flex flex-1 flex-col p-6">
+                  <span className="mb-2 w-fit rounded-full bg-brand-100 px-3 py-0.5 text-xs font-semibold text-brand-700">{featured.loai === "cam_nang" ? "Cẩm nang" : "Tin tức"}</span>
+                  <h3 className="text-2xl font-bold text-ink transition group-hover:text-brand-700">{featured.tieu_de}</h3>
+                  <p className="mt-2 line-clamp-3 text-ink-muted">{featured.mo_ta}</p>
+                </div>
+              </Link>
+            )}
+            <div className="flex flex-col gap-4">
+              {rest.slice(0, 4).map((n) => (
+                <Link key={n.id} href={"/tin-tuc/" + n.id} className="group flex gap-4 rounded-2xl border border-neutral-100 bg-white p-3 shadow-sm transition hover:shadow-md">
+                  <div className="h-20 w-28 flex-shrink-0 overflow-hidden rounded-xl bg-neutral-100">
+                    {n.anh_bia && (
+                      /* eslint-disable-next-line @next/next/no-img-element */
                       <img src={n.anh_bia} alt={n.tieu_de} className="h-full w-full object-cover transition group-hover:scale-105" />
                     )}
                   </div>
-                  <div className="flex flex-1 flex-col p-4">
-                    <h3 className="line-clamp-2 font-semibold text-ink group-hover:text-brand">{n.tieu_de}</h3>
-                    <p className="mt-1 line-clamp-2 text-sm text-ink-muted">{n.mo_ta}</p>
+                  <div className="flex flex-1 flex-col justify-center">
+                    <span className="text-xs font-semibold text-brand-700">{n.loai === "cam_nang" ? "Cẩm nang" : "Tin tức"}</span>
+                    <h4 className="line-clamp-2 text-sm font-bold text-ink transition group-hover:text-brand-700">{n.tieu_de}</h4>
                   </div>
                 </Link>
               ))}
             </div>
           </div>
-        </section>
+        )}
+
+        {rest.length > 4 && (
+          <div className="mt-8 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
+            {rest.slice(4).map((n) => (
+              <Link key={n.id} href={"/tin-tuc/" + n.id} className="group flex flex-col overflow-hidden rounded-2xl border border-neutral-100 bg-white shadow-sm transition hover:shadow-md">
+                <div className="aspect-video w-full overflow-hidden bg-neutral-100">
+                  {n.anh_bia && (
+                    /* eslint-disable-next-line @next/next/no-img-element */
+                    <img src={n.anh_bia} alt={n.tieu_de} className="h-full w-full object-cover transition group-hover:scale-105" />
+                  )}
+                </div>
+                <div className="flex flex-1 flex-col p-4">
+                  <span className="mb-1 text-xs font-semibold text-brand-700">{n.loai === "cam_nang" ? "Cẩm nang" : "Tin tức"}</span>
+                  <h3 className="line-clamp-2 font-bold text-ink transition group-hover:text-brand-700">{n.tieu_de}</h3>
+                  <p className="mt-1 line-clamp-2 text-sm text-ink-muted">{n.mo_ta}</p>
+                </div>
+              </Link>
+            ))}
+          </div>
+        )}
+      </section>
+
+      {/* LISTINGS - secondary */}
+      <section className="border-t border-neutral-100 bg-neutral-50/50">
+        <div className="container-app py-14">
+          <div className="mb-6 flex items-end justify-between">
+            <div>
+              <h2 className="section-title">Tin đăng mới nhất</h2>
+              <p className="mt-1 text-ink-muted">Bất động sản vừa được cập nhật</p>
+            </div>
+            <Link href="/tin-dang" className="btn-soft">Xem tất cả &rarr;</Link>
+          </div>
+
+          {posts.length === 0 ? (
+            <div className="card p-12 text-center text-ink-muted">Chưa có tin đăng nào.</div>
+          ) : (
+            <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+              {posts.map((p) => <PostCard key={p.id} post={p} />)}
+            </div>
+          )}
+        </div>
+      </section>
     </div>
   );
 }
