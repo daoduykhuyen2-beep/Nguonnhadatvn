@@ -10,7 +10,12 @@ export default async function Page() {
   return (
     <div className="space-y-6">
       <h1 className="text-xl font-bold text-neutral-900">Banner trang chủ</h1>
-      <form action={saveBanner} className="rounded-2xl border border-neutral-100 bg-white p-5 shadow-sm">
+      <form
+        action={async (formData: FormData) => {
+          "use server";
+          await saveBanner({}, formData);
+        }}
+        className="rounded-2xl border border-neutral-100 bg-white p-5 shadow-sm">
         <h2 className="mb-4 text-base font-semibold text-neutral-900">Thêm banner mới</h2>
         <div className="grid gap-4 sm:grid-cols-2">
           <div className="sm:col-span-2"><label className="mb-1.5 block text-sm font-medium text-neutral-700">Ảnh (URL)</label><input name="image_url" className={inputCls} required /></div>
