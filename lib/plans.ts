@@ -13,22 +13,22 @@ export type Plan = {
   quota?: number;
   pushCredits?: number;
   tier?: string;
+  desc?: string;
 };
 
-// Bang gia goc (co the ghi de qua bang plan_overrides trong Supabase)
+// Chỉ còn 1 gói duy nhất: mua xong được xem toàn bộ danh sách nhà (kho nhà phố toàn quốc).
 export const PLANS: Plan[] = [
-  // Goi dang 1 tin le
-  { code: "tin_thuong_15", group: "tin", name: "1 tin thường 15 ngày", price: 28500, marketPrice: 40500, days: 15, quota: 1, tier: "thuong" },
-  { code: "tin_vang_15", group: "tin", name: "1 tin VIP Vàng 15 ngày", price: 539000, marketPrice: 770000, days: 15, quota: 1, tier: "vang" },
-  { code: "tin_kc_15", group: "tin", name: "1 tin VIP Kim Cương 15 ngày", price: 1540000, marketPrice: 2205000, days: 15, quota: 1, tier: "kim_cuong" },
-  // Goi day tin
-  { code: "day_1", group: "day", name: "Đẩy tin 1 lượt", price: 28000, pushCredits: 1 },
-  { code: "day_3", group: "day", name: "Đẩy tin 3 lượt", price: 75000, marketPrice: 84000, pushCredits: 3 },
-  { code: "day_6", group: "day", name: "Đẩy tin 6 lượt", price: 134000, marketPrice: 168000, pushCredits: 6 },
-  // Goi hoi vien
-  { code: "hv_co_ban", group: "hoi_vien", name: "Gói Cơ bản", price: 299000, marketPrice: 425000, days: 30, tier: "co_ban", quota: 10 },
-  { code: "hv_chuyen_nghiep", group: "hoi_vien", name: "Gói Chuyên nghiệp", price: 2490000, marketPrice: 3685000, days: 30, tier: "chuyen_nghiep", quota: 60 },
-  { code: "hv_vip", group: "hoi_vien", name: "Gói VIP Toàn diện", price: 7490000, marketPrice: 11705000, days: 30, tier: "vip", quota: 200 },
+  {
+    code: "hv_xem_kho",
+    group: "hoi_vien",
+    name: "Gói Xem Kho Nhà Toàn Quốc",
+    price: 299000,
+    marketPrice: 499000,
+    days: 30,
+    tier: "vip",
+    quota: 999999,
+    desc: "Mở khóa xem toàn bộ danh sách nhà phố trên toàn quốc trong 30 ngày: xem thông tin liên hệ chính chủ, giá bán, địa chỉ, hình ảnh và video thực tế của từng bất động sản.",
+  },
 ];
 
 export function getPlan(code: string): Plan | undefined {
@@ -39,7 +39,7 @@ export function formatVND(n: number): string {
   return new Intl.NumberFormat("vi-VN").format(Math.round(n)) + "đ";
 }
 
-// Prefix rieng cho website nay de dung chung tai khoan SePay voi web khac
+// Prefix riêng cho website này để dùng chung tài khoản SePay với web khác
 export const SEPAY_PREFIX = "NDV";
 
 export function buildTransferContent(kind: "NAP" | "GOI", id: string | number): string {
