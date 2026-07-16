@@ -21,6 +21,7 @@ export default async function Header() {
   const nav = [
     { href: "/tin-dang", label: "Tin đăng" },
     { href: "/tin-tuc", label: "Tin tức" },
+    { href: "/video", label: "Video" },
     { href: "/bang-gia", label: "Bảng giá" },
     { href: "/tuyen-dung", label: "Tuyển dụng" },
     { href: "/gioi-thieu", label: "Giới thiệu" },
@@ -31,11 +32,10 @@ export default async function Header() {
       <div className="accent-line h-1 w-full" />
       <div className="container-app flex h-16 items-center justify-between gap-4">
         <Link href="/" className="flex items-center gap-2">
-          <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-brand-600 text-lg font-black text-white">
-            N
-          </span>
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src="/logo.png" alt="Nhà Đất Việt Nam" className="h-10 w-auto" />
           <span className="text-base font-extrabold tracking-tight text-ink">
-            Nguồn Nhà Đất <span className="text-brand-600">Việt Nam</span>
+            Nhà Đất <span className="text-brand-600">Việt Nam</span>
           </span>
         </Link>
 
