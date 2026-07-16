@@ -20,7 +20,7 @@ export default async function Page() {
         <div className="rounded-2xl border border-dashed border-neutral-200 bg-white py-16 text-center text-sm text-neutral-500">Bạn chưa lưu tin nào.</div>
       ) : (
         <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
-          {posts.map((p) => <PostCard key={p.id} post={p} favorited />)}
+          {posts.map((p) => <PostCard key={p.id} post={p} />)}
         </div>
       )}
     </div>
