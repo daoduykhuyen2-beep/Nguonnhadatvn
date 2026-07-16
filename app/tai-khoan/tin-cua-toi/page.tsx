@@ -5,10 +5,15 @@ import type { Post } from "@/lib/types";
 export const metadata = { title: "Tin của tôi | Tài khoản" };
 
 const STATUS: Record<string, { label: string; cls: string }> = {
+  duyet: { label: "Đã duyệt", cls: "bg-brand/10 text-brand-dark border-brand/30" },
   cho_duyet: { label: "Chờ duyệt", cls: "bg-amber-50 text-amber-700 border-amber-200" },
-  da_duyet: { label: "Đã duyệt", cls: "bg-brand/10 text-brand-dark border-brand/30" },
   tu_choi: { label: "Từ chối", cls: "bg-red-50 text-red-700 border-red-200" },
   het_han: { label: "Hết hạn", cls: "bg-neutral-100 text-neutral-500 border-neutral-200" },
+};
+
+const TIER: Record<string, { label: string; cls: string }> = {
+  vang: { label: "VIP Vàng", cls: "bg-amber-100 text-amber-800 border-amber-300" },
+  kim_cuong: { label: "VIP Kim cương", cls: "bg-sky-100 text-sky-800 border-sky-300" },
 };
 
 export default async function Page() {
@@ -30,7 +35,8 @@ export default async function Page() {
       ) : (
         <div className="space-y-3">
           {list.map((p) => {
-            const st = STATUS[p.status || "cho_duyet"] || STATUS.cho_duyet;
+            const st = STATUS[p.trang_thai || "cho_duyet"] || STATUS.cho_duyet;
+            const tier = TIER[p.status || ""];
             const cover = p.anh_bia || (Array.isArray(p.anh) ? p.anh[0] : "");
             return (
               <div key={p.id} className="flex gap-4 rounded-2xl border border-neutral-100 bg-white p-3 shadow-sm">
@@ -40,12 +46,16 @@ export default async function Page() {
                 <div className="flex min-w-0 flex-1 flex-col">
                   <div className="flex items-start justify-between gap-2">
                     <Link href={"/tin-dang/" + p.id} className="line-clamp-2 font-semibold text-neutral-900 hover:text-brand">{p.title}</Link>
-                    <span className={"whitespace-nowrap rounded-full border px-2.5 py-0.5 text-xs font-medium " + st.cls}>{st.label}</span>
+                    <div className="flex flex-shrink-0 flex-col items-end gap-1">
+                      <span className={"whitespace-nowrap rounded-full border px-2.5 py-0.5 text-xs font-medium " + st.cls}>{st.label}</span>
+                      {tier && <span className={"whitespace-nowrap rounded-full border px-2.5 py-0.5 text-xs font-medium " + tier.cls}>{tier.label}</span>}
+                    </div>
                   </div>
                   <div className="mt-1 text-sm text-brand-dark font-semibold">{p.gia || "Thỏa thuận"}</div>
                   <div className="mt-0.5 text-xs text-neutral-400">{[p.duong, p.phuong, p.quan].filter(Boolean).join(", ")}</div>
                   <div className="mt-auto flex items-center gap-2 pt-2">
                     <Link href={"/sua-tin/" + p.id} className="rounded-lg border border-neutral-200 px-3 py-1.5 text-sm font-medium text-neutral-700 transition hover:border-brand hover:text-brand">Sửa</Link>
+                    <Link href={"/bang-gia?post=" + p.id} className="rounded-lg border border-brand/40 bg-brand/5 px-3 py-1.5 text-sm font-semibold text-brand transition hover:bg-brand hover:text-white">Nâng cấp</Link>
                     <DeletePostButton id={p.id} />
                     <span className="ml-auto text-xs text-neutral-400">{p.luot_xem || 0} lượt xem</span>
                   </div>
