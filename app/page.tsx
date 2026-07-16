@@ -16,6 +16,13 @@ export default async function HomePage() {
     .limit(12);
   const posts = (data || []) as Post[];
 
+  const { data: newsData } = await supabase
+    .from("news")
+    .select("id, tieu_de, mo_ta, anh_bia, loai, created_at")
+    .order("created_at", { ascending: false })
+    .limit(3);
+  const news = (newsData || []) as { id: string; tieu_de: string; mo_ta: string | null; anh_bia: string | null; loai: string | null; created_at: string }[];
+
   return (
     <div>
       {/* HERO */}
@@ -36,7 +43,7 @@ export default async function HomePage() {
           </div>
           <div className="mt-6 flex flex-wrap items-center justify-center gap-3">
             <Link href="/dang-tin" className="btn-primary">Đăng tin miễn phí</Link>
-            <Link href="/goi-thanh-vien" className="btn-ghost">Xem bảng giá</Link>
+            <Link href="/bang-gia" className="btn-ghost">Xem bảng giá</Link>
           </div>
         </div>
       </section>
@@ -76,6 +83,35 @@ export default async function HomePage() {
           </div>
         )}
       </section>
+
+      {/* NEWS */}
+      {news.length > 0 && (
+        <section className="bg-brand-50/40 py-14">
+          <div className="container-app">
+            <div className="mb-6 flex items-end justify-between">
+              <div>
+                <h2 className="section-title">Tin tức &amp; Cẩm nang</h2>
+                <p className="mt-1 text-ink-muted">Cập nhật thị trường bất động sản mới nhất</p>
+              </div>
+              <Link href="/tin-tuc" className="btn-soft">Xem tất cả &rarr;</Link>
+            </div>
+            <div className="grid grid-cols-1 gap-5 sm:grid-cols-3">
+              {news.map((n) => (
+                <Link key={n.id} href={"/tin-tuc/" + n.id} className="group flex flex-col overflow-hidden rounded-2xl border border-neutral-100 bg-white shadow-sm transition hover:shadow-md">
+                  <div className="aspect-video w-full overflow-hidden bg-neutral-100">
+                    {n.anh_bia && /* eslint-disable-next-line @next/next/no-img-element */ (
+                      <img src={n.anh_bia} alt={n.tieu_de} className="h-full w-full object-cover transition group-hover:scale-105" />
+                    )}
+                  </div>
+                  <div className="flex flex-1 flex-col p-4">
+                    <h3 className="line-clamp-2 font-semibold text-ink group-hover:text-brand">{n.tieu_de}</h3>
+                    <p className="mt-1 line-clamp-2 text-sm text-ink-muted">{n.mo_ta}</p>
+                  </div>
+                </Link>
+              ))}
+            </div>
+          </div>
+        </section>
     </div>
   );
 }
