@@ -26,7 +26,7 @@ export default async function TinDangPage({
     .eq("trang_thai", "duyet");
 
   if (sp.loai) query = query.ilike("loai", `%${sp.loai}%`);
-  if (sp.quan) query = query.ilike("quan", `%${sp.quan}%`);
+  if (sp.quan) query = query.eq("quan", sp.quan);
   if (sp.q) query = query.or(`title.ilike.%${sp.q}%,mota.ilike.%${sp.q}%,duong.ilike.%${sp.q}%`);
 
   const { data, count } = await query
