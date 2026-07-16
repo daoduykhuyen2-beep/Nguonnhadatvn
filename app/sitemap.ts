@@ -13,7 +13,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     "/tuyen-dung",
     "/gioi-thieu",
     "/bang-gia",
-    "/lien-he",
+    "/chinh-sach-bao-mat",
   ].map((path) => ({
     url: SITE + path,
     lastModified: new Date(),
@@ -22,21 +22,35 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   }));
 
   let postRoutes: MetadataRoute.Sitemap = [];
+  let newsRoutes: MetadataRoute.Sitemap = [];
   try {
     const supabase = await createClient();
-    const { data } = await supabase
+
+    const { data: posts } = await supabase
       .from("web_posts")
-      .select("id, updated_at, created_at")
+      .select("id, created_at")
       .eq("trang_thai", "duyet")
       .order("created_at", { ascending: false })
       .limit(1000);
-    postRoutes = (data || []).map((p: { id: number; updated_at?: string; created_at?: string }) => ({
+    postRoutes = (posts || []).map((p: { id: number | string; created_at?: string }) => ({
       url: SITE + "/tin-dang/" + p.id,
-      lastModified: new Date(p.updated_at || p.created_at || Date.now()),
+      lastModified: new Date(p.created_at || Date.now()),
+      changeFrequency: "weekly" as const,
+      priority: 0.6,
+    }));
+
+    const { data: news } = await supabase
+      .from("news")
+      .select("id, created_at")
+      .order("created_at", { ascending: false })
+      .limit(1000);
+    newsRoutes = (news || []).map((n: { id: string; created_at?: string }) => ({
+      url: SITE + "/tin-tuc/" + n.id,
+      lastModified: new Date(n.created_at || Date.now()),
       changeFrequency: "weekly" as const,
       priority: 0.6,
     }));
   } catch {}
 
-  return [...staticRoutes, ...postRoutes];
+  return [...staticRoutes, ...postRoutes, ...newsRoutes];
 }
