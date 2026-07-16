@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 import { createClient } from "@/lib/supabase/server";
 import type { Post } from "@/lib/types";
 import PostCard from "@/components/PostCard";
+import ContactBox from "@/components/ContactBox";
 
 export const revalidate = 30;
 
@@ -57,6 +58,18 @@ export default async function PostDetail({ params }: { params: Promise<{ id: str
     .neq("id", post.id)
     .limit(4);
 
+  const { data: { user } } = await supabase.auth.getUser();
+  let favorited = false;
+  if (user) {
+    const { data: fav } = await supabase
+      .from("favorites")
+      .select("post_id")
+      .eq("user_id", user.id)
+      .eq("post_id", post.id)
+      .maybeSingle();
+    favorited = !!fav;
+  }
+
   return (
     <div className="container-app py-8">
       <div className="grid gap-8 lg:grid-cols-[1fr_360px]">
@@ -104,17 +117,8 @@ export default async function PostDetail({ params }: { params: Promise<{ id: str
 
         {/* Contact sidebar */}
         <aside>
-          <div className="card sticky top-24 p-6">
-            <p className="text-sm text-ink-muted">Liên hệ người đăng</p>
-            <p className="mt-1 text-lg font-bold text-ink">{post.contact_name || "Chủ nhà"}</p>
-            {post.contact_phone && (
-              <a href={`tel:${post.contact_phone}`} className="btn-primary mt-4 w-full">
-                📞 {post.contact_phone}
-              </a>
-            )}
-            <p className="mt-4 text-xs text-ink-muted">
-              Vui lòng nói bạn thấy tin trên Nguồn Nhà Đất Việt Nam.
-            </p>
+          <div className="sticky top-24">
+            <ContactBox postId={post.id} contactName={post.contact_name} contactPhone={post.contact_phone} favorited={favorited} />
           </div>
         </aside>
       </div>
