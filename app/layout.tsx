@@ -19,6 +19,7 @@ export const metadata: Metadata = {
   description:
     "Sàn đăng tin bất động sản toàn quốc — nhà phố, đất nền, căn hộ. Đăng tin nhanh, tiếp cận khách mua thật.",
   keywords: ["nhà đất", "bất động sản", "nhà phố", "đăng tin bất động sản", "Việt Nam"],
+  icons: { icon: "/logo.png", shortcut: "/logo.png", apple: "/logo.png" },
   openGraph: {
     type: "website",
     locale: "vi_VN",
