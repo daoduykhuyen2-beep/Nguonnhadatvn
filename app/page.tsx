@@ -41,7 +41,7 @@ export default async function HomePage() {
     const host = h.get("x-forwarded-host") || h.get("host");
     const proto = h.get("x-forwarded-proto") || "https";
     if (host) {
-      const res = await fetch(proto + "://" + host + "/api/videos", { next: { revalidate: 3600 } });
+      const res = await fetch(proto + "://" + host + "/api/videos", { cache: "no-store" });
       if (res.ok) {
         const j = (await res.json()) as { ok: boolean; videos?: { id: string; title: string }[] };
         if (j.ok && j.videos) {
