@@ -2,6 +2,8 @@
 import { createClient } from "@/lib/supabase/server";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
+import { getEffectivePrice, SEPAY_PREFIX } from "@/lib/plans";
+import { getPlanMerged, toDbCode } from "@/lib/plans-server";
 
 export type ActionState = { error?: string; ok?: boolean; id?: number };
 
@@ -26,6 +28,7 @@ function collect(formData: FormData) {
     video: (formData.get("video") as string)?.trim() || "",
     anh_bia: (formData.get("anh_bia") as string) || (anh[0] || ""),
     anh,
+    nang_cap: (formData.get("nang_cap") as string) || "thuong",
   };
 }
 
@@ -44,9 +47,31 @@ export async function createPost(_prev: ActionState, formData: FormData): Promis
     mota: d.mota, video: d.video, anh: d.anh, anh_bia: d.anh_bia,
     status: "thuong", trang_thai: "duyet",
   }).select("id").single();
-  if (error) return { error: error.message };
+  if (error || !data) return { error: error?.message || "Không tạo được tin." };
   revalidatePath("/tai-khoan/tin-cua-toi");
   revalidatePath("/tin-dang");
+
+  // Nếu khách chọn nâng cấp tin (VIP Vàng / Kim Cương) -> tạo đơn và chuyển tới thanh toán.
+  const upgrade = d.nang_cap;
+  if (upgrade === "tin_vip_49" || upgrade === "tin_kc_99") {
+    const plan = await getPlanMerged(upgrade);
+    const price = plan ? getEffectivePrice(plan) : 0;
+    if (plan && price > 0) {
+      const { data: pay } = await supabase.from("payments").insert({
+        user_id: user.id,
+        plan_code: toDbCode(plan.code),
+        amount: price,
+        status: "pending",
+        post_id: data.id,
+        transfer_content: SEPAY_PREFIX + "GOI",
+      }).select("id").single();
+      if (pay) {
+        await supabase.from("payments").update({ transfer_content: SEPAY_PREFIX + "GOI" + pay.id }).eq("id", pay.id);
+        redirect("/thanh-toan/" + pay.id);
+      }
+    }
+  }
+
   redirect("/tai-khoan/tin-cua-toi?created=1");
 }
 
