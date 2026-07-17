@@ -113,6 +113,40 @@ export default async function HomePage() {
         </div>
       </section>
 
+      {/* CAM KẾT NHÀ THẬT */}
+      <section className="border-t border-neutral-100 bg-white">
+        <div className="container-app py-14">
+          <div className="grid items-center gap-8 lg:grid-cols-[1.1fr_0.9fr]">
+            <div>
+              <span className="inline-flex items-center gap-2 rounded-full bg-brand/10 px-4 py-1.5 text-sm font-bold text-brand-dark">Hơn 20.000 căn nhà</span>
+              <h2 className="mt-4 text-2xl font-bold text-neutral-900 sm:text-3xl">Hơn 20 nghìn căn nhà — <span className="text-brand-dark">100% là nhà thật</span></h2>
+              <div className="mt-4 space-y-3 text-sm leading-relaxed text-neutral-600">
+                <p>Toàn bộ hơn 20 nghìn căn đang đăng trên website đều là bất động sản có thật. Bạn thích căn nào, chỉ cần để lại thông tin — chúng tôi sẽ gửi lại đúng căn đó, đúng vị trí và đúng diện tích như mô tả.</p>
+                <p>Vì số lượng tin rất lớn nên không thể cập nhật hình ảnh đầy đủ cho từng căn, do đó một số tin có thể chỉ dùng ảnh minh họa. Dù vậy, thông tin vị trí và diện tích luôn chính xác, và nhân viên sẽ tư vấn trực tiếp căn bạn quan tâm.</p>
+              </div>
+              <div className="mt-6 flex flex-wrap gap-3">
+                <Link href="/tin-dang" className="rounded-xl bg-brand px-6 py-3 text-sm font-semibold text-white transition hover:bg-brand-dark">Xem danh sách nhà</Link>
+                <Link href="/tin-dang" className="rounded-xl border border-brand px-6 py-3 text-sm font-semibold text-brand-dark transition hover:bg-brand/10">Để lại nhu cầu của bạn</Link>
+              </div>
+            </div>
+            <div className="grid grid-cols-3 gap-3">
+              <div className="rounded-2xl border border-neutral-100 bg-neutral-50/60 p-5 text-center">
+                <div className="text-2xl font-bold text-brand-dark">20K+</div>
+                <div className="mt-1 text-xs text-neutral-500">Căn nhà thật</div>
+              </div>
+              <div className="rounded-2xl border border-neutral-100 bg-neutral-50/60 p-5 text-center">
+                <div className="text-2xl font-bold text-brand-dark">100%</div>
+                <div className="mt-1 text-xs text-neutral-500">Đúng vị trí, diện tích</div>
+              </div>
+              <div className="rounded-2xl border border-neutral-100 bg-neutral-50/60 p-5 text-center">
+                <div className="text-2xl font-bold text-brand-dark">1-1</div>
+                <div className="mt-1 text-xs text-neutral-500">Nhân viên tư vấn</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* MARKET NEWS - auto from RSS */}
       {marketNews.length > 0 && (
         <section className="border-t border-neutral-100 bg-neutral-50/50">
