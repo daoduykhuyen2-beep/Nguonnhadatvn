@@ -4,7 +4,7 @@ import { createClient } from "@/lib/supabase/server";
 import { headers } from "next/headers";
 
 export const metadata: Metadata = { title: "Video thị trường bất động sản" };
-export const revalidate = 3600;
+export const revalidate = 300;
 
 type Vid = { id: string | number; title: string | null; embed: string };
 
@@ -24,7 +24,7 @@ async function getYoutubeVideos(): Promise<Vid[]> {
     const host = h.get("x-forwarded-host") || h.get("host");
     const proto = h.get("x-forwarded-proto") || "https";
     if (!host) return [];
-    const res = await fetch(proto + "://" + host + "/api/videos", { next: { revalidate: 3600 } });
+    const res = await fetch(proto + "://" + host + "/api/videos", { cache: "no-store" });
     if (!res.ok) return [];
     const json = (await res.json()) as { ok: boolean; videos?: { id: string; title: string }[] };
     if (!json.ok || !json.videos) return [];
