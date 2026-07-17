@@ -58,13 +58,13 @@ export default function PropertyExtras({
               loading="lazy"
               referrerPolicy="no-referrer-when-downgrade"
               src={
-                'https://www.google.com/maps/embed/v1/view?key=' +
+                'https://www.google.com/maps/embed/v1/place?key=' +
                 mapKey +
-                '&center=' +
+                '&q=' +
                 mapData.lat +
                 ',' +
                 mapData.lng +
-                '&zoom=15&maptype=roadmap'
+                '&zoom=16'
               }
             />
           </div>
@@ -111,7 +111,7 @@ export default function PropertyExtras({
                         {p.name}
                       </p>
                       <p className="text-xs text-slate-500">
-                        Cach {p.km} km • xe may ~{t.drive} phut • di bo ~{t.walk} phut
+                        Cach {p.km} km • xe may ~{t.xe} • di bo ~{t.bo}
                       </p>
                     </div>
                   </li>
@@ -145,7 +145,7 @@ export default function PropertyExtras({
                       {p.name}
                     </p>
                     <p className="text-xs text-slate-500">
-                      Cach {p.km} km • xe may ~{t.drive} phut
+                      Cach {p.km} km • xe may ~{t.xe}
                     </p>
                   </div>
                 </li>
