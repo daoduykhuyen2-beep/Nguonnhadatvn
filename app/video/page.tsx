@@ -64,10 +64,10 @@ export default async function VideoPage() {
       {videos.length === 0 ? (
         <div className="card p-10 text-center text-ink-muted">Chưa có video nào.</div>
       ) : (
-        <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-5">
           {videos.map((v) => (
             <div key={v.id} className="flex flex-col overflow-hidden rounded-2xl border border-neutral-200 bg-white shadow-sm">
-              <div className="aspect-video w-full bg-neutral-100">
+              <div className="aspect-[9/16] w-full bg-neutral-100">
                 <iframe
                   src={v.embed}
                   title={v.title || "Video"}
