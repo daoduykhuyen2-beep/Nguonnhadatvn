@@ -14,7 +14,7 @@ const SLIDES: Slide[] = [  { img: "https://images.unsplash.com/photo-15834173190
   { img: "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=800&q=80", title: "Bất động sản Hà Nội", sub: "Hơn 14.000 căn nhà thật trên toàn quốc" }
 ];
 
-export default function HeroBanner() {
+export default function HeroBanner({ background = false }: { background?: boolean }) {
   const [index, setIndex] = useState(0);
   const timer = useRef<ReturnType<typeof setInterval> | null>(null);
   const count = SLIDES.length;
@@ -35,8 +35,8 @@ export default function HeroBanner() {
   }
 
   return (
-    <section className="mx-auto mt-6 max-w-6xl px-4">
-      <div className="relative h-64 overflow-hidden rounded-3xl shadow-lg sm:h-80 md:h-96">
+    <div className={background ? "absolute inset-0 h-full w-full" : "mx-auto mt-6 max-w-6xl px-4"}>
+      <div className={background ? "relative h-full w-full overflow-hidden" : "relative h-64 overflow-hidden rounded-3xl shadow-lg sm:h-80 md:h-96"}>
         <div
           className="flex h-full transition-transform duration-700 ease-out"
           style={{ transform: 'translateX(-' + index * 100 + '%)' }}
@@ -50,6 +50,7 @@ export default function HeroBanner() {
                 loading={i === 0 ? 'eager' : 'lazy'}
               />
               <div className="absolute inset-0 bg-gradient-to-r from-black/70 via-black/30 to-transparent" />
+              {!background && (
               <div className="absolute inset-0 flex flex-col justify-center px-8 md:px-14">
                 <h2 className="max-w-xl text-2xl font-bold text-white drop-shadow-md sm:text-3xl md:text-4xl">
                   {s.title}
@@ -58,10 +59,13 @@ export default function HeroBanner() {
                   {s.sub}
                 </p>
               </div>
+              )}
             </div>
           ))}
         </div>
 
+        {!background && (
+          <>
         {/* Prev / Next */}
         <button
           type="button"
@@ -79,6 +83,8 @@ export default function HeroBanner() {
         >
           ›
         </button>
+          </>
+        )}
 
         {/* Dots */}
         <div className="absolute bottom-4 left-1/2 flex -translate-x-1/2 gap-2">
@@ -96,6 +102,6 @@ export default function HeroBanner() {
           ))}
         </div>
       </div>
-    </section>
+    </div>
   );
 }
