@@ -4,6 +4,7 @@ import { createClient } from "@/lib/supabase/server";
 import type { Post } from "@/lib/types";
 import PostCard from "@/components/PostCard";
 import ContactBox from "@/components/ContactBox";
+import PropertyExtras from "@/components/PropertyExtras";
 import { publicArea, fullAddress, maskTitle, maskDescription, fallbackImage } from "@/lib/address";
 
 export const revalidate = 60;
@@ -145,6 +146,8 @@ export default async function PostDetail({ params }: { params: Promise<{ id: str
               </div>
             )}
           </div>
+
+          <PropertyExtras post={post} />
         </div>
 
         {/* Contact sidebar */}
