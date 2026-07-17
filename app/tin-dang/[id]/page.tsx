@@ -26,7 +26,6 @@ function imagesOf(p: Post): string[] {
 async function getPost(id: string): Promise<Post | null> {
   const supabase = await createClient();
   const { data } = await supabase.from("web_posts").select("*").eq("id", id).single();
-  const mapData = await getPropertyMapData(post);
   return (data as Post) || null;
 }
 
@@ -95,6 +94,7 @@ export default async function PostDetail({ params }: { params: Promise<{ id: str
   const displayTitle = hasAccess ? (post.title || maskTitle(post)) : maskTitle(post);
   const area = publicArea(post);
   const full = fullAddress(post);
+  const mapData = await getPropertyMapData(post);
 
   return (
     <div className="container-app py-8">
