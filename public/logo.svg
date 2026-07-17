@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 80" width="120" height="80" role="img" aria-label="Nha Dat Viet Nam">
+  <g fill="none" stroke="#059669" stroke-width="2.4" stroke-linejoin="round" stroke-linecap="round">
+    <path d="M6 68 H26 V52 H40 V42 H50 V22 H68 V62 H78 V38 H92 V68"/>
+    <path d="M92 68 V46 H106 V36 H116 V68"/>
+    <line x1="2" y1="68" x2="118" y2="68"/>
+    <g stroke-width="1.6">
+      <line x1="55" y1="30" x2="63" y2="30"/>
+      <line x1="55" y1="37" x2="63" y2="37"/>
+      <line x1="55" y1="44" x2="63" y2="44"/>
+    </g>
+  </g>
+</svg>
