@@ -13,6 +13,8 @@ const config: Config = {
       colors: {
         // Xanh la chu dao (30%)
         brand: {
+          DEFAULT: "#039855",
+          dark: "#027a48",
           50: "#ecfdf3",
           100: "#d1fadf",
           200: "#a6f4c5",
