@@ -17,7 +17,8 @@ export type Plan = {
   features?: string[];
 };
 
-// Chỉ còn 1 gói duy nhất: mua xong được xem toàn bộ danh sách nhà (kho nhà phố toàn quốc).
+// Gói hội viên: mua xong được xem toàn bộ danh sách nhà (kho nhà phố toàn quốc).
+// Gói đăng tin: mua để đăng / nâng cấp tin (VIP, Kim cương) — KHÔNG mở quyền xem kho nhà.
 export const PLANS: Plan[] = [
   {
     code: "hv_xem_kho",
@@ -35,9 +36,55 @@ export const PLANS: Plan[] = [
       "Xem địa chỉ & số nhà chi tiết để đi khảo sát thực tế ngay",
       "Nắm giá bán thật, diện tích, chiều ngang, số tầng của từng căn để so sánh và trả giá",
       "Xem hình ảnh và video thực tế của bất động sản trước khi đi xem nhà",
-      "Lọc nhanh theo tỉnh/thành, khu vực, tầm giá để tìm đúng căn phù hợp túi tiền",
+      "Lọc nhanh theo tỉnh/thành, khu vực, tầm giá để tìm đúng căn phù hợp tiết kiệm thời gian",
       "Tiết kiệm hàng chục triệu tiền hoa hồng môi giới cho mỗi giao dịch",
       "Thời hạn sử dụng 30 ngày kể từ khi kích hoạt",
+    ],
+  },
+  // ===== Gói đăng tin lẻ / VIP =====
+  {
+    code: "dt_thoai_mai",
+    group: "tin",
+    name: "Gói Đăng Tin Thoải Mái",
+    price: 199999,
+    marketPrice: 399999,
+    days: 30,
+    quota: 999999,
+    pushCredits: 30,
+    desc: "Đăng tin bất động sản THOẢI MÁI không giới hạn trong 30 ngày. Dành cho môi giới và chủ nhà đăng nhiều tin, kèm lượt đẩy tin lên đầu danh sách mỗi ngày.",
+    features: [
+      "Đăng tin không giới hạn số lượng trong 30 ngày",
+      "Tặng 30 lượt đẩy tin lên đầu danh sách",
+      "Tin hiển thị ngay sau khi đăng, không chờ duyệt",
+      "Quản lý toàn bộ tin đã đăng trong tài khoản",
+    ],
+  },
+  {
+    code: "tin_vip_49",
+    group: "tin",
+    name: "Tin VIP",
+    price: 49000,
+    tier: "vang",
+    desc: "Nâng 1 tin lên hạng VIP Vàng trong 15 ngày: nổi bật hơn, hiển thị ưu tiên phía trên tin thường, thu hút nhiều khách xem hơn.",
+    features: [
+      "Nâng 1 tin lên hạng VIP Vàng",
+      "Hiển thị ưu tiên phía trên tin thường",
+      "Gắn nhãn nổi bật thu hút khách xem",
+      "Thời hạn nổi bật 15 ngày",
+    ],
+  },
+  {
+    code: "tin_kc_99",
+    group: "tin",
+    name: "Tin Kim Cương",
+    price: 99000,
+    tier: "kim_cuong",
+    desc: "Nâng 1 tin lên hạng Kim Cương trong 15 ngày: vị trí cao nhất, khung nổi bật cao cấp, tiếp cận tối đa khách hàng tiềm năng.",
+    features: [
+      "Nâng 1 tin lên hạng Kim Cương – hạng cao nhất",
+      "Vị trí hiển thị cao nhất, trên cả tin VIP Vàng",
+      "Khung nổi bật cao cấp, gắn nhãn Kim Cương",
+      "Thời hạn nổi bật 15 ngày",
     ],
   },
 ];
