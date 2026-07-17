@@ -83,19 +83,22 @@ export default async function HomePage() {
   return (
     <div>
       {/* HERO */}
-      <section className="relative overflow-hidden border-b border-neutral-100 bg-gradient-to-b from-brand-50/60 to-white">
-        <div className="container-app py-14 text-center">
-          <span className="inline-block rounded-full bg-brand-100 px-4 py-1 text-sm font-semibold text-brand-700">Nguồn Nhà Đất Việt Nam</span>
-          <h1 className="mx-auto mt-4 max-w-3xl text-4xl font-extrabold tracking-tight text-ink sm:text-5xl">Tin tức &amp; kiến thức bất động sản cập nhật mỗi ngày</h1>
-          <p className="mx-auto mt-4 max-w-2xl text-lg text-ink-muted">Thị trường, pháp lý, kinh nghiệm mua bán và đầu tư nhà đất - tất cả trong một nơi.</p>
-          <div className="mt-8 flex flex-wrap justify-center gap-3">
+      <section className="relative overflow-hidden border-b border-neutral-200">
+        {/* Moving banner behind the text */}
+        <div className="absolute inset-0 -z-10">
+          <HeroBanner background />
+          <div className="absolute inset-0 bg-gradient-to-b from-brand-900/70 via-brand-800/60 to-brand-900/75"></div>
+        </div>
+        <div className="container-app relative z-10 py-24 text-center">
+          <span className="inline-block rounded-full bg-white/15 px-4 py-1 text-sm font-semibold text-white backdrop-blur">Nguồn Nhà Đất Việt Nam</span>
+          <h1 className="mx-auto mt-4 max-w-3xl text-4xl font-extrabold tracking-tight text-white drop-shadow sm:text-5xl">Tin tức &amp; kiến thức bất động sản cập nhật mỗi ngày</h1>
+          <p className="mx-auto mt-4 max-w-2xl text-lg text-white/90 drop-shadow">Thị trường, pháp lý, kinh nghiệm mua bán và đầu tư nhà đất - tất cả trong một nơi.</p>
+          <div className="mt-8 flex flex-wrap justify-center gap-4">
             <Link href="/tin-tuc" className="btn-primary">Xem tin tức</Link>
-            <Link href="/tin-dang" className="btn-soft">Xem tin đăng</Link>
+            <Link href="/tin-dang" className="rounded-full bg-white/15 px-6 py-3 font-semibold text-white ring-1 ring-white/40 backdrop-blur transition hover:bg-white/25">Xem tin đăng</Link>
           </div>
         </div>
       </section>
-
-      <HeroBanner />
 
       {/* NEWS - main content */}
       <section className="container-app py-14">
