@@ -9,10 +9,15 @@ type YtItem = {
 
 const QUERIES = [
   "shorts thị trường bất động sản Việt Nam",
+  "luật sư Hà lừa đảo bất động sản",
   "shorts tin tức nhà đất Việt Nam",
+  "luật sư Hà lừa đảo mua bán nhà đất",
   "shorts tin bất động sản hôm nay",
+  "cảnh báo lừa đảo nhà đất luật sư",
   "shorts giá nhà đất Việt Nam",
+  "luật sư tư vấn tránh lừa đảo bất động sản",
   "shorts quy hoạch bất động sản Việt Nam",
+  "vụ án lừa đảo bất động sản luật sư Hà",
   "shorts tin tức kinh tế Việt Nam",
   "shorts thị trường nhà đất mới nhất",
 ];
