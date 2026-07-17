@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import type { Post } from '@/lib/types';
 import { amenitiesOf, landmarksOf, travelTime, parsePrice } from '@/lib/property-extras';
+import { areaPriceTrend, provinceOf, pricePerM2, formatVnd } from "@/lib/market-prices";
 import type { PropertyMapData, NearbyPlace } from '@/lib/maps';
 
 function vnd(n: number): string {
@@ -162,26 +163,29 @@ export default function PropertyExtras({
 }
 
 function PriceChart({ post }: { post: Post }) {
-  const price = parsePrice(post.gia);
-  if (!price) return null;
-  const months = ['T1', 'T2', 'T3', 'T4', 'T5', 'T6', 'T7', 'T8', 'T9', 'T10', 'T11', 'T12'];
-  // Deterministic pseudo trend around current price (reference only).
-  const seed = (post.id || 1) % 97;
-  const series = months.map((m, i) => {
-    const wave = Math.sin((i + seed) / 2) * 0.04 + (i / 11) * 0.06;
-    return { m, v: Math.round(price * (0.9 + wave) * 100) / 100 };
-  });
-  series[11].v = price;
-  const max = Math.max(...series.map((s) => s.v));
-  const min = Math.min(...series.map((s) => s.v));
-  const first = series[0].v;
-  const changePct = Math.round(((price - first) / first) * 1000) / 10;
+  const trend = areaPriceTrend(post);
+  const province = provinceOf(post) || 'khu vuc';
+  const perM2 = pricePerM2(post);
+
+  const area =
+    typeof post.dien_tich === 'number'
+      ? post.dien_tich
+      : parseFloat(String(post.dien_tich || '').replace(/[^0-9.]/g, '')) || 0;
+  const estValue = area > 0 ? perM2 * area : 0;
+  const listPrice = parsePrice(post.gia);
+
+  const values = trend.map((t) => t.pricePerM2);
+  const max = Math.max(...values);
+  const min = Math.min(...values);
+  const first = values[0];
+  const last = values[values.length - 1];
+  const changePct = Math.round(((last - first) / first) * 1000) / 10;
 
   return (
     <section className="rounded-2xl border border-emerald-100 bg-white p-5 shadow-sm">
-      <div className="mb-4 flex items-center justify-between">
+      <div className="mb-1 flex items-center justify-between">
         <h2 className="flex items-center gap-2 text-lg font-bold text-emerald-800">
-          <span>📈</span> So do gia 12 thang
+          <span>📈</span> Biểu đồ giá thị trường khu vực
         </h2>
         <span
           className={
@@ -190,26 +194,54 @@ function PriceChart({ post }: { post: Post }) {
           }
         >
           {changePct >= 0 ? '▲ +' : '▼ '}
-          {changePct}%
+          {changePct}% / năm
         </span>
       </div>
-      <div className="flex h-40 items-end gap-1.5">
-        {series.map((s, i) => {
-          const h = max === min ? 100 : ((s.v - min) / (max - min)) * 85 + 15;
+      <p className="mb-4 text-sm text-slate-500">
+        Giá tham khảo tại <span className="font-semibold text-slate-700">{province}</span>:{' '}
+        <span className="font-bold text-emerald-700">{formatVnd(perM2)}/m²</span>
+      </p>
+
+      <div className="flex h-44 items-end gap-1.5">
+        {trend.map((t, i) => {
+          const h = max === min ? 100 : ((t.pricePerM2 - min) / (max - min)) * 80 + 20;
           return (
-            <div key={i} className="flex flex-1 flex-col items-center gap-1">
+            <div key={i} className="group flex flex-1 flex-col items-center gap-1">
+              <span className="mb-0.5 text-[9px] font-semibold text-emerald-700 opacity-0 group-hover:opacity-100">
+                {Math.round(t.pricePerM2 / 1_000_000)}tr
+              </span>
               <div
                 className="w-full rounded-t bg-gradient-to-t from-emerald-500 to-emerald-300"
                 style={{ height: h + '%' }}
-                title={vnd(s.v)}
+                title={formatVnd(t.pricePerM2) + '/m²'}
               />
-              <span className="text-[10px] text-slate-400">{s.m}</span>
+              <span className="text-[10px] text-slate-400">{t.month}</span>
             </div>
           );
         })}
       </div>
+
+      <div className="mt-5 grid gap-3 sm:grid-cols-3">
+        <div className="rounded-xl bg-emerald-50 p-3 text-center">
+          <p className="text-xs text-slate-500">Giá TB khu vực</p>
+          <p className="text-base font-bold text-emerald-700">{formatVnd(perM2)}/m²</p>
+        </div>
+        {area > 0 ? (
+          <div className="rounded-xl bg-emerald-50 p-3 text-center">
+            <p className="text-xs text-slate-500">Định giá tham khảo ({area} m²)</p>
+            <p className="text-base font-bold text-emerald-700">{formatVnd(estValue)}</p>
+          </div>
+        ) : null}
+        {listPrice ? (
+          <div className="rounded-xl bg-amber-50 p-3 text-center">
+            <p className="text-xs text-slate-500">Giá rao bán</p>
+            <p className="text-base font-bold text-amber-700">{formatVnd(listPrice)}</p>
+          </div>
+        ) : null}
+      </div>
+
       <p className="mt-3 text-xs italic text-slate-400">
-        * Bieu do gia mang tinh tham khao, khong phai gia giao dich thuc te.
+        * Giá thị trường mang tính tham khảo, tổng hợp từ mặt bằng giá rao bán trong khu vực.
       </p>
     </section>
   );
