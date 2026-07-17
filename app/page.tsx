@@ -62,6 +62,20 @@ export default async function HomePage() {
       embed: ytEmbed(v.tiktok_url),
     }));
   }
+  type MarketNews = { title: string; link: string; image: string; source: string };
+  let marketNews: MarketNews[] = [];
+  try {
+    const h2 = await headers();
+    const host2 = h2.get("x-forwarded-host") || h2.get("host");
+    const proto2 = h2.get("x-forwarded-proto") || "https";
+    if (host2) {
+      const r2 = await fetch(proto2 + "://" + host2 + "/api/tin-thi-truong", { next: { revalidate: 3600 } });
+      if (r2.ok) {
+        const j2 = (await r2.json()) as { ok: boolean; items?: MarketNews[] };
+        if (j2.ok && j2.items) marketNews = j2.items.slice(0, 8);
+      }
+    }
+  } catch {}
   const featured = news[0];
   const rest = news.slice(1);
 
@@ -174,6 +188,40 @@ export default async function HomePage() {
                   </div>
                   {v.title && <div className="p-3 text-sm font-semibold text-ink line-clamp-2">{v.title}</div>}
                 </div>
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
+
+      {/* MARKET NEWS - auto from RSS */}
+      {marketNews.length > 0 && (
+        <section className="border-t border-neutral-100 bg-neutral-50/50">
+          <div className="container-app py-14">
+            <div className="mb-6 flex items-end justify-between">
+              <div>
+                <h2 className="section-title">Tin thị trường mới nhất</h2>
+                <p className="mt-1 text-ink-muted">Tự động cập nhật từ các báo lớn về bất động sản cả nước</p>
+              </div>
+            </div>
+            <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
+              {marketNews.map((n, i) => (
+                <a
+                  key={i}
+                  href={n.link}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="group flex flex-col overflow-hidden rounded-2xl border border-neutral-200 bg-white shadow-sm transition hover:shadow-md"
+                >
+                  <div className="aspect-video w-full overflow-hidden bg-neutral-100">
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img src={n.image} alt={n.title} className="h-full w-full object-cover transition group-hover:scale-105" loading="lazy" />
+                  </div>
+                  <div className="flex flex-1 flex-col p-4">
+                    <span className="mb-1 text-xs font-semibold uppercase tracking-wide text-brand-600">{n.source}</span>
+                    <span className="text-sm font-semibold text-ink line-clamp-3 group-hover:text-brand-700">{n.title}</span>
+                  </div>
+                </a>
               ))}
             </div>
           </div>
