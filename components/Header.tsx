@@ -33,7 +33,7 @@ export default async function Header() {
       <div className="container-app flex h-16 items-center justify-between gap-4">
         <Link href="/" className="flex items-center gap-2">
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src="/logo.png" alt="Nhà Đất Việt Nam" className="h-10 w-auto" />
+          <img src="/logo.svg" alt="Nhà Đất Việt Nam" className="h-10 w-auto" />
           <span className="text-base font-extrabold tracking-tight text-ink">
             Nhà Đất <span className="text-brand-600">Việt Nam</span>
           </span>
