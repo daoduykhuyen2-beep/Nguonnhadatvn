@@ -56,3 +56,21 @@ export async function createTopup(formData: FormData): Promise<void> {
   await supabase.from("payments").update({ transfer_content: content }).eq("id", data.id);
   redirect("/thanh-toan/" + data.id);
 }
+
+
+// Thanh toan don hang bang so du tai khoan (uu tien so du truoc).
+export async function payFromWallet(formData: FormData): Promise<void> {
+  const id = Number(String(formData.get("id") || "0"));
+  if (!id) redirect("/tai-khoan");
+  const supabase = await createClient();
+  const { data: { user } } = await supabase.auth.getUser();
+  if (!user) redirect("/dang-nhap");
+  const { data, error } = await supabase.rpc("pay_from_wallet", { p_payment_id: id });
+  if (error) redirect("/thanh-toan/" + id + "?vi=loi");
+  const res = data as { ok?: boolean; reason?: string } | null;
+  if (!res || !res.ok) {
+    if (res && res.reason === "insufficient") redirect("/thanh-toan/" + id + "?vi=thieu");
+    redirect("/thanh-toan/" + id + "?vi=loi");
+  }
+  redirect("/thanh-toan/" + id + "?vi=ok");
+}
