@@ -4,8 +4,9 @@ import { createClient } from "@/lib/supabase/server";
 import type { Post } from "@/lib/types";
 import PostCard from "@/components/PostCard";
 import ContactBox from "@/components/ContactBox";
+import { publicArea, fullAddress, maskTitle, maskDescription, fallbackImage } from "@/lib/address";
 
-export const revalidate = 30;
+export const revalidate = 60;
 
 function imagesOf(p: Post): string[] {
   const out: string[] = [];
@@ -16,7 +17,8 @@ function imagesOf(p: Post): string[] {
     if (a.cover) out.push(a.cover);
     if (Array.isArray(a.list)) out.push(...a.list);
   }
-  return [...new Set(out.filter(Boolean))];
+  const clean = [...new Set(out.filter(Boolean))];
+  return clean.length ? clean : [fallbackImage(p.id)];
 }
 
 async function getPost(id: string): Promise<Post | null> {
@@ -30,13 +32,14 @@ export async function generateMetadata({ params }: { params: Promise<{ id: strin
   const post = await getPost(id);
   if (!post) return { title: "Không tìm thấy tin" };
   const imgs = imagesOf(post);
+  const t = maskTitle(post);
   return {
-    title: post.title || "Tin bất động sản",
-    description: (post.mota || "").slice(0, 160),
+    title: t,
+    description: maskDescription(post.mota).slice(0, 160),
     openGraph: {
-      title: post.title || "Tin bất động sản",
-      description: (post.mota || "").slice(0, 160),
-      images: imgs.length ? [imgs[0]] : undefined,
+      title: t,
+      description: maskDescription(post.mota).slice(0, 160),
+      images: [imgs[0]],
       type: "article",
     },
   };
@@ -48,7 +51,6 @@ export default async function PostDetail({ params }: { params: Promise<{ id: str
   if (!post || post.trang_thai !== "duyet") notFound();
 
   const imgs = imagesOf(post);
-  const location = [post.duong, post.phuong, post.quan].filter(Boolean).join(", ");
 
   const supabase = await createClient();
   const { data: related } = await supabase
@@ -70,7 +72,7 @@ export default async function PostDetail({ params }: { params: Promise<{ id: str
     favorited = !!fav;
   }
 
-  // Kiểm tra quyền xem thông tin liên hệ: chỉ hội viên còn hạn (hoặc admin) mới được xem.
+  // Chỉ hội viên còn hạn (hoặc admin) mới được xem địa chỉ đầy đủ.
   let hasAccess = false;
   if (user) {
     const { data: profile } = await supabase
@@ -87,21 +89,21 @@ export default async function PostDetail({ params }: { params: Promise<{ id: str
     }
   }
 
+  const displayTitle = hasAccess ? (post.title || maskTitle(post)) : maskTitle(post);
+  const area = publicArea(post);
+  const full = fullAddress(post);
+
   return (
     <div className="container-app py-8">
       <div className="grid gap-8 lg:grid-cols-[1fr_360px]">
         <div>
           {/* Gallery */}
           <div className="card overflow-hidden">
-            {imgs[0] ? (
-              // eslint-disable-next-line @next/next/no-img-element
-              <img src={imgs[0]} alt={post.title || ""} className="aspect-video w-full object-cover" />
-            ) : (
-              <div className="flex aspect-video items-center justify-center bg-paper-soft text-ink-muted">Không có ảnh</div>
-            )}
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src={imgs[0]} alt={displayTitle} className="aspect-video w-full object-cover" />
             {imgs.length > 1 && (
               <div className="grid grid-cols-4 gap-2 p-2">
-                {imgs.slice(1, 9).map((src, i) => (
+                {imgs.slice(1, 5).map((src, i) => (
                   // eslint-disable-next-line @next/next/no-img-element
                   <img key={i} src={src} alt="" className="aspect-square w-full rounded-lg object-cover" />
                 ))}
@@ -109,12 +111,23 @@ export default async function PostDetail({ params }: { params: Promise<{ id: str
             )}
           </div>
 
-          <div className="card mt-5 p-6">
-            <h1 className="text-2xl font-extrabold text-ink">{post.title}</h1>
-            <p className="mt-2 text-2xl font-black text-brand-700">{post.gia || "Thỏa thuận"}</p>
-            {location && <p className="mt-1 text-ink-muted">📍 {location}</p>}
+          <div className="card mt-6 p-6">
+            <h1 className="text-2xl font-extrabold text-ink">{displayTitle}</h1>
+            <p className="mt-2 text-3xl font-black text-brand-600">{post.gia || "Thỏa thuận"}</p>
 
-            <div className="mt-5 grid grid-cols-2 gap-3 sm:grid-cols-3">
+            {/* Địa chỉ: chỉ hiện đầy đủ cho hội viên */}
+            {hasAccess ? (
+              full && <p className="mt-3 text-ink-soft">📍 {full}</p>
+            ) : (
+              <div className="mt-3 space-y-1">
+                {area && <p className="text-ink-muted">📍 Khu vực: {area}</p>}
+                <p className="rounded-lg bg-brand-50 px-3 py-2 text-sm font-medium text-brand-700">
+                  🔒 Địa chỉ chi tiết (số nhà, tên đường) chỉ hiển thị cho hội viên. Vui lòng đăng ký gói để xem.
+                </p>
+              </div>
+            )}
+
+            <div className="mt-6 grid grid-cols-2 gap-4 sm:grid-cols-3">
               <Info label="Loại" value={post.loai} />
               <Info label="Diện tích" value={post.dien_tich} />
               <Info label="Chiều ngang" value={post.chieu_ngang} />
@@ -126,7 +139,9 @@ export default async function PostDetail({ params }: { params: Promise<{ id: str
             {post.mota && (
               <div className="mt-6">
                 <h2 className="mb-2 font-bold text-ink">Mô tả chi tiết</h2>
-                <p className="whitespace-pre-line leading-relaxed text-ink-soft">{post.mota}</p>
+                <p className="whitespace-pre-line leading-relaxed text-ink-soft">
+                  {hasAccess ? post.mota : maskDescription(post.mota)}
+                </p>
               </div>
             )}
           </div>
@@ -143,7 +158,7 @@ export default async function PostDetail({ params }: { params: Promise<{ id: str
       {related && related.length > 0 && (
         <section className="mt-12">
           <h2 className="section-title mb-4">Tin tương tự</h2>
-          <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
+          <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4">
             {(related as Post[]).map((p) => <PostCard key={p.id} post={p} />)}
           </div>
         </section>
