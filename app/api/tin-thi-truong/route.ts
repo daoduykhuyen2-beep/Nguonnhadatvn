@@ -14,6 +14,11 @@ const FEEDS = [
   { url: "https://vnexpress.net/rss/bat-dong-san.rss", source: "VnExpress" },
   { url: "https://vnexpress.net/rss/kinh-doanh.rss", source: "VnExpress" },
   { url: "https://cafef.vn/bat-dong-san.rss", source: "CafeF" },
+  { url: "https://dantri.com.vn/bat-dong-san.rss", source: "Dân trí" },
+  { url: "https://dantri.com.vn/kinh-doanh.rss", source: "Dân trí" },
+  { url: "https://tuoitre.vn/rss/nha-dat.rss", source: "Tuổi Trẻ" },
+  { url: "https://cafeland.vn/rss/", source: "CafeLand" },
+  { url: "https://cafeland.vn/rss/thi-truong.rss", source: "CafeLand" },
 ];
 
 const FALLBACK_IMG = "https://images.unsplash.com/photo-1560518883-ce09059eeffa?auto=format&fit=crop&w=1200&q=80";
