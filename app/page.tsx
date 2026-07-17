@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { createClient } from "@/lib/supabase/server";
+import { headers } from "next/headers";
 import PostCard from "@/components/PostCard";
 import type { Post } from "@/lib/types";
 
@@ -23,15 +24,8 @@ export default async function HomePage() {
   type NewsItem = { id: string; tieu_de: string; mo_ta: string | null; anh_bia: string | null; loai: string | null; created_at: string };
   const news = (newsData || []) as NewsItem[];
 
-  const { data: videoData } = await supabase
-    .from("home_videos")
-    .select("id, title, tiktok_url")
-    .eq("active", true)
-    .order("sort_order", { ascending: true })
-    .limit(6);
-  type VideoItem = { id: number; title: string | null; tiktok_url: string | null };
-  const videos = (videoData || []) as VideoItem[];
-  function embed(url: string | null): string {
+  type VideoItem = { id: string | number; title: string | null; embed: string };
+  function ytEmbed(url: string | null): string {
     if (!url) return "";
     if (url.includes("/embed")) return url;
     const s = url.match(/youtu\.be\/([\w-]+)/);
@@ -39,6 +33,34 @@ export default async function HomePage() {
     const w = url.match(/[?&]v=([\w-]+)/);
     if (w) return "https://www.youtube.com/embed/" + w[1];
     return url;
+  }
+  let videos: VideoItem[] = [];
+  try {
+    const h = await headers();
+    const host = h.get("x-forwarded-host") || h.get("host");
+    const proto = h.get("x-forwarded-proto") || "https";
+    if (host) {
+      const res = await fetch(proto + "://" + host + "/api/videos", { next: { revalidate: 3600 } });
+      if (res.ok) {
+        const j = (await res.json()) as { ok: boolean; videos?: { id: string; title: string }[] };
+        if (j.ok && j.videos) {
+          videos = j.videos.slice(0, 8).map((v) => ({ id: v.id, title: v.title, embed: "https://www.youtube.com/embed/" + v.id }));
+        }
+      }
+    }
+  } catch {}
+  if (videos.length === 0) {
+    const { data: videoData } = await supabase
+      .from("home_videos")
+      .select("id, title, tiktok_url")
+      .eq("active", true)
+      .order("sort_order", { ascending: true })
+      .limit(8);
+    videos = ((videoData || []) as { id: number; title: string | null; tiktok_url: string | null }[]).map((v) => ({
+      id: v.id,
+      title: v.title,
+      embed: ytEmbed(v.tiktok_url),
+    }));
   }
   const featured = news[0];
   const rest = news.slice(1);
@@ -130,21 +152,27 @@ export default async function HomePage() {
       {/* VIDEO - market news */}
       {videos.length > 0 && (
         <section className="border-t border-neutral-100 bg-white">
-          <div className="container-app py-12">
+          <div className="container-app py-14">
             <div className="mb-6 flex items-end justify-between">
               <div>
                 <h2 className="section-title">Video tin tức thị trường</h2>
-                <p className="mt-1 text-ink-muted">Cập nhật tin nóng và phân tích bất động sản cả nước</p>
+                <p className="mt-1 text-ink-muted">Cập nhật tự động tin nóng và phân tích bất động sản cả nước</p>
               </div>
               <Link href="/video" className="btn-soft">Xem tất cả &rarr;</Link>
             </div>
-            <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+            <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
               {videos.map((v) => (
                 <div key={v.id} className="flex flex-col overflow-hidden rounded-2xl border border-neutral-200 bg-white shadow-sm">
                   <div className="aspect-video w-full bg-neutral-100">
-                    <iframe src={embed(v.tiktok_url)} title={v.title || "Video"} className="h-full w-full" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowFullScreen />
+                    <iframe
+                      src={v.embed}
+                      title={v.title || "Video"}
+                      className="h-full w-full"
+                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                      allowFullScreen
+                    />
                   </div>
-                  {v.title && <div className="p-4 text-sm font-semibold text-ink line-clamp-2">{v.title}</div>}
+                  {v.title && <div className="p-3 text-sm font-semibold text-ink line-clamp-2">{v.title}</div>}
                 </div>
               ))}
             </div>
