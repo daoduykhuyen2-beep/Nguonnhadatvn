@@ -2,6 +2,7 @@ import Link from "next/link";
 import { createClient } from "@/lib/supabase/server";
 import { headers } from "next/headers";
 import PostCard from "@/components/PostCard";
+import HeroBanner from "@/components/HeroBanner";
 import type { Post } from "@/lib/types";
 
 export const revalidate = 60;
@@ -93,6 +94,8 @@ export default async function HomePage() {
           </div>
         </div>
       </section>
+
+      <HeroBanner />
 
       {/* NEWS - main content */}
       <section className="container-app py-14">
