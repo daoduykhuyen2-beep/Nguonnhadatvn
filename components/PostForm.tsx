@@ -93,6 +93,32 @@ export default function PostForm({ action, post, submitLabel = "Đăng tin" }: P
         </div>
       </section>
 
+      <section className="rounded-2xl border border-neutral-100 bg-white p-5 shadow-sm">
+        <h2 className="mb-1 text-base font-semibold text-neutral-900">Nâng cấp tin</h2>
+        <p className="mb-4 text-sm text-neutral-500">Đưa tin lên hạng cao hơn để tiếp cận nhiều khách hơn. Áp dụng trong 30 ngày, sau đó tự động về tin thường.</p>
+        <div className="grid gap-3 sm:grid-cols-3">
+          <label className="relative flex cursor-pointer flex-col rounded-xl border border-neutral-200 p-4 transition hover:border-brand has-[:checked]:border-brand has-[:checked]:ring-1 has-[:checked]:ring-brand/40">
+            <input type="radio" name="nang_cap" value="thuong" defaultChecked className="absolute right-3 top-3 accent-brand" />
+            <span className="text-sm font-semibold text-neutral-900">Tin thường</span>
+            <span className="mt-1 text-xs text-neutral-500">Đăng miễn phí</span>
+            <span className="mt-2 text-lg font-bold text-neutral-900">0đ</span>
+          </label>
+          <label className="relative flex cursor-pointer flex-col rounded-xl border border-neutral-200 p-4 transition hover:border-brand has-[:checked]:border-brand has-[:checked]:ring-1 has-[:checked]:ring-brand/40">
+            <input type="radio" name="nang_cap" value="tin_vip_49" className="absolute right-3 top-3 accent-brand" />
+            <span className="text-sm font-semibold text-amber-600">VIP Vàng</span>
+            <span className="mt-1 text-xs text-neutral-500">Nổi bật, ưu tiên hiển thị</span>
+            <span className="mt-2 text-lg font-bold text-neutral-900">49.000đ</span>
+          </label>
+          <label className="relative flex cursor-pointer flex-col rounded-xl border border-neutral-200 p-4 transition hover:border-brand has-[:checked]:border-brand has-[:checked]:ring-1 has-[:checked]:ring-brand/40">
+            <input type="radio" name="nang_cap" value="tin_kc_99" className="absolute right-3 top-3 accent-brand" />
+            <span className="text-sm font-semibold text-sky-600">Kim Cương</span>
+            <span className="mt-1 text-xs text-neutral-500">Cao cấp nhất, hiển thị đầu tiên</span>
+            <span className="mt-2 text-lg font-bold text-neutral-900">99.000đ</span>
+          </label>
+        </div>
+        <p className="mt-3 text-xs text-neutral-400">Sau khi đăng, bạn sẽ được chuyển tới trang thanh toán (trừ số dư trước, hoặc chuyển khoản).</p>
+      </section>
+
       <div className="flex justify-end"><Submit label={submitLabel} /></div>
     </form>
   );
