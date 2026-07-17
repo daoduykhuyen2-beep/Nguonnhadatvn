@@ -17,7 +17,7 @@ export default async function Page() {
             <thead className="bg-neutral-50 text-left text-xs uppercase tracking-wide text-neutral-500"><tr><th className="px-3 py-3">Nội dung</th><th className="px-3 py-3">Số tiền</th><th className="px-3 py-3">Trạng thái</th><th className="px-3 py-3">Thời gian</th></tr></thead>
             <tbody className="divide-y divide-neutral-100">
               {list.map((t) => (
-                <tr key={t.id}><td className="px-3 py-3">{t.transfer_content || t.plan_code}</td><td className="px-3 py-3 font-semibold text-brand-dark">{formatVND(t.amount || 0)}</td><td className="px-3 py-3">{t.status === "paid" ? "Thành công" : "Chờ"}</td><td className="px-3 py-3 text-neutral-400">{new Date(t.created_at).toLocaleString("vi-VN")}</td></tr>
+                <tr key={t.id}><td className="px-3 py-3">{t.transfer_content || t.plan_code}</td><td className="px-3 py-3 font-semibold text-brand-dark">{formatVND(t.amount || 0)}</td><td className="px-3 py-3">{t.status === "paid" ? "Thành công" : t.status === "cancelled" ? "Đã huỷ" : "Chờ"}</td><td className="px-3 py-3 text-neutral-400">{new Date(t.created_at).toLocaleString("vi-VN")}</td></tr>
               ))}
             </tbody>
           </table>
