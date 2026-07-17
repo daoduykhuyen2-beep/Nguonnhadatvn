@@ -4,14 +4,15 @@ import { useEffect, useRef, useState } from 'react';
 
 type Slide = { img: string; title: string; sub: string };
 
-const SLIDES: Slide[] = [  { img: "https://images.unsplash.com/photo-1583417319070-4a69db38a482?w=800&q=80", title: "Nhà phố trung tâm Sài Gòn", sub: "Giá thật · Pháp lý rõ ràng · Uy tín" },
-  { img: "https://images.unsplash.com/photo-1509030450996-dd1a26dda07a?w=800&q=80", title: "Bất động sản Hà Nội", sub: "Hơn 14.000 căn nhà thật trên toàn quốc" },
-  { img: "https://images.unsplash.com/photo-1602002418082-a4443e081dd1?w=800&q=80", title: "Đầu tư nhà đất thông minh", sub: "Cập nhật giá thị trường từng khu vực mỗi ngày" },
-  { img: "https://images.unsplash.com/photo-1555921015-5532091f6026?w=800&q=80", title: "Nhà đẹp · Vị trí đắc địa", sub: "Kết nối trực tiếp chủ nhà, không qua trung gian" },
-  { img: "https://images.unsplash.com/photo-1528127269322-539801943592?w=800&q=80", title: "Cho thuê & mua bán", sub: "Nhà phố, căn hộ, đất nền khắp cả nước" },
-  { img: "https://images.unsplash.com/photo-1596422846543-75c6fc197f07?w=800&q=80", title: "Nguồn hàng phong phú", sub: "20.000+ tin đăng bất động sản chính chủ" },
-  { img: "https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?w=800&q=80", title: "Nhà phố trung tâm Sài Gòn", sub: "Giá thật · Pháp lý rõ ràng · Uy tín" },
-  { img: "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=800&q=80", title: "Bất động sản Hà Nội", sub: "Hơn 14.000 căn nhà thật trên toàn quốc" }
+const SLIDES: Slide[] = [
+  { img: "https://images.unsplash.com/photo-1583417319070-4a69db38a482?w=1200&q=80", title: "Bất động sản Sài Gòn", sub: "Trung tâm kinh tế sôi động bậc nhất Việt Nam" },
+  { img: "https://images.unsplash.com/photo-1528127269322-539801943592?w=1200&q=80", title: "Căn hộ cao cấp Sài Gòn", sub: "Vị trí đắc địa, tiện ích đẳng cấp" },
+  { img: "https://images.unsplash.com/photo-1602002418082-a4443e081dd1?w=1200&q=80", title: "Đầu tư nhà đất Sài Gòn", sub: "Sinh lời bền vững theo thị trường" },
+  { img: "https://images.unsplash.com/photo-1555921015-5532091f6026?w=1200&q=80", title: "Nhà phố trung tâm Sài Gòn", sub: "Kết nối giao thông thuận tiện" },
+  { img: "https://images.unsplash.com/photo-1596422846543-75c6fc197f07?w=1200&q=80", title: "Nguồn hàng phong phú", sub: "Hàng nghìn tin đăng khắp Sài Gòn" },
+  { img: "https://images.unsplash.com/photo-1567449303078-57ad995bd17f?w=1200&q=80", title: "Cho thuê & mua bán", sub: "Đa dạng phân khúc bất động sản" },
+  { img: "https://images.unsplash.com/photo-1465447142348-e9952c393450?w=1200&q=80", title: "Khu đô thị hiện đại", sub: "Không gian sống xanh, tiện nghi" },
+  { img: "https://images.unsplash.com/photo-1509030450996-dd1a26dda07a?w=1200&q=80", title: "Sài Gòn về đêm", sub: "Sầm uất, năng động 24/7" },
 ];
 
 export default function HeroBanner({ background = false }: { background?: boolean }) {
