@@ -122,6 +122,7 @@ export default async function HomePage() {
                 <h2 className="section-title">Tin thị trường mới nhất</h2>
                 <p className="mt-1 text-ink-muted">Tự động cập nhật từ các báo lớn về bất động sản cả nước</p>
               </div>
+              <Link href="/tin-tuc" className="btn-soft">Xem thêm &rarr;</Link>
             </div>
             <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
               {marketNews.map((n, i) => (
