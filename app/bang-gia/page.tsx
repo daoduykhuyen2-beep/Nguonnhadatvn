@@ -18,6 +18,7 @@ function PlanCard({ plan, highlight, postId }: { plan: any; highlight?: boolean;
     <div className={`relative flex flex-col rounded-2xl border bg-white p-6 shadow-sm transition hover:shadow-md ${highlight ? "border-brand ring-1 ring-brand" : "border-neutral-100"}`}>
       {highlight && <span className="absolute -top-3 left-1/2 -translate-x-1/2 rounded-full bg-brand px-3 py-1 text-xs font-semibold text-white">Phổ biến</span>}
       <div className="text-base font-semibold text-neutral-900">{plan.name}</div>
+      {plan.desc && <p className="mt-2 text-sm leading-relaxed text-neutral-500">{plan.desc}</p>}
       <div className="mt-3 flex items-end gap-2">
         <span className="text-3xl font-bold text-brand-dark">{formatVND(eff)}</span>
         {plan.marketPrice > eff && <span className="mb-1 text-sm text-neutral-400 line-through">{formatVND(plan.marketPrice)}</span>}
@@ -28,6 +29,9 @@ function PlanCard({ plan, highlight, postId }: { plan: any; highlight?: boolean;
         {plan.quota && <li className="flex gap-2"><span className="text-brand">✓</span> {plan.quota} tin đăng</li>}
         {plan.pushCredits && <li className="flex gap-2"><span className="text-brand">✓</span> {plan.pushCredits} lượt đẩy tin</li>}
         {plan.tier && plan.group !== "hoi_vien" && <li className="flex gap-2"><span className="text-brand">✓</span> Hiển thị {plan.tier === "kim_cuong" ? "VIP Kim cương" : plan.tier === "vang" ? "VIP Vàng" : "tin thường"}</li>}
+        {plan.features && plan.features.map((f: string, idx: number) => (
+          <li key={idx} className="flex gap-2"><span className="text-brand">✓</span> {f}</li>
+        ))}
       </ul>
       <form action={createOrder} className="mt-5">
         <input type="hidden" name="plan" value={plan.code} />
