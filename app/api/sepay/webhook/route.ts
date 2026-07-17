@@ -104,8 +104,10 @@ export async function POST(req: NextRequest) {
   const uiCode = fromDbCode(order.plan_code) || "";
   const plan = getPlan(uiCode);
   const isMembership = plan?.group === "hoi_vien";
+  // Gói đăng tin dạng thuê bao (vd: Đăng tin thoải mái) — cấp kho tin qua apply_membership nhưng KHÔNG mở quyền xem kho nhà.
+  const isPostSubscription = plan?.group === "tin" && !order.post_id;
 
-  if (isMembership) {
+  if (isMembership || isPostSubscription) {
     const { error } = await supabase.rpc("apply_membership", {
       p_user_id: order.user_id, p_plan_code: order.plan_code, p_days: plan?.days || 30,
     });
