@@ -8,11 +8,13 @@ type YtItem = {
 };
 
 const QUERIES = [
-  "thị trường bất động sản Việt Nam mới nhất",
-  "tin tức nhà đất hôm nay",
-  "phân tích thị trường bất động sản",
-  "quy hoạch bất động sản Việt Nam",
-  "giá nhà đất dự báo",
+  "shorts thị trường bất động sản Việt Nam",
+  "shorts tin tức nhà đất Việt Nam",
+  "shorts tin bất động sản hôm nay",
+  "shorts giá nhà đất Việt Nam",
+  "shorts quy hoạch bất động sản Việt Nam",
+  "shorts tin tức kinh tế Việt Nam",
+  "shorts thị trường nhà đất mới nhất",
 ];
 
 export async function GET() {
@@ -26,7 +28,7 @@ export async function GET() {
     for (const q of QUERIES) {
       const url =
         "https://www.googleapis.com/youtube/v3/search" +
-        "?part=snippet&type=video&maxResults=12&order=date&regionCode=VN&relevanceLanguage=vi" +
+        "?part=snippet&type=video&videoDuration=short&maxResults=12&order=date&regionCode=VN&relevanceLanguage=vi" +
         "&q=" + encodeURIComponent(q) + "&key=" + key;
       const res = await fetch(url, { next: { revalidate: 3600 } });
       if (!res.ok) continue;
@@ -46,7 +48,7 @@ export async function GET() {
     const videos = Object.values(collected)
       .sort((a, b) => (b.publishedAt || "").localeCompare(a.publishedAt || ""))
       .slice(0, 50);
-    return NextResponse.json({ ok: true, videos }, { status: 200 });
+    return NextResponse.json({ ok: true, vertical: true, videos }, { status: 200 });
   } catch (e) {
     return NextResponse.json({ ok: false, reason: "error", videos: [] }, { status: 200 });
   }
