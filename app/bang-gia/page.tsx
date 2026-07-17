@@ -1,5 +1,6 @@
 import { createClient } from "@/lib/supabase/server";
-import { PLANS, formatVND, getEffectivePrice, getDiscountPercent, isPromoActive } from "@/lib/plans";
+import { PLANS, formatVND, getEffectivePrice, getDiscountPercent, isPromoActive, type Plan } from "@/lib/plans";
+import { getPlanMerged } from "@/lib/plans-server";
 import { createOrder } from "@/app/actions/payment";
 
 export const metadata = { title: "Bảng giá dịch vụ | Nguồn Nhà Đất Việt Nam", description: "Bảng giá đăng tin, đẩy tin và gói hội viên." };
@@ -47,6 +48,9 @@ export default async function Page({ searchParams }: { searchParams: Promise<{ p
   const postId = sp?.post;
   const supabase = await createClient();
   await supabase.auth.getUser();
+  // Ghi đè giá theo bảng plan_overrides (đồng bộ với giá admin đã chỉnh).
+  const merged = await Promise.all(PLANS.map((p) => getPlanMerged(p.code)));
+  const mergedPlans: Plan[] = merged.map((m, i) => m || PLANS[i]);
   return (
     <div className="mx-auto max-w-6xl px-4 py-10">
       <div className="text-center">
@@ -55,7 +59,7 @@ export default async function Page({ searchParams }: { searchParams: Promise<{ p
       </div>
       {GROUPS.map((g) => {
         if (postId && g.key === "hoi_vien") return null;
-        const plans = PLANS.filter((p) => p.group === g.key);
+        const plans = mergedPlans.filter((p) => p.group === g.key);
         if (!plans.length) return null;
         return (
           <section key={g.key} className="mt-12">
