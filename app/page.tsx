@@ -45,7 +45,7 @@ export default async function HomePage() {
       if (res.ok) {
         const j = (await res.json()) as { ok: boolean; videos?: { id: string; title: string }[] };
         if (j.ok && j.videos) {
-          videos = j.videos.slice(0, 8).map((v) => ({ id: v.id, title: v.title, embed: "https://www.youtube.com/embed/" + v.id }));
+          videos = j.videos.slice(0, 10).map((v) => ({ id: v.id, title: v.title, embed: "https://www.youtube.com/embed/" + v.id }));
         }
       }
     }
@@ -56,7 +56,7 @@ export default async function HomePage() {
       .select("id, title, tiktok_url")
       .eq("active", true)
       .order("sort_order", { ascending: true })
-      .limit(8);
+      .limit(10);
     videos = ((videoData || []) as { id: number; title: string | null; tiktok_url: string | null }[]).map((v) => ({
       id: v.id,
       title: v.title,
@@ -97,6 +97,19 @@ export default async function HomePage() {
             <Link href="/tin-tuc" className="btn-primary">Xem tin tức</Link>
             <Link href="/tin-dang" className="rounded-full bg-white/15 px-6 py-3 font-semibold text-white ring-1 ring-white/40 backdrop-blur transition hover:bg-white/25">Xem tin đăng</Link>
           </div>
+        </div>
+      </section>
+
+      {/* CAM KET */}
+      <section className="border-b border-brand-100 bg-brand-50">
+        <div className="container-app flex flex-col items-center gap-3 py-6 text-center sm:flex-row sm:justify-center sm:gap-4">
+          <span className="inline-flex items-center gap-2 rounded-full bg-brand-600 px-4 py-1.5 text-sm font-bold text-white">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className="h-4 w-4"><path fillRule="evenodd" d="M16.704 4.153a.75.75 0 0 1 .143 1.052l-8 10.5a.75.75 0 0 1-1.127.075l-4.5-4.5a.75.75 0 0 1 1.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 0 1 1.05-.143Z" clipRule="evenodd" /></svg>
+            CAM KẾT
+          </span>
+          <p className="text-base font-semibold text-brand-900">
+            Nhà tại Nguồn Nhà Phố cam kết 100% nhà thật, địa chỉ thật khi khách hàng mua gói.
+          </p>
         </div>
       </section>
 
