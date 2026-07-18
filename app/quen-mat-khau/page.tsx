@@ -9,7 +9,7 @@ export default function QuenMatKhau() {
     e.preventDefault();
     const supabase = createClient();
     await supabase.auth.resetPasswordForEmail(email, {
-      redirectTo: typeof window !== "undefined" ? `${window.location.origin}/dat-lai-mat-khau` : undefined,
+      redirectTo: typeof window !== "undefined" ? `${window.location.origin}/auth/callback?next=/dat-lai-mat-khau` : undefined,
     });
     setSent(true);
   }
