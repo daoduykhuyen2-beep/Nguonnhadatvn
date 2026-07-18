@@ -3,17 +3,17 @@ export const metadata = { title: "Giới thiệu" };
 export default function GioiThieu() {
   return (
     <div className="container-app max-w-3xl py-12">
-      <h1 className="section-title">Về Nhà Đất Việt Nam</h1>
+      <h1 className="section-title">Về Nguồn Nhà Đất Việt Nam</h1>
       <div className="mt-6 space-y-4 leading-relaxed text-ink-soft">
         <p>
-          <strong>Nhà Đất Việt Nam</strong> là nền tảng kết nối bất động sản trực tuyến được xây dựng với sứ mệnh
+          <strong>Nguồn Nhà Đất Việt Nam</strong> là nền tảng kết nối bất động sản trực tuyến được xây dựng với sứ mệnh
           giúp mọi giao dịch mua bán nhà phố, đất nền và căn hộ trên khắp cả nước trở nên nhanh chóng, minh bạch và
           đáng tin cậy hơn. Chúng tôi tin rằng việc tìm kiếm một ngôi nhà hay một cơ hội đầu tư không nên là hành trình
           đầy rủi ro và thông tin nhiễu loạn, mà phải là một trải nghiệm rõ ràng, an toàn và thuận tiện cho tất cả mọi người.
         </p>
         <p>
           Ra đời trong bối cảnh thị trường bất động sản Việt Nam ngày càng sôi động nhưng cũng đầy thách thức về tính
-          xác thực của thông tin, Nhà Đất Việt Nam tập trung vào điều cốt lõi nhất: <strong>nguồn hàng chính chủ,
+          xác thực của thông tin, Nguồn Nhà Đất Việt Nam tập trung vào điều cốt lõi nhất: <strong>nguồn hàng chính chủ,
           thông tin thật, giá thật</strong>. Mỗi tin đăng trên hệ thống đều được sàng lọc và chuẩn hóa, giúp người mua
           tiết kiệm thời gian, tránh được tin ảo và tiếp cận trực tiếp với những bất động sản đang thực sự được rao bán.
         </p>
@@ -26,7 +26,7 @@ export default function GioiThieu() {
           và video thực tế của từng bất động sản.
         </p>
         <p>
-          Đặc biệt, Nhà Đất Việt Nam sở hữu <strong>kho nhà phố trải dài khắp các tỉnh thành</strong> — từ những
+          Đặc biệt, Nguồn Nhà Đất Việt Nam sở hữu <strong>kho nhà phố trải dài khắp các tỉnh thành</strong> — từ những
           căn nhà mặt tiền kinh doanh sầm uất tại trung tâm thành phố lớn, đến nhà phố trong khu dân cư yên tĩnh ở các
           tỉnh lân cận. Danh sách này liên tục được cập nhật, bổ sung và kiểm duyệt nhằm bảo đảm khách hàng luôn nhận được
           những cơ hội tốt nhất, sát với nhu cầu và khả năng tài chính của mình.
@@ -48,18 +48,18 @@ export default function GioiThieu() {
         </p>
         <h2 className="text-lg font-bold text-ink pt-2">Cam kết của chúng tôi</h2>
         <p>
-          Nhà Đất Việt Nam cam kết đồng hành cùng khách hàng trong suốt hành trình bất động sản — từ lúc tìm kiếm,
+          Nguồn Nhà Đất Việt Nam cam kết đồng hành cùng khách hàng trong suốt hành trình bất động sản — từ lúc tìm kiếm,
           tham khảo, so sánh cho đến khi hoàn tất giao dịch. Chúng tôi không ngừng hoàn thiện nền tảng, mở rộng nguồn hàng
           và nâng cao chất lượng dịch vụ để trở thành người bạn đáng tin cậy của mọi gia đình Việt trên con đường an cư
           và đầu tư.
         </p>
         <p>
           Dù bạn là người lần đầu tìm mua căn nhà cho tổ ấm, một nhà đầu tư đang tìm kiếm cơ hội sinh lời, hay một môi giới
-          muốn mở rộng nguồn hàng và tệp khách hàng, chúng tôi tin rằng Nhà Đất Việt Nam sẽ là điểm khởi đầu vững chắc.
+          muốn mở rộng nguồn hàng và tệp khách hàng, chúng tôi tin rằng Nguồn Nhà Đất Việt Nam sẽ là điểm khởi đầu vững chắc.
           Hãy để chúng tôi giúp bạn biến những dự định về nhà đất thành hiện thực — một cách an toàn, minh bạch và hiệu quả.
         </p>
         <p className="pt-2 font-medium text-ink">
-          Nhà Đất Việt Nam — Kết nối nguồn nhà thật, kiến tạo giao dịch bền vững.
+          Nguồn Nhà Đất Việt Nam — Kết nối nguồn nhà thật, kiến tạo giao dịch bền vững.
         </p>
       </div>
     </div>
