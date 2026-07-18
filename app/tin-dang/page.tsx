@@ -22,7 +22,7 @@ export default async function TinDangPage({
   const supabase = await createClient();
   let query = supabase
     .from("web_posts")
-    .select("*", { count: "exact" })
+    .select("*", { count: "estimated" })
     .eq("trang_thai", "duyet");
 
   if (sp.loai) query = query.ilike("loai", `%${sp.loai}%`);
