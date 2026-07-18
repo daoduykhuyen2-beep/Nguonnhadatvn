@@ -34,12 +34,16 @@ export default function HeaderActions({ user, profile }: Props) {
           onClick={() => setOpen((o) => !o)}
           className="flex h-10 w-10 items-center justify-center rounded-full border border-paper-line bg-brand-50 text-sm font-bold text-brand-700"
         >
-          {(profile?.full_name || user.email || "U").slice(0, 1).toUpperCase()}
+          {profile?.avatar_url ? (
+          <img src={profile.avatar_url} alt="avatar" className="h-full w-full object-cover" />
+        ) : (
+          (profile?.full_name || user.email || "U").slice(0, 1).toUpperCase()
+        )}
         </button>
         {open && (
           <div className="absolute right-0 mt-2 w-56 overflow-hidden rounded-2xl border border-paper-line bg-white py-1 shadow-lift">
             <div className="border-b border-paper-line px-4 py-3">
-              <p className="truncate text-sm font-semibold text-ink">{profile?.full_name || "Thành viên"}</p>
+              <Link href="/tai-khoan" onClick={() => setOpen(false)} className="block truncate text-sm font-semibold text-ink hover:text-brand-700">{profile?.full_name || "Thành viên"}</Link>
               <p className="truncate text-xs text-ink-muted">{user.email}</p>
               <p className="mt-1 text-xs font-semibold text-brand-700">
                 Số dư: {new Intl.NumberFormat("vi-VN").format(profile?.so_du || 0)}đ
