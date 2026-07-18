@@ -16,7 +16,7 @@ const GROUPS = [
   { label: "Ví & Gói", items: [
     { href: "/tai-khoan/nap-tien", label: "Nạp tiền" },
     { href: "/tai-khoan/bien-dong", label: "Biến động số dư" },
-    { href: "/tai-khoan/goi-hoi-vien", label: "Gói hội viên" },
+    { href: "/tai-khoan/goi-hoi-vien", label: "Gói Đối tác" },
     { href: "/tai-khoan/nhat-ky", label: "Nhật ký sử dụng" },
   ]},
 ];
