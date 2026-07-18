@@ -274,7 +274,7 @@ export default async function HomePage() {
                   <img
                     src="/logo.png"
                     alt="Nha Dat Viet Nam"
-                    className="absolute inset-0 m-auto h-16 w-auto opacity-90"
+                    className="absolute left-3 top-3 h-8 w-auto opacity-80"
                   />
                   <span className="flex h-14 w-14 items-center justify-center rounded-full bg-white/90 shadow-md transition group-hover:scale-110">
                     <svg viewBox="0 0 24 24" className="ml-1 h-7 w-7 fill-brand-600" aria-hidden="true">
