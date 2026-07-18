@@ -109,6 +109,7 @@ export async function adminSendNotification(_prev: AdminState, formData: FormDat
     tieu_de: (formData.get("tieu_de") as string)?.trim() || "",
     noi_dung: (formData.get("noi_dung") as string)?.trim() || "",
     loai: (formData.get("loai") as string)?.trim() || "he_thong",
+    link: (formData.get("link") as string)?.trim() || null,
     target_user: target || null,
   };
   if (!payload.tieu_de) return { error: "Vui lòng nhập tiêu đề." };
