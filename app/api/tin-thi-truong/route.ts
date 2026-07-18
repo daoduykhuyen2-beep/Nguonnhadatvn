@@ -26,7 +26,7 @@ const FALLBACK_IMG = "https://images.unsplash.com/photo-1560518883-ce09059eeffa?
 function pick(block: string, tag: string): string {
   const m = block.match(new RegExp("<" + tag + "[^>]*>([\\s\\S]*?)</" + tag + ">", "i"));
   if (!m) return "";
-  return m[1].replace(/<!\[CDATA\[/g, "").replace(/\]\]>/g, "").trim();
+  return m[1].replace(/<!\[CDATA\[/g, "").replace(/\]\]>/g, "").replace(/<[^>]+>/g, "").replace(/&amp;amp;/g, "&").replace(/&amp;/g, "&").replace(/&quot;/g, '"').replace(/&#0?39;/g, "'").replace(/&apos;/g, "'").replace(/&lt;/g, "<").replace(/&gt;/g, ">").replace(/&nbsp;/g, " ").trim();
 }
 
 function findImage(block: string): string {
