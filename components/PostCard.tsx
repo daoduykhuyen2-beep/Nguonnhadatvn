@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import type { Post } from "@/lib/types";
 import { publicArea, maskTitle, fallbackImage } from "@/lib/address";
 
@@ -29,12 +30,12 @@ export default function PostCard({ post }: { post: Post }) {
       className="card group overflow-hidden transition duration-200 hover:-translate-y-0.5 hover:shadow-lift"
     >
       <div className="relative aspect-[4/3] overflow-hidden bg-paper-soft">
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img
+        <Image
           src={cover}
           alt={maskTitle(post)}
-          className="h-full w-full object-cover transition duration-300 group-hover:scale-105"
-          loading="lazy"
+          fill
+          sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
+          className="object-cover transition duration-300 group-hover:scale-105"
         />
         {badge && (
           <span className={`absolute left-2 top-2 rounded-full px-2.5 py-1 text-xs font-bold shadow ${badge.cls}`}>
