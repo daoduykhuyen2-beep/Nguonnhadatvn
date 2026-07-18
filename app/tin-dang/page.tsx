@@ -31,6 +31,7 @@ export default async function TinDangPage({
   if (sp.q) query = query.or(`title.ilike.%${sp.q}%,mota.ilike.%${sp.q}%,quan.ilike.%${sp.q}%`);
 
   const { data, count } = await query
+    .order("rank_order", { ascending: true })
     .order("created_at", { ascending: false })
     .range(from, to);
 
