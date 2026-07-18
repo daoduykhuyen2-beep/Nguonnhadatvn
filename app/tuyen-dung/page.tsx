@@ -1,4 +1,5 @@
 import { createClient } from "@/lib/supabase/server";
+import RecruitmentForm from "@/components/RecruitmentForm";
 export const metadata = { title: "Tuyển dụng" };
 export const revalidate = 120;
 export default async function TuyenDung() {
@@ -23,6 +24,10 @@ export default async function TuyenDung() {
           ))}
         </div>
       )}
+
+      <div className="mt-12">
+        <RecruitmentForm />
+      </div>
     </div>
   );
 }
