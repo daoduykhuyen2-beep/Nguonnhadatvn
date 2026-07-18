@@ -17,6 +17,14 @@ export default async function HomePage() {
     .limit(8);
   const posts = (data || []) as Post[];
 
+  const { count: soCanRaw } = await supabase
+    .from("web_posts")
+    .select("id", { count: "estimated", head: true })
+    .eq("trang_thai", "duyet");
+  const soCan = soCanRaw ?? 0;
+  const soCanText = new Intl.NumberFormat("vi-VN").format(soCan);
+  const soCanTron = soCan >= 1000 ? new Intl.NumberFormat("vi-VN").format(Math.floor(soCan / 1000) * 1000) + "+" : soCanText;
+
   const { data: newsData } = await supabase
     .from("news")
     .select("id, tieu_de, mo_ta, anh_bia, loai, created_at")
@@ -118,11 +126,11 @@ export default async function HomePage() {
         <div className="container-app py-14">
           <div className="grid items-center gap-8 lg:grid-cols-[1.1fr_0.9fr]">
             <div>
-              <span className="inline-flex items-center gap-2 rounded-full bg-brand/10 px-4 py-1.5 text-sm font-bold text-brand-dark">Hơn 20.000 căn nhà</span>
-              <h2 className="mt-4 text-2xl font-bold text-neutral-900 sm:text-3xl">Hơn 20 nghìn căn nhà — <span className="text-brand-dark">100% là nhà thật</span></h2>
+              <span className="inline-flex items-center gap-2 rounded-full bg-brand/10 px-4 py-1.5 text-sm font-bold text-brand-dark">Hơn {soCanTron} căn nhà đang bán</span>
+              <h2 className="mt-4 text-2xl font-bold text-neutral-900 sm:text-3xl">{soCanText} căn nhà — <span className="text-brand-dark">100% là nhà thật</span></h2>
               <div className="mt-4 space-y-3 text-sm leading-relaxed text-neutral-600">
-                <p>Toàn bộ hơn 20 nghìn căn đang đăng trên website đều là bất động sản có thật. Bạn thích căn nào, chỉ cần để lại thông tin — chúng tôi sẽ gửi lại đúng căn đó, đúng vị trí và đúng diện tích như mô tả.</p>
-                <p>Vì số lượng tin rất lớn nên không thể cập nhật hình ảnh đầy đủ cho từng căn, do đó một số tin có thể chỉ dùng ảnh minh họa. Dù vậy, thông tin vị trí và diện tích luôn chính xác, và nhân viên sẽ tư vấn trực tiếp căn bạn quan tâm.</p>
+                <p>Toàn bộ <strong className="font-semibold text-brand-dark">{soCanText} căn</strong> đang đăng trên website đều là bất động sản có thật, được đội ngũ kiểm duyệt trước khi hiển thị. Bạn ưng căn nào, chỉ cần để lại số điện thoại — chúng tôi liên hệ ngay và gửi đúng căn đó với đúng vị trí, đúng diện tích như mô tả.</p>
+                <p>Với số lượng tin cực lớn nên một vài căn tạm dùng ảnh minh họa, nhưng <strong className="font-semibold text-neutral-800">vị trí và diện tích luôn chính xác 100%</strong>. Nhân viên sẽ tư vấn trực tiếp, dẫn bạn xem đúng căn bạn quan tâm — cam kết không tin ảo, không mất thời gian.</p>
               </div>
               <div className="mt-6 flex flex-wrap gap-3">
                 <Link href="/tin-dang" className="rounded-xl bg-brand px-6 py-3 text-sm font-semibold text-white transition hover:bg-brand-dark">Xem danh sách nhà</Link>
@@ -131,7 +139,7 @@ export default async function HomePage() {
             </div>
             <div className="grid grid-cols-3 gap-3">
               <div className="rounded-2xl border border-neutral-100 bg-neutral-50/60 p-5 text-center">
-                <div className="text-2xl font-bold text-brand-dark">20K+</div>
+                <div className="text-2xl font-bold text-brand-dark">{soCanTron}</div>
                 <div className="mt-1 text-xs text-neutral-500">Căn nhà thật</div>
               </div>
               <div className="rounded-2xl border border-neutral-100 bg-neutral-50/60 p-5 text-center">
