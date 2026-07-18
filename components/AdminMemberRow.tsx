@@ -1,6 +1,6 @@
 "use client";
 import { useState, useTransition } from "react";
-import { adminUpdateMember } from "@/app/actions/admin";
+import { adminUpdateMember, adminLockMember, adminSendPasswordReset } from "@/app/actions/admin";
 import { formatVND } from "@/lib/plans";
 
 const TIERS = ["free", "co_ban", "chuyen_nghiep", "vip"];
@@ -15,6 +15,21 @@ export default function AdminMemberRow({ member }: { member: any }) {
     start(async () => {
       const r = await adminUpdateMember({}, fd);
       if (r.error) alert(r.error); else setOpen(false);
+    });
+  }
+
+  function toggleLock() {
+    start(async () => {
+      const r = await adminLockMember(member.id, !member.locked);
+      if (r.error) alert(r.error); else location.reload();
+    });
+  }
+
+  function sendReset() {
+    if (!member.email) { alert("Thành viên chưa có email."); return; }
+    start(async () => {
+      const r = await adminSendPasswordReset(member.email);
+      if (r.error) alert(r.error); else alert("Đã gửi email đặt lại mật khẩu cho " + member.email);
     });
   }
 
@@ -38,6 +53,11 @@ export default function AdminMemberRow({ member }: { member: any }) {
             <label className="text-sm">Giảm giá %<input name="giam_gia" type="number" defaultValue={member.giam_gia || 0} className="mt-1 block w-24 rounded-lg border border-neutral-200 px-2 py-1.5 text-sm" /></label>
             <button disabled={pending} className="rounded-lg bg-brand px-4 py-2 text-sm font-semibold text-white hover:bg-brand-dark">{pending ? "Đang lưu…" : "Lưu"}</button>
           </form>
+              <div className="mt-3 flex flex-wrap gap-2 border-t border-neutral-100 pt-3">
+                <button type="button" onClick={toggleLock} disabled={pending} className="rounded-lg border border-neutral-300 px-3 py-2 text-sm font-medium text-neutral-700 hover:bg-neutral-100">{member.locked ? "Mở khóa tài khoản" : "Khóa tài khoản"}</button>
+                <button type="button" onClick={sendReset} disabled={pending} className="rounded-lg border border-brand/40 px-3 py-2 text-sm font-medium text-brand-dark hover:bg-brand/5">Gửi email đặt lại mật khẩu</button>
+                {member.locked && <span className="self-center text-xs font-medium text-red-600">Đang bị khóa</span>}
+              </div>
         </td></tr>
       )}
     </>
