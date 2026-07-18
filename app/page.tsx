@@ -117,41 +117,6 @@ export default async function HomePage() {
         </div>
       </section>
 
-      {/* MARKET NEWS - auto from RSS */}
-      {marketNews.length > 0 && (
-        <section className="border-t border-neutral-100 bg-neutral-50/50">
-          <div className="container-app py-14">
-            <div className="mb-6 flex items-end justify-between">
-              <div>
-                <h2 className="section-title">Tin thị trường mới nhất</h2>
-                <p className="mt-1 text-ink-muted">Tự động cập nhật từ các báo lớn về bất động sản cả nước</p>
-              </div>
-              <Link href="/tin-tuc" className="btn-soft">Xem thêm &rarr;</Link>
-            </div>
-            <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
-              {marketNews.map((n, i) => (
-                <a
-                  key={i}
-                  href={n.link}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="group flex flex-col overflow-hidden rounded-2xl border border-neutral-200 bg-white shadow-sm transition hover:shadow-md"
-                >
-                  <div className="aspect-video w-full overflow-hidden bg-neutral-100">
-                    {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img src={n.image} alt={n.title} className="h-full w-full object-cover transition group-hover:scale-105" loading="lazy" />
-                  </div>
-                  <div className="flex flex-1 flex-col p-4">
-                    <span className="mb-1 text-xs font-semibold uppercase tracking-wide text-brand-600">{n.source}</span>
-                    <span className="text-sm font-semibold text-ink line-clamp-3 group-hover:text-brand-700">{n.title}</span>
-                  </div>
-                </a>
-              ))}
-            </div>
-          </div>
-        </section>
-      )}
-
       {/* STATIC BANNER - replaces video section */}
       <section className="border-t border-neutral-100 bg-white">
         <div className="container-app py-14">
@@ -256,6 +221,32 @@ export default async function HomePage() {
                 </div>
               </Link>
             ))}
+          </div>
+        )}
+        {/* MARKET NEWS - merged into Tin tuc & Cam nang */}
+        {marketNews.length > 0 && (
+          <div className="mt-10 border-t border-neutral-100 pt-8">
+            <h3 className="mb-5 text-lg font-bold text-ink">Tin thị trường mới nhất</h3>
+            <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
+              {marketNews.map((n, i) => (
+                <a
+                  key={i}
+                  href={n.link}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="group flex flex-col overflow-hidden rounded-2xl border border-neutral-200 bg-white shadow-sm transition hover:shadow-md"
+                >
+                  <div className="aspect-video w-full overflow-hidden bg-neutral-100">
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img src={n.image} alt={n.title} className="h-full w-full object-cover transition group-hover:scale-105" />
+                  </div>
+                  <div className="flex flex-1 flex-col p-4">
+                    <span className="mb-1 text-xs font-semibold uppercase tracking-wide text-brand-600">{n.source}</span>
+                    <span className="text-sm font-semibold text-ink line-clamp-3 group-hover:text-brand-700">{n.title}</span>
+                  </div>
+                </a>
+              ))}
+            </div>
           </div>
         )}
       </section>
