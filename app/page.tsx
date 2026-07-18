@@ -35,20 +35,7 @@ export default async function HomePage() {
   type NewsItem = { id: string; tieu_de: string; mo_ta: string | null; anh_bia: string | null; loai: string | null; created_at: string };
   const news = (newsData || []) as NewsItem[];
 
-  // Video trang chủ: lấy từ bảng home_videos (ổn định, admin tự quản lý, không phụ thuộc API YouTube).
-  const { data: vidData } = await supabase
-    .from("home_videos")
-    .select("id, title, tiktok_url")
-    .eq("active", true)
-    .order("sort_order", { ascending: true })
-    .limit(6);
-  type HomeVid = { id: number; title: string | null; search: string };
-  const homeVideos: HomeVid[] = (vidData || []).map((v: { id: number; title: string | null; tiktok_url: string | null }) => ({
-    id: v.id,
-    title: v.title,
-    search: v.tiktok_url && v.tiktok_url.startsWith("http") ? v.tiktok_url : "https://www.youtube.com/results?search_query=" + encodeURIComponent((v.title || "bat dong san") + " nha dat"),
-  }));
-
+  
   type MarketNews = { title: string; link: string; image: string; source: string };
   let marketNews: MarketNews[] = [];
   try {
@@ -247,48 +234,6 @@ export default async function HomePage() {
         </div>
       </section>
 
-      {/* VIDEO - nguồn ổn định từ home_videos, không tự cập nhật từ API */}
-      {homeVideos.length > 0 && (
-      <section className="border-t border-neutral-100 bg-white">
-        <div className="container-app py-14">
-          <div className="mb-6 flex items-end justify-between">
-            <div>
-              <h2 className="section-title">Video tin tức thị trường</h2>
-              <p className="mt-1 text-ink-muted">Tin tức, phân tích và pháp lý bất động sản</p>
-            </div>
-            <Link href="/video" className="btn-soft">Xem tất cả &rarr;</Link>
-          </div>
-          <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
-            {homeVideos.map((v) => (
-              <a
-                key={v.id}
-                href={v.search}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="group flex flex-col overflow-hidden rounded-2xl border border-neutral-200 bg-white shadow-sm transition hover:shadow-lift"
-              >
-                <div className="relative flex aspect-video w-full items-center justify-center bg-gradient-to-br from-brand-50 to-emerald-100">
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img
-                    src="/logo.png"
-                    alt="Nha Dat Viet Nam"
-                    className="absolute left-3 top-3 h-8 w-auto opacity-80"
-                  />
-                  <span className="flex h-14 w-14 items-center justify-center rounded-full bg-white/90 shadow-md transition group-hover:scale-110">
-                    <svg viewBox="0 0 24 24" className="ml-1 h-7 w-7 fill-brand-600" aria-hidden="true">
-                      <path d="M8 5v14l11-7z" />
-                    </svg>
-                  </span>
-                </div>
-                {v.title && (
-                  <div className="p-3 text-sm font-semibold text-ink line-clamp-2">{v.title}</div>
-                )}
-              </a>
-            ))}
-          </div>
-        </div>
-      </section>
-      )}
       <TestimonialsSection />
     </div>
   );
