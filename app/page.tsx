@@ -133,64 +133,6 @@ export default async function HomePage() {
         </div>
       </section>
 
-      {/* VIDEO - nguồn ổn định từ home_videos, không tự cập nhật từ API */}
-      {homeVideos.length > 0 && (
-      <section className="border-t border-neutral-100 bg-white">
-        <div className="container-app py-14">
-          <div className="mb-6 flex items-end justify-between">
-            <div>
-              <h2 className="section-title">Video tin tức thị trường</h2>
-              <p className="mt-1 text-ink-muted">Tin tức, phân tích và pháp lý bất động sản</p>
-            </div>
-            <Link href="/video" className="btn-soft">Xem tất cả &rarr;</Link>
-          </div>
-          <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
-            {homeVideos.map((v) => (
-              <a
-                key={v.id}
-                href={v.search}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="group flex flex-col overflow-hidden rounded-2xl border border-neutral-200 bg-white shadow-sm transition hover:shadow-lift"
-              >
-                <div className="relative flex aspect-video w-full items-center justify-center bg-gradient-to-br from-brand-50 to-emerald-100">
-                  <span className="flex h-14 w-14 items-center justify-center rounded-full bg-white/90 shadow-md transition group-hover:scale-110">
-                    <svg viewBox="0 0 24 24" className="ml-1 h-7 w-7 fill-brand-600" aria-hidden="true">
-                      <path d="M8 5v14l11-7z" />
-                    </svg>
-                  </span>
-                </div>
-                {v.title && (
-                  <div className="p-3 text-sm font-semibold text-ink line-clamp-2">{v.title}</div>
-                )}
-              </a>
-            ))}
-          </div>
-        </div>
-      </section>
-      )}
-
-      {/* LISTINGS - secondary */}
-      <section className="border-t border-neutral-100 bg-neutral-50/50">
-        <div className="container-app py-14">
-          <div className="mb-6 flex items-end justify-between">
-            <div>
-              <h2 className="section-title">Tin đăng mới nhất</h2>
-              <p className="mt-1 text-ink-muted">Bất động sản vừa được cập nhật</p>
-            </div>
-            <Link href="/tin-dang" className="btn-soft">Xem tất cả &rarr;</Link>
-          </div>
-
-          {posts.length === 0 ? (
-            <div className="card p-12 text-center text-ink-muted">Chưa có tin đăng nào.</div>
-          ) : (
-            <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-              {posts.map((p) => <PostCard key={p.id} post={p} />)}
-            </div>
-          )}
-        </div>
-      </section>
-
       {/* NEWS & CAM NANG */}
       <section className="container-app py-14">
         <div className="mb-6 flex items-end justify-between">
@@ -285,6 +227,70 @@ export default async function HomePage() {
           </div>
         )}
       </section>
+
+      {/* LISTINGS - secondary */}
+      <section className="border-t border-neutral-100 bg-neutral-50/50">
+        <div className="container-app py-14">
+          <div className="mb-6 flex items-end justify-between">
+            <div>
+              <h2 className="section-title">Tin đăng mới nhất</h2>
+              <p className="mt-1 text-ink-muted">Bất động sản vừa được cập nhật</p>
+            </div>
+            <Link href="/tin-dang" className="btn-soft">Xem tất cả &rarr;</Link>
+          </div>
+
+          {posts.length === 0 ? (
+            <div className="card p-12 text-center text-ink-muted">Chưa có tin đăng nào.</div>
+          ) : (
+            <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+              {posts.map((p) => <PostCard key={p.id} post={p} />)}
+            </div>
+          )}
+        </div>
+      </section>
+
+      {/* VIDEO - nguồn ổn định từ home_videos, không tự cập nhật từ API */}
+      {homeVideos.length > 0 && (
+      <section className="border-t border-neutral-100 bg-white">
+        <div className="container-app py-14">
+          <div className="mb-6 flex items-end justify-between">
+            <div>
+              <h2 className="section-title">Video tin tức thị trường</h2>
+              <p className="mt-1 text-ink-muted">Tin tức, phân tích và pháp lý bất động sản</p>
+            </div>
+            <Link href="/video" className="btn-soft">Xem tất cả &rarr;</Link>
+          </div>
+          <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
+            {homeVideos.map((v) => (
+              <a
+                key={v.id}
+                href={v.search}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="group flex flex-col overflow-hidden rounded-2xl border border-neutral-200 bg-white shadow-sm transition hover:shadow-lift"
+              >
+                <div className="relative flex aspect-video w-full items-center justify-center bg-gradient-to-br from-brand-50 to-emerald-100">
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img
+                    src="/logo.png"
+                    alt="Nha Dat Viet Nam"
+                    className="absolute inset-0 m-auto h-16 w-auto opacity-90"
+                  />
+                  <span className="flex h-14 w-14 items-center justify-center rounded-full bg-white/90 shadow-md transition group-hover:scale-110">
+                    <svg viewBox="0 0 24 24" className="ml-1 h-7 w-7 fill-brand-600" aria-hidden="true">
+                      <path d="M8 5v14l11-7z" />
+                    </svg>
+                  </span>
+                </div>
+                {v.title && (
+                  <div className="p-3 text-sm font-semibold text-ink line-clamp-2">{v.title}</div>
+                )}
+              </a>
+            ))}
+          </div>
+        </div>
+      </section>
+      )}
     </div>
   );
 }
