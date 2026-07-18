@@ -6,9 +6,9 @@ import { createOrder } from "@/app/actions/payment";
 export const metadata = { title: "Bảng giá dịch vụ | Nguồn Nhà Đất Việt Nam", description: "Bảng giá đăng tin, đẩy tin và gói hội viên." };
 
 const GROUPS: { key: string; title: string; desc: string }[] = [
-  { key: "hoi_vien", title: "Gói hội viên", desc: "Tiết kiệm nhất cho môi giới đăng tin thường xuyên" },
-  { key: "tin", title: "Đăng tin lẻ", desc: "Mua từng tin, phù hợp nhu cầu ít" },
+  { key: "tin", title: "Gói dành cho môi giới", desc: "Mua từng tin, phù hợp nhu cầu ít" },
   { key: "day", title: "Đẩy tin", desc: "Đưa tin của bạn lên đầu danh sách" },
+  { key: "hoi_vien", title: "Gói Đối tác", desc: "Tiết kiệm nhất cho môi giới đăng tin thường xuyên" },
 ];
 
 function PlanCard({ plan, highlight, postId }: { plan: any; highlight?: boolean; postId?: string }) {
@@ -65,7 +65,7 @@ export default async function Page({ searchParams }: { searchParams: Promise<{ p
           <section key={g.key} className="mt-12">
             <div className="mb-5"><h2 className="text-xl font-bold text-neutral-900">{g.title}</h2><p className="text-sm text-neutral-500">{g.desc}</p></div>
             <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-              {plans.map((p, i) => <PlanCard key={p.code} plan={p} highlight={g.key === "hoi_vien" && i === 1} postId={postId} />)}
+              {plans.map((p, i) => <PlanCard key={p.code} plan={p} highlight={g.key === "tin"} postId={postId} />)}
             </div>
           </section>
         );
