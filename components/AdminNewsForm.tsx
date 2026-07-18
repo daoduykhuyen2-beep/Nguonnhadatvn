@@ -2,6 +2,7 @@
 import { useActionState } from "react";
 import { useFormStatus } from "react-dom";
 import { adminSaveNews } from "@/app/actions/admin";
+import MediaUploadField from "@/components/MediaUploadField";
 
 const inputCls = "w-full rounded-xl border border-neutral-200 px-3.5 py-2.5 text-sm outline-none focus:border-brand";
 function Save() { const { pending } = useFormStatus(); return <button disabled={pending} className="rounded-xl bg-brand px-5 py-2.5 text-sm font-semibold text-white hover:bg-brand-dark disabled:opacity-60">{pending ? "Đang lưu…" : "Đăng bài"}</button>; }
@@ -17,10 +18,10 @@ export default function AdminNewsForm() {
         <div><label className="mb-1.5 block text-sm font-medium text-neutral-700">Tiêu đề *</label><input name="tieu_de" className={inputCls} required /></div>
         <div className="grid gap-4 sm:grid-cols-2">
           <div><label className="mb-1.5 block text-sm font-medium text-neutral-700">Loại</label><select name="loai" className={inputCls}><option value="tin_tuc">Tin tức</option><option value="huong_dan">Hướng dẫn</option><option value="thi_truong">Thị trường</option></select></div>
-          <div><label className="mb-1.5 block text-sm font-medium text-neutral-700">Ảnh bìa (URL)</label><input name="anh_bia" className={inputCls} /></div>
+          <div><MediaUploadField name="anh_bia" label="Ảnh bìa (tải lên, tối đa 5)" accept="image/*" /></div>
         </div>
         <div><label className="mb-1.5 block text-sm font-medium text-neutral-700">Mô tả ngắn</label><input name="mo_ta" className={inputCls} /></div>
-        <div><label className="mb-1.5 block text-sm font-medium text-neutral-700">Video (URL)</label><input name="video_url" className={inputCls} /></div>
+        <div><MediaUploadField name="video_url" label="Video (tải lên, tối đa 5)" accept="video/*" /></div>
         <div><label className="mb-1.5 block text-sm font-medium text-neutral-700">Nội dung</label><textarea name="noi_dung" rows={8} className={inputCls} /></div>
       </div>
       <div className="mt-4"><Save /></div>
