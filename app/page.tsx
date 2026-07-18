@@ -40,7 +40,7 @@ export default async function HomePage() {
     const host2 = h2.get("x-forwarded-host") || h2.get("host");
     const proto2 = h2.get("x-forwarded-proto") || "https";
     if (host2) {
-      const r2 = await fetch(proto2 + "://" + host2 + "/api/tin-thi-truong", { next: { revalidate: 3600 } });
+      const r2 = await fetch(proto2 + "://" + host2 + "/api/tin-thi-truong", { next: { revalidate: 60 } });
       if (r2.ok) {
         const j2 = (await r2.json()) as { ok: boolean; items?: MarketNews[] };
         if (j2.ok && j2.items) marketNews = j2.items.slice(0, 60);
