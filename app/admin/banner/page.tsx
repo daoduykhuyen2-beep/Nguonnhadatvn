@@ -1,5 +1,6 @@
 import { createClient } from "@/lib/supabase/server";
 import { saveBanner, toggleBanner, deleteBanner } from "@/app/actions/banner";
+import MediaUploadField from "@/components/MediaUploadField";
 
 const inputCls = "w-full rounded-xl border border-neutral-200 px-3.5 py-2.5 text-sm outline-none focus:border-brand";
 
@@ -18,7 +19,8 @@ export default async function Page() {
         className="rounded-2xl border border-neutral-100 bg-white p-5 shadow-sm">
         <h2 className="mb-4 text-base font-semibold text-neutral-900">Thêm banner mới</h2>
         <div className="grid gap-4 sm:grid-cols-2">
-          <div className="sm:col-span-2"><label className="mb-1.5 block text-sm font-medium text-neutral-700">Ảnh (URL)</label><input name="image_url" className={inputCls} required /></div>
+          <div className="sm:col-span-2"><MediaUploadField name="image_url" label="Ảnh / video banner (tải lên, tối đa 5)" /></div>
+          <div className="sm:col-span-2"><label className="mb-1.5 block text-sm font-medium text-neutral-700">Hoặc dán link ảnh (tùy chọn)</label><input name="image_url_manual" className={inputCls} /></div>
           <div><label className="mb-1.5 block text-sm font-medium text-neutral-700">Tiêu đề</label><input name="title" className={inputCls} /></div>
           <div><label className="mb-1.5 block text-sm font-medium text-neutral-700">Phụ đề</label><input name="subtitle" className={inputCls} /></div>
           <div><label className="mb-1.5 block text-sm font-medium text-neutral-700">Link khi click</label><input name="link_url" className={inputCls} /></div>
