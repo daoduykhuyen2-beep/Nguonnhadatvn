@@ -1,7 +1,6 @@
 import Link from "next/link";
 import type { Metadata } from "next";
 import { createClient } from "@/lib/supabase/server";
-import { headers } from "next/headers";
 
 export const metadata: Metadata = { title: "Video thị trường bất động sản" };
 export const revalidate = 300;
@@ -16,22 +15,6 @@ function toEmbed(url: string): string {
   const watch = url.match(/[?&]v=([\w-]+)/);
   if (watch) return "https://www.youtube.com/embed/" + watch[1];
   return url;
-}
-
-async function getYoutubeVideos(): Promise<Vid[]> {
-  try {
-    const h = await headers();
-    const host = h.get("x-forwarded-host") || h.get("host");
-    const proto = h.get("x-forwarded-proto") || "https";
-    if (!host) return [];
-    const res = await fetch(proto + "://" + host + "/api/videos", { cache: "no-store" });
-    if (!res.ok) return [];
-    const json = (await res.json()) as { ok: boolean; videos?: { id: string; title: string }[] };
-    if (!json.ok || !json.videos) return [];
-    return json.videos.map((v) => ({ id: v.id, title: v.title, embed: "https://www.youtube.com/embed/" + v.id }));
-  } catch {
-    return [];
-  }
 }
 
 async function getDbVideos(): Promise<Vid[]> {
@@ -49,10 +32,7 @@ async function getDbVideos(): Promise<Vid[]> {
 }
 
 export default async function VideoPage() {
-  let videos = await getYoutubeVideos();
-  if (videos.length === 0) {
-    videos = await getDbVideos();
-  }
+  const videos = await getDbVideos();
 
   return (
     <div className="container-app py-8">
