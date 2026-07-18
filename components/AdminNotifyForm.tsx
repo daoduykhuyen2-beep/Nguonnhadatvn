@@ -20,6 +20,7 @@ export default function AdminNotifyForm() {
           <div><label className="mb-1.5 block text-sm font-medium text-neutral-700">Gửi riêng (User ID, để trống = tất cả)</label><input name="target_user" className={inputCls} /></div>
         </div>
       </div>
+      <div className="mt-4"><label className="mb-1.5 block text-sm font-medium text-neutral-700">Đường link (không bắt buộc — VD: /bang-gia, /tin-tuc)</label><input name="link" placeholder="/bang-gia" className={inputCls} /></div>
       <div className="mt-4"><Save /></div>
     </form>
   );
