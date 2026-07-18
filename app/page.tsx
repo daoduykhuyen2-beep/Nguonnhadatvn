@@ -43,12 +43,10 @@ export default async function HomePage() {
     .order("sort_order", { ascending: true })
     .limit(6);
   type HomeVid = { id: number; title: string | null; search: string };
-  const homeVideos: HomeVid[] = (vidData || []).map((v: { id: number; title: string | null }) => ({
+  const homeVideos: HomeVid[] = (vidData || []).map((v: { id: number; title: string | null; tiktok_url: string | null }) => ({
     id: v.id,
     title: v.title,
-    search:
-      "https://www.youtube.com/results?search_query=" +
-      encodeURIComponent((v.title || "bat dong san") + " nha dat"),
+    search: v.tiktok_url && v.tiktok_url.startsWith("http") ? v.tiktok_url : "https://www.youtube.com/results?search_query=" + encodeURIComponent((v.title || "bat dong san") + " nha dat"),
   }));
 
   type MarketNews = { title: string; link: string; image: string; source: string };
