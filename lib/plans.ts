@@ -32,7 +32,6 @@ export const PLANS: Plan[] = [
     desc: "Chỉ với 1 gói duy nhất, mở khóa TOÀN BỘ kho hơn 20.000 căn nhà phố đang bán trên khắp cả nước trong 30 ngày. Xem trực tiếp số điện thoại chính chủ, địa chỉ số nhà chi tiết, giá bán thật và hình ảnh – video thực tế để chốt được căn nhà ưng ý mà không mất phí môi giới.",
     features: [
       "Xem hơn 20.000 nhà phố đang bán trên toàn quốc – cập nhật liên tục mỗi ngày",
-      "Mở khóa số điện thoại CHÍNH CHỦ, liên hệ trực tiếp – không qua trung gian, không phí môi giới",
       "Xem địa chỉ & số nhà chi tiết để đi khảo sát thực tế ngay",
       "Nắm giá bán thật, diện tích, chiều ngang, số tầng của từng căn để so sánh và trả giá",
       "Xem hình ảnh và video thực tế của bất động sản trước khi đi xem nhà",
