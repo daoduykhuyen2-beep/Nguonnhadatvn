@@ -40,17 +40,14 @@ export default async function HomePage() {
     .eq("active", true)
     .order("sort_order", { ascending: true })
     .limit(6);
-  const toEmbed = (url: string): string => {
-    if (!url) return "";
-    if (url.includes("/embed")) return url;
-    const short = url.match(/youtu\.be\/([\w-]+)/);
-    if (short) return "https://www.youtube.com/embed/" + short[1];
-    const watch = url.match(/[?&]v=([\w-]+)/);
-    if (watch) return "https://www.youtube.com/embed/" + watch[1];
-    return url;
-  };
-  type HomeVid = { id: number; title: string | null; embed: string };
-  const homeVideos: HomeVid[] = (vidData || []).map((v: { id: number; title: string | null; tiktok_url: string | null }) => ({ id: v.id, title: v.title, embed: toEmbed(v.tiktok_url || "") })).filter((v: HomeVid) => v.embed);
+  type HomeVid = { id: number; title: string | null; search: string };
+  const homeVideos: HomeVid[] = (vidData || []).map((v: { id: number; title: string | null }) => ({
+    id: v.id,
+    title: v.title,
+    search:
+      "https://www.youtube.com/results?search_query=" +
+      encodeURIComponent((v.title || "bat dong san") + " nha dat"),
+  }));
 
   type MarketNews = { title: string; link: string; image: string; source: string };
   let marketNews: MarketNews[] = [];
@@ -149,18 +146,24 @@ export default async function HomePage() {
           </div>
           <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
             {homeVideos.map((v) => (
-              <div key={v.id} className="overflow-hidden rounded-2xl border border-neutral-200 bg-neutral-100 shadow-sm">
-                <div className="aspect-video w-full">
-                  <iframe
-                    src={v.embed}
-                    title={v.title || "Video bất động sản"}
-                    className="h-full w-full"
-                    allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                    allowFullScreen
-                  />
+              <a
+                key={v.id}
+                href={v.search}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="group flex flex-col overflow-hidden rounded-2xl border border-neutral-200 bg-white shadow-sm transition hover:shadow-lift"
+              >
+                <div className="relative flex aspect-video w-full items-center justify-center bg-gradient-to-br from-brand-50 to-emerald-100">
+                  <span className="flex h-14 w-14 items-center justify-center rounded-full bg-white/90 shadow-md transition group-hover:scale-110">
+                    <svg viewBox="0 0 24 24" className="ml-1 h-7 w-7 fill-brand-600" aria-hidden="true">
+                      <path d="M8 5v14l11-7z" />
+                    </svg>
+                  </span>
                 </div>
-                {v.title && <div className="p-3 text-sm font-semibold text-ink line-clamp-2">{v.title}</div>}
-              </div>
+                {v.title && (
+                  <div className="p-3 text-sm font-semibold text-ink line-clamp-2">{v.title}</div>
+                )}
+              </a>
             ))}
           </div>
         </div>
