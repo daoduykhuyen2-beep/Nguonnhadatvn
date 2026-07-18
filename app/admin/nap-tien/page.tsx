@@ -2,9 +2,13 @@ import { createClient } from "@/lib/supabase/server";
 import AdminTopupForm from "@/components/AdminTopupForm";
 import { formatVND } from "@/lib/plans";
 
-export default async function Page() {
+export default async function Page({ searchParams }: { searchParams: Promise<{ status?: string }> }) {
+  const sp = await searchParams;
+  const status = sp?.status || "all";
   const supabase = await createClient();
-  const { data: payments } = await supabase.from("payments").select("*").order("created_at", { ascending: false }).limit(100);
+  let query = supabase.from("payments").select("*").order("created_at", { ascending: false }).limit(100);
+  if (status !== "all") query = query.eq("status", status);
+  const { data: payments } = await query;
   const list = payments || [];
 
   // Lay thong tin nguoi nap (join thu cong qua user_id -> profiles)
@@ -23,6 +27,17 @@ export default async function Page() {
       <AdminTopupForm />
       <div>
         <h2 className="mb-3 text-base font-semibold text-neutral-900">Giao dịch gần đây</h2>
+        <div className="mb-3 flex flex-wrap gap-2">
+          {[{v:"all",l:"Tất cả"},{v:"pending",l:"Chờ"},{v:"paid",l:"Thành công"},{v:"cancelled",l:"Đã huỷ"}].map((f) => (
+            <a
+              key={f.v}
+              href={f.v === "all" ? "/admin/nap-tien" : "/admin/nap-tien?status=" + f.v}
+              className={"rounded-full border px-3 py-1 text-sm " + (status === f.v ? "border-brand bg-brand text-white" : "border-neutral-200 bg-white text-neutral-700 hover:bg-neutral-50")}
+            >
+              {f.l}
+            </a>
+          ))}
+        </div>
         <div className="overflow-x-auto rounded-2xl border border-neutral-100 bg-white shadow-sm">
           <table className="w-full text-sm">
             <thead className="bg-neutral-50 text-left text-xs uppercase tracking-wide text-neutral-500">
