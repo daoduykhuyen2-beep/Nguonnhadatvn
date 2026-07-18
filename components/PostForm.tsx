@@ -1,10 +1,10 @@
 "use client";
-import { useActionState } from "react";
+import { useActionState, useState } from "react";
 import { useFormStatus } from "react-dom";
 import ImageMultiUploadField from "@/components/ImageMultiUploadField";
 import type { Post } from "@/lib/types";
 
-const QUAN = ["Quận 1","Quận 2","Quận 3","Quận 4","Quận 5","Quận 6","Quận 7","Quận 8","Quận 9","Quận 10","Quận 11","Quận 12","Bình Thạnh","Phú Nhuận","Gò Vấp","Tân Bình","Tân Phú","Bình Tân","Thủ Đức","Bình Chánh","Nhà Bè","Hóc Môn","Củ Chi"];
+const TINH = ["An Giang","Bà Rịa - Vũng Tàu","Bạc Liêu","Bắc Giang","Bắc Kạn","Bắc Ninh","Bến Tre","Bình Dương","Bình Định","Bình Phước","Bình Thuận","Cà Mau","Cao Bằng","Cần Thơ","Đà Nẵng","Đắk Lắk","Đắk Nông","Điện Biên","Đồng Nai","Đồng Tháp","Gia Lai","Hà Giang","Hà Nam","Hà Nội","Hà Tĩnh","Hải Dương","Hải Phòng","Hậu Giang","Hòa Bình","Hưng Yên","Khánh Hòa","Kiên Giang","Kon Tum","Lai Châu","Lâm Đồng","Lạng Sơn","Lào Cai","Long An","Nam Định","Nghệ An","Ninh Bình","Ninh Thuận","Phú Thọ","Phú Yên","Quảng Bình","Quảng Nam","Quảng Ngãi","Quảng Ninh","Quảng Trị","Sóc Trăng","Sơn La","Tây Ninh","Thái Bình","Thái Nguyên","Thanh Hóa","Thừa Thiên Huế","Tiền Giang","TP. Hồ Chí Minh","Trà Vinh","Tuyên Quang","Vĩnh Long","Vĩnh Phúc","Yên Bái"];
 const LOAI = ["Nhà phố","Nhà mặt tiền","Nhà hẻm","Biệt thự","Căn hộ","Đất nền","Cho thuê"];
 
 const inputCls = "w-full rounded-xl border border-neutral-200 bg-white px-3.5 py-2.5 text-sm text-neutral-900 outline-none transition focus:border-brand focus:ring-2 focus:ring-brand/20";
@@ -24,6 +24,9 @@ type Props = {
 export default function PostForm({ action, post, submitLabel = "Đăng tin" }: Props) {
   const [state, formAction] = useActionState(action, {} as any);
   const anh: string[] = (post?.anh as string[]) || [];
+  const [loai, setLoai] = useState<string>(post?.loai || "");
+  const [gia, setGia] = useState<string>(post?.gia || "");
+  const isRent = loai === "Cho thuê";
   return (
     <form action={formAction} className="space-y-6">
       {state?.error && <div className="rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">{state.error}</div>}
@@ -38,14 +41,15 @@ export default function PostForm({ action, post, submitLabel = "Đăng tin" }: P
           <div className="grid gap-4 sm:grid-cols-2">
             <div>
               <label className={labelCls}>Loại BĐS</label>
-              <select name="loai" defaultValue={post?.loai || ""} className={inputCls}>
+              <select name="loai" value={loai} onChange={(e) => setLoai(e.target.value)} className={inputCls}>
                 <option value="">-- Chọn loại --</option>
                 {LOAI.map((x) => <option key={x} value={x}>{x}</option>)}
               </select>
             </div>
             <div>
               <label className={labelCls}>Giá</label>
-              <input name="gia" defaultValue={post?.gia || ""} className={inputCls} placeholder="VD: 5.2 tỷ" />
+              <input name="gia" value={gia} onChange={(e) => setGia(e.target.value)} className={inputCls} placeholder={isRent ? "VD: 8 triệu/tháng" : "VD: 5.2 tỷ"} />
+            <p className="mt-1 text-xs text-neutral-400">{isRent ? "Nhà cho thuê: nhập giá theo tháng (VD: 8 triệu/tháng), không tính theo tỷ." : "Nhà bán: có thể nhập theo tỷ (VD: 5.2 tỷ) hoặc theo triệu."}</p>
             </div>
           </div>
         </div>
@@ -55,14 +59,15 @@ export default function PostForm({ action, post, submitLabel = "Đăng tin" }: P
         <h2 className="mb-4 text-base font-semibold text-neutral-900">Vị trí</h2>
         <div className="grid gap-4 sm:grid-cols-3">
           <div>
-            <label className={labelCls}>Quận / Huyện</label>
+            <label className={labelCls}>Tỉnh / Thành phố</label>
             <select name="quan" defaultValue={post?.quan || ""} className={inputCls}>
               <option value="">-- Chọn --</option>
-              {QUAN.map((x) => <option key={x} value={x}>{x}</option>)}
+              {TINH.map((x) => <option key={x} value={x}>{x}</option>)}
             </select>
           </div>
           <div><label className={labelCls}>Phường / Xã</label><input name="phuong" defaultValue={post?.phuong || ""} className={inputCls} /></div>
           <div><label className={labelCls}>Đường</label><input name="duong" defaultValue={post?.duong || ""} className={inputCls} /></div>
+            <div><label className={labelCls}>Số nhà <span className="text-xs text-neutral-400">(chỉ hội viên Đối tác xem được)</span></label><input name="so_nha" defaultValue={(post as any)?.so_nha || ""} className={inputCls} placeholder="VD: 123/45" /></div>
         </div>
       </section>
 
