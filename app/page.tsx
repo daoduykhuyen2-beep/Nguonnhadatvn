@@ -33,44 +33,6 @@ export default async function HomePage() {
   type NewsItem = { id: string; tieu_de: string; mo_ta: string | null; anh_bia: string | null; loai: string | null; created_at: string };
   const news = (newsData || []) as NewsItem[];
 
-  type VideoItem = { id: string | number; title: string | null; embed: string };
-  function ytEmbed(url: string | null): string {
-    if (!url) return "";
-    if (url.includes("/embed")) return url;
-    const s = url.match(/youtu\.be\/([\w-]+)/);
-    if (s) return "https://www.youtube.com/embed/" + s[1];
-    const w = url.match(/[?&]v=([\w-]+)/);
-    if (w) return "https://www.youtube.com/embed/" + w[1];
-    return url;
-  }
-  let videos: VideoItem[] = [];
-  try {
-    const h = await headers();
-    const host = h.get("x-forwarded-host") || h.get("host");
-    const proto = h.get("x-forwarded-proto") || "https";
-    if (host) {
-      const res = await fetch(proto + "://" + host + "/api/videos", { cache: "no-store" });
-      if (res.ok) {
-        const j = (await res.json()) as { ok: boolean; videos?: { id: string; title: string }[] };
-        if (j.ok && j.videos) {
-          videos = j.videos.slice(0, 10).map((v) => ({ id: v.id, title: v.title, embed: "https://www.youtube.com/embed/" + v.id }));
-        }
-      }
-    }
-  } catch {}
-  if (videos.length === 0) {
-    const { data: videoData } = await supabase
-      .from("home_videos")
-      .select("id, title, tiktok_url")
-      .eq("active", true)
-      .order("sort_order", { ascending: true })
-      .limit(10);
-    videos = ((videoData || []) as { id: number; title: string | null; tiktok_url: string | null }[]).map((v) => ({
-      id: v.id,
-      title: v.title,
-      embed: ytEmbed(v.tiktok_url),
-    }));
-  }
   type MarketNews = { title: string; link: string; image: string; source: string };
   let marketNews: MarketNews[] = [];
   try {
@@ -190,36 +152,23 @@ export default async function HomePage() {
         </section>
       )}
 
-      {/* VIDEO - market news */}
-      {videos.length > 0 && (
-        <section className="border-t border-neutral-100 bg-white">
-          <div className="container-app py-14">
-            <div className="mb-6 flex items-end justify-between">
-              <div>
-                <h2 className="section-title">Video tin tức thị trường</h2>
-                <p className="mt-1 text-ink-muted">Cập nhật tự động tin nóng và phân tích bất động sản cả nước</p>
-              </div>
-              <Link href="/video" className="btn-soft">Xem tất cả &rarr;</Link>
-            </div>
-            <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-5">
-              {videos.map((v) => (
-                <div key={v.id} className="flex flex-col overflow-hidden rounded-2xl border border-neutral-200 bg-white shadow-sm">
-                  <div className="aspect-[9/16] w-full bg-neutral-100">
-                    <iframe
-                      src={v.embed}
-                      title={v.title || "Video"}
-                      className="h-full w-full"
-                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                      allowFullScreen
-                    />
-                  </div>
-                  {v.title && <div className="p-3 text-sm font-semibold text-ink line-clamp-2">{v.title}</div>}
-                </div>
-              ))}
-            </div>
+      {/* STATIC BANNER - replaces video section */}
+      <section className="border-t border-neutral-100 bg-white">
+        <div className="container-app py-14">
+          <div className="mb-6">
+            <h2 className="section-title">Video tin tức thị trường</h2>
+            <p className="mt-1 text-ink-muted">Hình ảnh bất động sản nổi bật</p>
           </div>
-        </section>
-      )}
+          <div className="overflow-hidden rounded-2xl border border-neutral-200 bg-neutral-100 shadow-sm">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src="https://images.unsplash.com/photo-1560518883-ce09059eeffa?auto=format&fit=crop&w=1600&q=80"
+              alt="Video tin tức thị trường"
+              className="h-64 w-full object-cover sm:h-80 lg:h-96"
+            />
+          </div>
+        </div>
+      </section>
 
       {/* LISTINGS - secondary */}
       <section className="border-t border-neutral-100 bg-neutral-50/50">
