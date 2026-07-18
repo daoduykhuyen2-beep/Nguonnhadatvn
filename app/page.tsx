@@ -5,6 +5,7 @@ import PostCard from "@/components/PostCard";
 import HeroBanner from "@/components/HeroBanner";
 import type { Post } from "@/lib/types";
 import NewsImage from "@/components/NewsImage";
+import { SpotlightSection, PillarsSection, TestimonialsSection } from "@/components/HomeSections";
 
 export const revalidate = 60;
 
@@ -99,6 +100,7 @@ export default async function HomePage() {
           </p>
         </div>
       </section>
+      <SpotlightSection />
 
       {/* CAM KẾT NHÀ THẬT */}
       <section className="border-t border-neutral-100 bg-white">
@@ -133,6 +135,7 @@ export default async function HomePage() {
           </div>
         </div>
       </section>
+      <PillarsSection />
 
       {/* NEWS & CAM NANG */}
       <section className="container-app py-14">
@@ -287,6 +290,7 @@ export default async function HomePage() {
           </div>
         </div>
       </section>
+      <TestimonialsSection />
       )}
     </div>
   );
