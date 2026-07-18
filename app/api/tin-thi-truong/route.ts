@@ -80,7 +80,7 @@ export async function GET() {
       return true;
     });
     unique.sort((a, b) => new Date(b.pubDate).getTime() - new Date(a.pubDate).getTime());
-    return NextResponse.json({ ok: true, items: unique.slice(0, 30) }, { status: 200 });
+    return NextResponse.json({ ok: true, items: unique.slice(0, 60) }, { status: 200 });
   } catch {
     return NextResponse.json({ ok: false, items: [] }, { status: 200 });
   }
