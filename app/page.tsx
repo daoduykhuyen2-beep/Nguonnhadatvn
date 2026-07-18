@@ -78,7 +78,7 @@ export default async function HomePage() {
           <div className="absolute inset-0 bg-gradient-to-b from-brand-900/70 via-brand-800/60 to-brand-900/75"></div>
         </div>
         <div className="container-app relative z-10 py-24 text-center">
-          <span className="inline-block rounded-full bg-white/15 px-4 py-1 text-sm font-semibold text-white backdrop-blur">Nhà Đất Việt Nam</span>
+          <span className="inline-block rounded-full bg-white/15 px-4 py-1 text-sm font-semibold text-white backdrop-blur">Nguồn Nhà Đất Việt Nam</span>
           <h1 className="mx-auto mt-4 max-w-3xl text-4xl font-extrabold tracking-tight text-white drop-shadow sm:text-5xl">Tin tức &amp; kiến thức bất động sản cập nhật mỗi ngày</h1>
           <p className="mx-auto mt-4 max-w-2xl text-lg text-white/90 drop-shadow">Thị trường, pháp lý, kinh nghiệm mua bán và đầu tư nhà đất - tất cả trong một nơi.</p>
           <div className="mt-8 flex flex-wrap justify-center gap-4">
@@ -96,7 +96,7 @@ export default async function HomePage() {
             CAM KẾT
           </span>
           <p className="text-base font-semibold text-brand-900">
-            Nhà tại Nhà Đất Việt Nam cam kết 100% nhà thật, địa chỉ thật khi khách hàng mua gói.
+            Nhà tại Nguồn Nhà Đất Việt Nam cam kết 100% nhà thật, địa chỉ thật khi khách hàng mua gói.
           </p>
         </div>
       </section>
