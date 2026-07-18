@@ -53,6 +53,8 @@ export default async function AdminDashboard() {
           <Link href="/admin/tin-tuc" className="rounded-xl border border-neutral-200 px-4 py-2 text-sm font-medium text-neutral-700 hover:bg-neutral-50">Viết tin tức</Link>
           <Link href="/admin/thong-bao" className="rounded-xl border border-neutral-200 px-4 py-2 text-sm font-medium text-neutral-700 hover:bg-neutral-50">Gửi thông báo</Link>
           <Link href="/admin/banner" className="rounded-xl border border-neutral-200 px-4 py-2 text-sm font-medium text-neutral-700 hover:bg-neutral-50">Quản lý banner</Link>
+        <Link href="/admin/nap-tien" className="rounded-xl border border-neutral-200 px-4 py-2 text-sm font-medium text-neutral-700 hover:bg-neutral-50">Nạp tiền & giao dịch</Link>
+        <Link href="/admin/thanh-vien" className="rounded-xl border border-neutral-200 px-4 py-2 text-sm font-medium text-neutral-700 hover:bg-neutral-50">Quản lý thành viên</Link>
         </div>
       </div>
     </div>
