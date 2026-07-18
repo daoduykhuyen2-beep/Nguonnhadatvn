@@ -18,7 +18,7 @@ export default async function Page({ searchParams }: { searchParams: Promise<{ q
       <div className="overflow-hidden rounded-2xl border border-neutral-100 bg-white shadow-sm">
         <table className="w-full text-sm">
           <thead className="bg-neutral-50 text-left text-xs uppercase tracking-wide text-neutral-500">
-            <tr><th className="px-3 py-3">Thành viên</th><th className="px-3 py-3">Hạng</th><th className="px-3 py-3">Số dư</th><th className="px-3 py-3"></th></tr>
+            <tr><th className="px-3 py-3">Thành viên</th><th className="px-3 py-3">Hạng</th><th className="px-3 py-3">Số dư</th><th className="px-3 py-3">Ngày đăng ký</th><th className="px-3 py-3"></th></tr>
           </thead>
           <tbody className="divide-y divide-neutral-100">{list.map((m) => <AdminMemberRow key={m.id} member={m} />)}</tbody>
         </table>
