@@ -2,6 +2,7 @@
 import { useState, useTransition } from "react";
 import { adminUpdateMember, adminLockMember, adminSendPasswordReset } from "@/app/actions/admin";
 import { formatVND } from "@/lib/plans";
+import { toast } from "@/components/toast";
 
 const TIERS = ["free", "co_ban", "chuyen_nghiep", "vip"];
 
@@ -14,22 +15,22 @@ export default function AdminMemberRow({ member }: { member: any }) {
   function save(fd: FormData) {
     start(async () => {
       const r = await adminUpdateMember({}, fd);
-      if (r.error) alert(r.error); else setOpen(false);
+      if (r.error) toast(r.error, "error"); else setOpen(false);
     });
   }
 
   function toggleLock() {
     start(async () => {
       const r = await adminLockMember(member.id, !member.locked);
-      if (r.error) alert(r.error); else location.reload();
+      if (r.error) toast(r.error, "error"); else location.reload();
     });
   }
 
   function sendReset() {
-    if (!member.email) { alert("Thành viên chưa có email."); return; }
+    if (!member.email) { toast("Thành viên chưa có email.", "error"); return; }
     start(async () => {
       const r = await adminSendPasswordReset(member.email);
-      if (r.error) alert(r.error); else alert("Đã gửi email đặt lại mật khẩu cho " + member.email);
+      if (r.error) toast(r.error, "error"); else toast("Đã gửi email đặt lại mật khẩu cho " + member.email, "success");
     });
   }
 
