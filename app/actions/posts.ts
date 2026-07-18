@@ -17,6 +17,7 @@ function collect(formData: FormData) {
     quan: (formData.get("quan") as string)?.trim() || "",
     phuong: (formData.get("phuong") as string)?.trim() || "",
     duong: (formData.get("duong") as string)?.trim() || "",
+    so_nha: (formData.get("so_nha") as string)?.trim() || "",
     gia: (formData.get("gia") as string)?.trim() || "",
     dien_tich: (formData.get("dien_tich") as string)?.trim() || "",
     chieu_ngang: (formData.get("chieu_ngang") as string)?.trim() || "",
@@ -41,7 +42,7 @@ export async function createPost(_prev: ActionState, formData: FormData): Promis
   if (!d.contact_phone) return { error: "Vui lòng nhập số điện thoại liên hệ." };
   const { data, error } = await supabase.from("web_posts").insert({
     owner: user.id,
-    title: d.title, loai: d.loai, quan: d.quan, phuong: d.phuong, duong: d.duong,
+    title: d.title, loai: d.loai, quan: d.quan, phuong: d.phuong, duong: d.duong, so_nha: d.so_nha,
     gia: d.gia, dien_tich: d.dien_tich, chieu_ngang: d.chieu_ngang, chieu_dai: d.chieu_dai,
     so_tang: d.so_tang, contact_name: d.contact_name, contact_phone: d.contact_phone,
     mota: d.mota, video: d.video, anh: d.anh, anh_bia: d.anh_bia,
