@@ -4,6 +4,7 @@ import { headers } from "next/headers";
 import PostCard from "@/components/PostCard";
 import HeroBanner from "@/components/HeroBanner";
 import type { Post } from "@/lib/types";
+import NewsImage from "@/components/NewsImage";
 
 export const revalidate = 60;
 
@@ -157,8 +158,7 @@ export default async function HomePage() {
                   className="group flex flex-col overflow-hidden rounded-2xl border border-neutral-200 bg-white shadow-sm transition hover:shadow-md"
                 >
                   <div className="aspect-video w-full overflow-hidden bg-neutral-100">
-                    {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img src={n.image} alt={n.title} className="h-full w-full object-cover transition group-hover:scale-105" />
+                    <NewsImage src={n.image} alt={n.title} className="h-full w-full object-cover transition group-hover:scale-105" />
                   </div>
                   <div className="flex flex-1 flex-col p-4">
                     <span className="mb-1 text-xs font-semibold uppercase tracking-wide text-brand-600">{n.source}</span>
@@ -177,8 +177,7 @@ export default async function HomePage() {
               <Link href={"/tin-tuc/" + featured.id} className="group col-span-1 flex flex-col overflow-hidden rounded-2xl border border-neutral-100 bg-white shadow-sm transition hover:shadow-md lg:col-span-2">
                 <div className="aspect-[16/9] w-full overflow-hidden bg-neutral-100">
                   {featured.anh_bia && (
-                    /* eslint-disable-next-line @next/next/no-img-element */
-                    <img src={featured.anh_bia} alt={featured.tieu_de} className="h-full w-full object-cover transition group-hover:scale-105" />
+                    <NewsImage src={featured.anh_bia} alt={featured.tieu_de} className="h-full w-full object-cover transition group-hover:scale-105" />
                   )}
                 </div>
                 <div className="flex flex-1 flex-col p-6">
@@ -193,8 +192,7 @@ export default async function HomePage() {
                 <Link key={n.id} href={"/tin-tuc/" + n.id} className="group flex gap-4 rounded-2xl border border-neutral-100 bg-white p-3 shadow-sm transition hover:shadow-md">
                   <div className="h-20 w-28 flex-shrink-0 overflow-hidden rounded-xl bg-neutral-100">
                     {n.anh_bia && (
-                      /* eslint-disable-next-line @next/next/no-img-element */
-                      <img src={n.anh_bia} alt={n.tieu_de} className="h-full w-full object-cover transition group-hover:scale-105" />
+                      <NewsImage src={n.anh_bia} alt={n.tieu_de} className="h-full w-full object-cover transition group-hover:scale-105" />
                     )}
                   </div>
                   <div className="flex flex-1 flex-col justify-center">
@@ -213,8 +211,7 @@ export default async function HomePage() {
               <Link key={n.id} href={"/tin-tuc/" + n.id} className="group flex flex-col overflow-hidden rounded-2xl border border-neutral-100 bg-white shadow-sm transition hover:shadow-md">
                 <div className="aspect-video w-full overflow-hidden bg-neutral-100">
                   {n.anh_bia && (
-                    /* eslint-disable-next-line @next/next/no-img-element */
-                    <img src={n.anh_bia} alt={n.tieu_de} className="h-full w-full object-cover transition group-hover:scale-105" />
+                    <NewsImage src={n.anh_bia} alt={n.tieu_de} className="h-full w-full object-cover transition group-hover:scale-105" />
                   )}
                 </div>
                 <div className="flex flex-1 flex-col p-4">
