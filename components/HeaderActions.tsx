@@ -1,6 +1,7 @@
 "use client";
 import Link from "next/link";
 import { useState } from "react";
+import NotificationBell from "@/components/NotificationBell";
 
 type Props = {
   user: { email?: string | null } | null;
@@ -29,6 +30,7 @@ export default function HeaderActions({ user, profile }: Props) {
       <Link href="/dang-tin" className="btn-primary">
         + Đăng tin
       </Link>
+      <NotificationBell />
       <div className="relative">
         <button
           onClick={() => setOpen((o) => !o)}
@@ -64,6 +66,7 @@ export default function HeaderActions({ user, profile }: Props) {
             <MenuLink href="/tai-khoan/tin-cua-toi">Tin của tôi</MenuLink>
             <MenuLink href="/tai-khoan/nap-tien">Nạp tiền</MenuLink>
             <MenuLink href="/tai-khoan/tin-yeu-thich">Tin yêu thích</MenuLink>
+            <MenuLink href="/thong-bao">Thông báo</MenuLink>
             {isStaff && <MenuLink href="/admin">Quản trị</MenuLink>}
             <div className="my-1 border-t border-paper-line" />
             <Link href="/dang-xuat" className="block px-4 py-2.5 text-sm font-medium text-red-600 hover:bg-red-50">
