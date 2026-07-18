@@ -83,7 +83,7 @@ export default async function VideoPage() {
       )}
 
       <div className="mt-8 text-center">
-        <Link href="/tin-tuc" className="btn-soft">Xem thêm tin tức &rarr;</Link>
+        <Link href="/tin-dang" className="btn-soft">Xem tin đăng bất động sản &rarr;</Link>
       </div>
     </div>
   );
