@@ -18,7 +18,7 @@ export async function saveBanner(_prev: BannerState, formData: FormData): Promis
   if (!allowed) return { error: "Không có quyền." };
   const id = String(formData.get("id") || "").trim();
   const payload = {
-    image_url: (formData.get("image_url") as string)?.trim() || "",
+    image_url: ((formData.get("image_url") as string)?.trim() || (formData.get("image_url_manual") as string)?.trim() || ""),
     title: (formData.get("title") as string)?.trim() || null,
     subtitle: (formData.get("subtitle") as string)?.trim() || null,
     link_url: (formData.get("link_url") as string)?.trim() || null,
