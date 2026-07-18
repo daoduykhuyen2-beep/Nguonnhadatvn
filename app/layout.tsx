@@ -16,9 +16,11 @@ const beVietnam = Be_Vietnam_Pro({
 const GA_MEASUREMENT_ID = "G-EGGN0LHY1E";
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://www.nguonnhadatvn.vn"),
+  alternates: { canonical: "/" },
   title: {
-    default: "Nhà Đất Việt Nam",
-    template: "%s | Nhà Đất Việt Nam",
+    default: "Nguồn Nhà Đất Việt Nam",
+    template: "%s | Nguồn Nhà Đất Việt Nam",
   },
   description:
     "Sàn đăng tin bất động sản toàn quốc — nhà phố, đất nền, căn hộ. Đăng tin nhanh, tiếp cận khách mua thật.",
@@ -27,7 +29,9 @@ export const metadata: Metadata = {
   openGraph: {
     type: "website",
     locale: "vi_VN",
-    siteName: "Nhà Đất Việt Nam",
+    siteName: "Nguồn Nhà Đất Việt Nam",
+    url: "https://www.nguonnhadatvn.vn",
+    images: [{ url: "/logo.png", width: 512, height: 512, alt: "Nguồn Nhà Đất Việt Nam" }],
   },
 };
 
