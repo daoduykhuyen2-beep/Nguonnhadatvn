@@ -117,3 +117,26 @@ export async function adminSendNotification(_prev: AdminState, formData: FormDat
   revalidatePath("/admin/thong-bao");
   return { ok: true };
 }
+
+// ---- Hỗ trợ tài khoản thành viên (khóa/mở khóa + gửi email đặt lại mật khẩu) ----
+export async function adminLockMember(userId: string, locked: boolean): Promise<AdminState> {
+  const { supabase, allowed } = await guard();
+  if (!allowed) return { error: "Không có quyền." };
+  const { error } = await supabase.from("profiles").update({ locked }).eq("id", userId);
+  if (error) return { error: error.message };
+  revalidatePath("/admin/thanh-vien");
+  return { ok: true };
+}
+
+export async function adminSendPasswordReset(email: string): Promise<AdminState> {
+  const { supabase, allowed } = await guard();
+  if (!allowed) return { error: "Không có quyền." };
+  const clean = (email || "").trim();
+  if (!clean) return { error: "Thành viên chưa có email." };
+  const origin = process.env.NEXT_PUBLIC_SITE_URL || "https://www.nguonnhadatvn.vn";
+  const { error } = await supabase.auth.resetPasswordForEmail(clean, {
+    redirectTo: origin + "/auth/callback?next=/dat-lai-mat-khau",
+  });
+  if (error) return { error: error.message };
+  return { ok: true };
+}
