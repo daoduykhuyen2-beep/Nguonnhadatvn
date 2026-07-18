@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { createClient } from "@/lib/supabase/server";
 import HeaderActions from "./HeaderActions";
+import MobileNav from "./MobileNav";
 
 export default async function Header() {
   const supabase = await createClient();
@@ -28,7 +29,7 @@ export default async function Header() {
   ];
 
   return (
-    <header className="sticky top-0 z-40 border-b border-paper-line bg-white/90 backdrop-blur">
+    <header className="sticky top-0 z-40 border-b border-paper-line bg-white/90 backdrop-blur relative">
       <div className="accent-line h-1 w-full" />
       <div className="container-app flex h-16 items-center justify-between gap-4">
         <Link href="/" className="flex items-center gap-2">
@@ -51,7 +52,8 @@ export default async function Header() {
           ))}
         </nav>
 
-        <HeaderActions user={user ? { email: user.email } : null} profile={profile} />
+        <MobileNav nav={nav} />
+          <HeaderActions user={user ? { email: user.email } : null} profile={profile} />
       </div>
     </header>
   );
