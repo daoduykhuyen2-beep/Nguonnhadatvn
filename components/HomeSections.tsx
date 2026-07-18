@@ -6,6 +6,7 @@ const spotlights = [
     tag: "Dự án tiêu điểm",
     title: "Căn hộ & nhà phố được quan tâm nhất tuần này",
     desc: "Danh sách bất động sản có lượt xem cao nhất, đã qua kiểm duyệt vị trí và pháp lý trước khi hiển thị.",
+    href: "/tin-dang",
     icon: (
       <path d="M3 11.5 12 4l9 7.5M5 10v9a1 1 0 0 0 1 1h4v-5h4v5h4a1 1 0 0 0 1-1v-9" />
     ),
@@ -14,12 +15,14 @@ const spotlights = [
     tag: "Cơ hội đầu tư",
     title: "Khu vực hạ tầng đang chuyển động mạnh",
     desc: "Những nơi có vành đai, metro, cao tốc kết nối - tiềm năng tăng giá trong 6 đến 12 tháng tới.",
+    href: "/tin-tuc",
     icon: <path d="m3 17 6-6 4 4 8-8M21 7v6h-6" />,
   },
   {
     tag: "Chính sách mới",
     title: "Cập nhật nhanh quy định đất đai vừa ban hành",
     desc: "Thủ tục, luật và chính sách mới nhất ảnh hưởng trực tiếp tới người mua và nhà đầu tư.",
+    href: "/tin-tuc",
     icon: (
       <path d="M14 3v5h5M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8zM9 13h6M9 17h6" />
     ),
@@ -56,7 +59,7 @@ export function SpotlightSection() {
               <h3 className="mt-5 text-lg font-bold leading-snug text-ink">{s.title}</h3>
               <p className="mt-3 flex-1 text-sm leading-relaxed text-neutral-500">{s.desc}</p>
               <Link
-                href="/tin-tuc"
+                href={s.href}
                 className="mt-6 inline-flex items-center gap-1 self-start text-sm font-semibold text-brand-700 transition-all group-hover:gap-2"
               >
                 Xem chi tiết <span aria-hidden>&rarr;</span>
@@ -134,6 +137,13 @@ export function PillarsSection() {
 
 /* ==== 3. Khách hàng & nhân viên nói gì ==== */
 type Testimonial = { name: string; role: string; text: string };
+
+const trustStats = [
+  { value: "10+", label: "Năm đồng hành" },
+  { value: "50.000+", label: "Khách đã kết nối" },
+  { value: "98%", label: "Khách hài lòng" },
+  { value: "20.084", label: "Tin đã kiểm duyệt" },
+];
 
 const clientReviews: Testimonial[] = [
   {
@@ -218,6 +228,15 @@ export function TestimonialsSection() {
           <p className="mx-auto mt-4 max-w-2xl text-neutral-500">
             Những chia sẻ thật từ người mua nhà và đội ngũ tư vấn tại Nhà Đất Việt Nam.
           </p>
+        </div>
+
+        <div className="mb-12 grid grid-cols-2 gap-4 rounded-2xl border border-paper-line bg-white p-6 shadow-soft md:grid-cols-4">
+          {trustStats.map((s) => (
+            <div key={s.label} className="text-center">
+              <div className="text-2xl font-extrabold text-brand-700 md:text-3xl">{s.value}</div>
+              <div className="mt-1 text-xs font-medium text-neutral-500 md:text-sm">{s.label}</div>
+            </div>
+          ))}
         </div>
 
         <div className="grid gap-10 lg:grid-cols-2">
