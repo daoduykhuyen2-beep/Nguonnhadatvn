@@ -13,6 +13,7 @@ export type Post = {
   quan: string | null;
   phuong: string | null;
   duong: string | null;
+  so_nha?: string | null;
   gia: string | null;
   dien_tich: string | null;
   chieu_ngang: string | null;
