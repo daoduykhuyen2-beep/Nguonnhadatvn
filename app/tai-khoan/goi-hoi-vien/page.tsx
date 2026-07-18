@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { createClient } from "@/lib/supabase/server";
 import { PLANS, formatVND, getEffectivePrice } from "@/lib/plans";
+import { getPlanMerged } from "@/lib/plans-server";
 export const metadata = { title: "Gói hội viên | Tài khoản" };
 
 const TIER_LABEL: Record<string, string> = { free: "Miễn phí", bac: "Bạc", vang: "Vàng", vip: "VIP", kim_cuong: "Kim cương" };
@@ -9,7 +10,9 @@ export default async function Page() {
   const supabase = await createClient();
   const { data: { user } } = await supabase.auth.getUser();
   const { data: p } = await supabase.from("profiles").select("membership_tier, membership_expires_at").eq("id", user!.id).maybeSingle();
-  const memberships = PLANS.filter((x) => x.group === "hoi_vien");
+  const hoiVienPlans = PLANS.filter((x) => x.group === "hoi_vien");
+  const mergedMemberships = await Promise.all(hoiVienPlans.map((x) => getPlanMerged(x.code)));
+  const memberships = mergedMemberships.map((m, i) => m || hoiVienPlans[i]);
   const tier = p?.membership_tier || "free";
   const active = p?.membership_expires_at ? new Date(p.membership_expires_at).getTime() > Date.now() : false;
   return (
