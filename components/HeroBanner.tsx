@@ -5,12 +5,12 @@ import { useEffect, useRef, useState } from 'react';
 type Slide = { img: string; title: string; sub: string };
 
 const SLIDES: Slide[] = [
-  { img: "https://images.unsplash.com/photo-1583417319070-4a69db38a482?w=1600&q=80", title: "Bất động sản Sài Gòn", sub: "Trung tâm kinh tế sôi động bậc nhất Việt Nam" },
-  { img: "https://images.unsplash.com/photo-1509030450996-dd1a26dda07a?w=1600&q=80", title: "Sài Gòn về đêm", sub: "Thành phố năng động, sầm uất 24/7" },
-  { img: "https://images.unsplash.com/photo-1583417319070-4a69db38a482?w=1600&q=80", title: "Đầu tư nhà đất Sài Gòn", sub: "Sinh lời bền vững theo thị trường" },
-  { img: "https://images.unsplash.com/photo-1509030450996-dd1a26dda07a?w=1600&q=80", title: "Căn hộ cao cấp Sài Gòn", sub: "Vị trí đắc địa, tiện ích đẳng cấp" },
-  { img: "https://images.unsplash.com/photo-1583417319070-4a69db38a482?w=1600&q=80", title: "Nhà phố trung tâm Sài Gòn", sub: "Kết nối giao thông thuận tiện" },
-  { img: "https://images.unsplash.com/photo-1509030450996-dd1a26dda07a?w=1600&q=80", title: "Nguồn hàng phong phú", sub: "Hàng nghìn tin đăng khắp Sài Gòn" },
+  { img: "https://images.unsplash.com/photo-1583417319070-4a69db38a482?w=1280&q=70", title: "Bất động sản Sài Gòn", sub: "Trung tâm kinh tế sôi động bậc nhất Việt Nam" },
+  { img: "https://images.unsplash.com/photo-1509030450996-dd1a26dda07a?w=1280&q=70", title: "Sài Gòn về đêm", sub: "Thành phố năng động, sầm uất 24/7" },
+  { img: "https://images.unsplash.com/photo-1583417319070-4a69db38a482?w=1280&q=70", title: "Đầu tư nhà đất Sài Gòn", sub: "Sinh lời bền vững theo thị trường" },
+  { img: "https://images.unsplash.com/photo-1509030450996-dd1a26dda07a?w=1280&q=70", title: "Căn hộ cao cấp Sài Gòn", sub: "Vị trí đắc địa, tiện ích đẳng cấp" },
+  { img: "https://images.unsplash.com/photo-1583417319070-4a69db38a482?w=1280&q=70", title: "Nhà phố trung tâm Sài Gòn", sub: "Kết nối giao thông thuận tiện" },
+  { img: "https://images.unsplash.com/photo-1509030450996-dd1a26dda07a?w=1280&q=70", title: "Nguồn hàng phong phú", sub: "Hàng nghìn tin đăng khắp Sài Gòn" },
 ];
 
 export default function HeroBanner({ background = false }: { background?: boolean }) {
