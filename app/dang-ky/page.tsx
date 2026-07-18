@@ -26,7 +26,7 @@ export default function DangKyPage() {
       password: form.password,
       options: {
         data: { full_name: form.full_name, phone: form.phone },
-        emailRedirectTo: typeof window !== "undefined" ? \`\${window.location.origin}/auth/callback?next=/dang-ky-thanh-cong\` : undefined,
+        emailRedirectTo: typeof window !== "undefined" ? `${window.location.origin}/auth/callback?next=/dang-ky-thanh-cong` : undefined,
       },
     });
     setLoading(false);
