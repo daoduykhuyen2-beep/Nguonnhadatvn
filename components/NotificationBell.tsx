@@ -9,6 +9,7 @@ type Noti = {
   noi_dung: string | null;
   loai: string | null;
   target_user: string | null;
+  link: string | null;
   created_at: string;
 };
 
@@ -27,7 +28,7 @@ export default function NotificationBell() {
     setUid(user.id);
     const { data: notis } = await supabase
       .from("notifications")
-      .select("id, tieu_de, noi_dung, loai, target_user, created_at")
+      .select("id, tieu_de, noi_dung, loai, target_user, link, created_at")
       .or("target_user.is.null,target_user.eq." + user.id)
       .order("created_at", { ascending: false })
       .limit(30);
@@ -98,16 +99,28 @@ export default function NotificationBell() {
             {items.length === 0 ? (
               <p className="px-4 py-6 text-center text-sm text-neutral-400">Chưa có thông báo nào</p>
             ) : (
-              items.slice(0, 8).map((n) => (
-                <div key={n.id} className="border-b border-paper-line px-4 py-3 last:border-0">
-                  <div className="flex items-center gap-2">
-                    <span className="inline-block rounded-full bg-brand-50 px-2 py-0.5 text-[11px] font-medium text-brand-700">{labelLoai(n.loai)}</span>
-                    <span className="text-[11px] text-neutral-400">{new Date(n.created_at).toLocaleString("vi-VN")}</span>
+              items.slice(0, 8).map((n) => {
+                const inner = (
+                  <>
+                    <div className="flex items-center gap-2">
+                      <span className="inline-block rounded-full bg-brand-50 px-2 py-0.5 text-[11px] font-medium text-brand-700">{labelLoai(n.loai)}</span>
+                      <span className="text-[11px] text-neutral-400">{new Date(n.created_at).toLocaleString("vi-VN")}</span>
+                    </div>
+                    <p className="mt-1 text-sm font-medium text-neutral-900">{n.tieu_de}</p>
+                    {n.noi_dung && <p className="mt-0.5 text-sm text-neutral-600">{n.noi_dung}</p>}
+                    {n.link && <span className="mt-1 inline-block text-[11px] font-medium text-brand-700">Xem chi tiết →</span>}
+                  </>
+                );
+                return n.link ? (
+                  <Link key={n.id} href={n.link} onClick={() => setOpen(false)} className="block border-b border-paper-line px-4 py-3 transition last:border-0 hover:bg-brand-50">
+                    {inner}
+                  </Link>
+                ) : (
+                  <div key={n.id} className="border-b border-paper-line px-4 py-3 last:border-0">
+                    {inner}
                   </div>
-                  <p className="mt-1 text-sm font-medium text-neutral-900">{n.tieu_de}</p>
-                  {n.noi_dung && <p className="mt-0.5 text-sm text-neutral-600">{n.noi_dung}</p>}
-                </div>
-              ))
+                );
+              })
             )}
           </div>
         </div>
