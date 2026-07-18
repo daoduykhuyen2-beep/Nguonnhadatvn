@@ -13,6 +13,7 @@ export default async function HomePage() {
     .from("web_posts")
     .select("*")
     .eq("trang_thai", "duyet")
+    .order("rank_order", { ascending: true })
     .order("created_at", { ascending: false })
     .limit(8);
   const posts = (data || []) as Post[];
@@ -23,7 +24,6 @@ export default async function HomePage() {
     .eq("trang_thai", "duyet");
   const soCan = soCanRaw ?? 0;
   const soCanText = new Intl.NumberFormat("vi-VN").format(soCan);
-  const soCanTron = soCan >= 1000 ? new Intl.NumberFormat("vi-VN").format(Math.floor(soCan / 1000) * 1000) + "+" : soCanText;
 
   const { data: newsData } = await supabase
     .from("news")
@@ -32,6 +32,25 @@ export default async function HomePage() {
     .limit(13);
   type NewsItem = { id: string; tieu_de: string; mo_ta: string | null; anh_bia: string | null; loai: string | null; created_at: string };
   const news = (newsData || []) as NewsItem[];
+
+  // Video trang chủ: lấy từ bảng home_videos (ổn định, admin tự quản lý, không phụ thuộc API YouTube).
+  const { data: vidData } = await supabase
+    .from("home_videos")
+    .select("id, title, tiktok_url")
+    .eq("active", true)
+    .order("sort_order", { ascending: true })
+    .limit(6);
+  const toEmbed = (url: string): string => {
+    if (!url) return "";
+    if (url.includes("/embed")) return url;
+    const short = url.match(/youtu\.be\/([\w-]+)/);
+    if (short) return "https://www.youtube.com/embed/" + short[1];
+    const watch = url.match(/[?&]v=([\w-]+)/);
+    if (watch) return "https://www.youtube.com/embed/" + watch[1];
+    return url;
+  };
+  type HomeVid = { id: number; title: string | null; embed: string };
+  const homeVideos: HomeVid[] = (vidData || []).map((v: { id: number; title: string | null; tiktok_url: string | null }) => ({ id: v.id, title: v.title, embed: toEmbed(v.tiktok_url || "") })).filter((v: HomeVid) => v.embed);
 
   type MarketNews = { title: string; link: string; image: string; source: string };
   let marketNews: MarketNews[] = [];
@@ -88,7 +107,7 @@ export default async function HomePage() {
         <div className="container-app py-14">
           <div className="grid items-center gap-8 lg:grid-cols-[1.1fr_0.9fr]">
             <div>
-              <span className="inline-flex items-center gap-2 rounded-full bg-brand/10 px-4 py-1.5 text-sm font-bold text-brand-dark">Hơn {soCanTron} căn nhà đang bán</span>
+              <span className="inline-flex items-center gap-2 rounded-full bg-brand/10 px-4 py-1.5 text-sm font-bold text-brand-dark">Hơn {soCanText} căn nhà đang bán</span>
               <h2 className="mt-4 text-2xl font-bold text-neutral-900 sm:text-3xl">{soCanText} căn nhà — <span className="text-brand-dark">100% là nhà thật</span></h2>
               <div className="mt-4 space-y-3 text-sm leading-relaxed text-neutral-600">
                 <p>Toàn bộ <strong className="font-semibold text-brand-dark">{soCanText} căn</strong> đang đăng trên website đều là bất động sản có thật, được đội ngũ kiểm duyệt trước khi hiển thị. Bạn ưng căn nào, chỉ cần để lại số điện thoại — chúng tôi liên hệ ngay và gửi đúng căn đó với đúng vị trí, đúng diện tích như mô tả.</p>
@@ -101,7 +120,7 @@ export default async function HomePage() {
             </div>
             <div className="grid grid-cols-3 gap-3">
               <div className="rounded-2xl border border-neutral-100 bg-neutral-50/60 p-5 text-center">
-                <div className="text-2xl font-bold text-brand-dark">{soCanTron}</div>
+                <div className="text-2xl font-bold text-brand-dark">{soCanText}</div>
                 <div className="mt-1 text-xs text-neutral-500">Căn nhà thật</div>
               </div>
               <div className="rounded-2xl border border-neutral-100 bg-neutral-50/60 p-5 text-center">
@@ -117,23 +136,36 @@ export default async function HomePage() {
         </div>
       </section>
 
-      {/* STATIC BANNER - replaces video section */}
+      {/* VIDEO - nguồn ổn định từ home_videos, không tự cập nhật từ API */}
+      {homeVideos.length > 0 && (
       <section className="border-t border-neutral-100 bg-white">
         <div className="container-app py-14">
-          <div className="mb-6">
-            <h2 className="section-title">Video tin tức thị trường</h2>
-            <p className="mt-1 text-ink-muted">Hình ảnh bất động sản nổi bật</p>
+          <div className="mb-6 flex items-end justify-between">
+            <div>
+              <h2 className="section-title">Video tin tức thị trường</h2>
+              <p className="mt-1 text-ink-muted">Tin tức, phân tích và pháp lý bất động sản</p>
+            </div>
+            <Link href="/video" className="btn-soft">Xem tất cả &rarr;</Link>
           </div>
-          <div className="overflow-hidden rounded-2xl border border-neutral-200 bg-neutral-100 shadow-sm">
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
-              src="https://images.unsplash.com/photo-1560518883-ce09059eeffa?auto=format&fit=crop&w=1600&q=80"
-              alt="Video tin tức thị trường"
-              className="h-64 w-full object-cover sm:h-80 lg:h-96"
-            />
+          <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
+            {homeVideos.map((v) => (
+              <div key={v.id} className="overflow-hidden rounded-2xl border border-neutral-200 bg-neutral-100 shadow-sm">
+                <div className="aspect-video w-full">
+                  <iframe
+                    src={v.embed}
+                    title={v.title || "Video bất động sản"}
+                    className="h-full w-full"
+                    allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    allowFullScreen
+                  />
+                </div>
+                {v.title && <div className="p-3 text-sm font-semibold text-ink line-clamp-2">{v.title}</div>}
+              </div>
+            ))}
           </div>
         </div>
       </section>
+      )}
 
       {/* LISTINGS - secondary */}
       <section className="border-t border-neutral-100 bg-neutral-50/50">
@@ -166,6 +198,32 @@ export default async function HomePage() {
           <Link href="/tin-tuc" className="btn-soft">Xem tất cả &rarr;</Link>
         </div>
 
+        {/* MARKET NEWS - moved to top of Tin tuc & Cam nang */}
+        {marketNews.length > 0 && (
+          <div className="mb-10 border-b border-neutral-100 pb-8">
+            <h3 className="mb-5 text-lg font-bold text-ink">Tin thị trường mới nhất</h3>
+            <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
+              {marketNews.map((n, i) => (
+                <a
+                  key={i}
+                  href={n.link}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="group flex flex-col overflow-hidden rounded-2xl border border-neutral-200 bg-white shadow-sm transition hover:shadow-md"
+                >
+                  <div className="aspect-video w-full overflow-hidden bg-neutral-100">
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img src={n.image} alt={n.title} className="h-full w-full object-cover transition group-hover:scale-105" />
+                  </div>
+                  <div className="flex flex-1 flex-col p-4">
+                    <span className="mb-1 text-xs font-semibold uppercase tracking-wide text-brand-600">{n.source}</span>
+                    <span className="text-sm font-semibold text-ink line-clamp-3 group-hover:text-brand-700">{n.title}</span>
+                  </div>
+                </a>
+              ))}
+            </div>
+          </div>
+        )}
         {news.length === 0 ? (
           <div className="card p-12 text-center text-ink-muted">Chưa có bài viết nào.</div>
         ) : (
@@ -221,32 +279,6 @@ export default async function HomePage() {
                 </div>
               </Link>
             ))}
-          </div>
-        )}
-        {/* MARKET NEWS - merged into Tin tuc & Cam nang */}
-        {marketNews.length > 0 && (
-          <div className="mt-10 border-t border-neutral-100 pt-8">
-            <h3 className="mb-5 text-lg font-bold text-ink">Tin thị trường mới nhất</h3>
-            <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
-              {marketNews.map((n, i) => (
-                <a
-                  key={i}
-                  href={n.link}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="group flex flex-col overflow-hidden rounded-2xl border border-neutral-200 bg-white shadow-sm transition hover:shadow-md"
-                >
-                  <div className="aspect-video w-full overflow-hidden bg-neutral-100">
-                    {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img src={n.image} alt={n.title} className="h-full w-full object-cover transition group-hover:scale-105" />
-                  </div>
-                  <div className="flex flex-1 flex-col p-4">
-                    <span className="mb-1 text-xs font-semibold uppercase tracking-wide text-brand-600">{n.source}</span>
-                    <span className="text-sm font-semibold text-ink line-clamp-3 group-hover:text-brand-700">{n.title}</span>
-                  </div>
-                </a>
-              ))}
-            </div>
           </div>
         )}
       </section>
