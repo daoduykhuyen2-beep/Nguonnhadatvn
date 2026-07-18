@@ -7,11 +7,14 @@ export default function Footer() {
         <div className="md:col-span-1">
           <div className="flex items-center gap-2">
             {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src="/logo.png" alt="Nhà Đất Việt Nam" className="h-9 w-auto" />
-            <span className="font-extrabold text-ink">Nhà Đất Việt Nam</span>
+            <img src="/logo.png" alt="Nguồn Nhà Đất Việt Nam" className="h-9 w-auto" />
+            <span className="font-extrabold text-ink">Nguồn Nhà Đất Việt Nam</span>
           </div>
           <p className="mt-3 text-sm leading-relaxed text-ink-muted">
             Sàn đăng tin bất động sản toàn quốc. Kết nối người mua và người bán nhanh chóng, minh bạch.
+          </p>
+          <p className="mt-3 text-sm text-ink-muted">
+            Email: <a href="mailto:hotro.nguonnhadatvn@gmail.com" className="text-primary hover:underline">hotro.nguonnhadatvn@gmail.com</a>
           </p>
         </div>
 
@@ -33,7 +36,7 @@ export default function Footer() {
       </div>
       <div className="border-t border-paper-line py-5">
         <div className="container-app flex flex-col items-center justify-between gap-2 text-xs text-ink-muted md:flex-row">
-          <p>© {new Date().getFullYear()} Nhà Đất Việt Nam. Bảo lưu mọi quyền.</p>
+          <p>© {new Date().getFullYear()} Nguồn Nhà Đất Việt Nam. Bảo lưu mọi quyền.</p>
           <p>Thiết kế hiện đại · Tối ưu SEO</p>
         </div>
       </div>
