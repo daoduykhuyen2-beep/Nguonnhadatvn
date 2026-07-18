@@ -38,7 +38,7 @@ export function SpotlightSection() {
           <h2 className="section-title mt-4">Nổi bật trong tuần</h2>
           <div className="mx-auto mt-3 h-1 w-16 rounded-full accent-line" />
           <p className="mx-auto mt-4 max-w-2xl text-neutral-500">
-            Những thông tin đáng chú ý nhất trên Nhà Đất Việt Nam, được chọn lọc mỗi tuần.
+            Những thông tin đáng chú ý nhất trên Nguồn Nhà Đất Việt Nam, được chọn lọc mỗi tuần.
           </p>
         </div>
         <div className="grid gap-6 md:grid-cols-3">
@@ -177,7 +177,7 @@ const staffReviews: Testimonial[] = [
   {
     name: "Anh Đức Thịnh",
     role: "Trưởng nhóm sale",
-    text: "Làm ở Nhà Đất Việt Nam thấy yên tâm vì tin đăng được kiểm duyệt, khách tin tưởng ngay từ cuộc gọi đầu.",
+    text: "Làm ở Nguồn Nhà Đất Việt Nam thấy yên tâm vì tin đăng được kiểm duyệt, khách tin tưởng ngay từ cuộc gọi đầu.",
   },
 ];
 
@@ -226,7 +226,7 @@ export function TestimonialsSection() {
           <h2 className="section-title mt-4">Khách hàng & nhân viên nói gì</h2>
           <div className="mx-auto mt-3 h-1 w-16 rounded-full accent-line" />
           <p className="mx-auto mt-4 max-w-2xl text-neutral-500">
-            Những chia sẻ thật từ người mua nhà và đội ngũ tư vấn tại Nhà Đất Việt Nam.
+            Những chia sẻ thật từ người mua nhà và đội ngũ tư vấn tại Nguồn Nhà Đất Việt Nam.
           </p>
         </div>
 
