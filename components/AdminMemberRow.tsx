@@ -42,10 +42,11 @@ export default function AdminMemberRow({ member }: { member: any }) {
         </td>
         <td className="px-3 py-3 text-neutral-700">{member.membership_tier || "free"}</td>
         <td className="px-3 py-3 font-semibold text-brand-dark">{formatVND(member.so_du || 0)}</td>
+          <td className="px-3 py-3 text-xs text-neutral-500">{member.created_at ? new Date(member.created_at).toLocaleDateString("vi-VN") : "—"}</td>
         <td className="px-3 py-3"><button onClick={() => setOpen((v) => !v)} className="rounded-lg border border-neutral-200 px-3 py-1 text-xs font-medium text-neutral-600 hover:bg-neutral-50">Sửa</button></td>
       </tr>
       {open && (
-        <tr><td colSpan={4} className="bg-neutral-50 px-3 py-4">
+        <tr><td colSpan={5} className="bg-neutral-50 px-3 py-4">
           <form action={save} className="flex flex-wrap items-end gap-3">
             <input type="hidden" name="id" value={member.id} />
             <label className="text-sm">Hạng<select name="membership_tier" value={tier} onChange={(e) => setTier(e.target.value)} className="mt-1 block rounded-lg border border-neutral-200 px-2 py-1.5 text-sm">{TIERS.map((t) => <option key={t} value={t}>{t}</option>)}</select></label>
