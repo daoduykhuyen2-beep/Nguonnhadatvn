@@ -19,6 +19,8 @@ export default function DangNhapPage() {
     const { error } = await supabase.auth.signInWithPassword({ email, password });
     setLoading(false);
     if (error) { setErr("Email hoặc mật khẩu không đúng."); return; }
+    const { data: prof } = await supabase.from("profiles").select("locked").eq("id", (await supabase.auth.getUser()).data.user?.id || "").maybeSingle();
+    if (prof?.locked) { await supabase.auth.signOut(); setErr("Tài khoản của bạn đang bị khóa. Vui lòng liên hệ hỗ trợ."); return; }
     router.push("/tai-khoan");
     router.refresh();
   }
