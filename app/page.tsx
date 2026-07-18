@@ -60,7 +60,7 @@ export default async function HomePage() {
       const r2 = await fetch(proto2 + "://" + host2 + "/api/tin-thi-truong", { next: { revalidate: 60 } });
       if (r2.ok) {
         const j2 = (await r2.json()) as { ok: boolean; items?: MarketNews[] };
-        if (j2.ok && j2.items) marketNews = j2.items.slice(0, 60);
+        if (j2.ok && j2.items) marketNews = j2.items.slice(0, 8);
       }
     }
   } catch {}
