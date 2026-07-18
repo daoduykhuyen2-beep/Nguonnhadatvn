@@ -3,6 +3,7 @@ import { Be_Vietnam_Pro } from "next/font/google";
 import "./globals.css";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import VisitTracker from "@/components/VisitTracker";
 
 const beVietnam = Be_Vietnam_Pro({
   subsets: ["latin", "vietnamese"],
@@ -36,6 +37,7 @@ export default function RootLayout({
         <Header />
         <main className="min-h-[70vh]">{children}</main>
         <Footer />
+        <VisitTracker />
       </body>
     </html>
   );
