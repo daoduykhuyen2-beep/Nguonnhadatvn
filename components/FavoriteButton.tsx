@@ -1,6 +1,7 @@
 "use client";
 import { useState, useTransition } from "react";
 import { toggleFavorite } from "@/app/actions/favorites";
+import { toast } from "@/components/toast";
 
 export default function FavoriteButton({ postId, initial = false }: { postId: number; initial?: boolean }) {
   const [active, setActive] = useState(initial);
@@ -8,7 +9,7 @@ export default function FavoriteButton({ postId, initial = false }: { postId: nu
   function onClick() {
     start(async () => {
       const res = await toggleFavorite(postId);
-      if (res?.error) { alert(res.error); return; }
+      if (res?.error) { toast(res.error, "error"); return; }
       if (typeof res.active === "boolean") setActive(res.active);
     });
   }
