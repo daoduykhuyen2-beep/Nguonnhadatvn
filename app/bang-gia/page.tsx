@@ -3,7 +3,7 @@ import { PLANS, formatVND, getEffectivePrice, getDiscountPercent, isPromoActive,
 import { getPlanMerged } from "@/lib/plans-server";
 import { createOrder } from "@/app/actions/payment";
 
-export const metadata = { title: "Bảng giá dịch vụ | Nguồn Nhà Đất Việt Nam", description: "Bảng giá đăng tin, đẩy tin và gói hội viên." };
+export const metadata = { title: "Bảng giá dịch vụ", description: "Bảng giá đăng tin, đẩy tin và gói hội viên." };
 
 const GROUPS: { key: string; title: string; desc: string }[] = [
   { key: "tin", title: "Gói dành cho môi giới", desc: "Mua từng tin, phù hợp nhu cầu ít" },
@@ -65,7 +65,7 @@ export default async function Page({ searchParams }: { searchParams: Promise<{ p
           <section key={g.key} className="mt-12">
             <div className="mb-5"><h2 className="text-xl font-bold text-neutral-900">{g.title}</h2><p className="text-sm text-neutral-500">{g.desc}</p></div>
             <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-              {plans.map((p, i) => <PlanCard key={p.code} plan={p} highlight={g.key === "tin"} postId={postId} />)}
+              {plans.map((p, i) => <PlanCard key={p.code} plan={p} highlight={g.key === "tin" && i === 1} postId={postId} />)}
             </div>
           </section>
         );
