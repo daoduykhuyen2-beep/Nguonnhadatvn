@@ -30,3 +30,19 @@ export async function markLeadRead(id: number): Promise<LeadState> {
   revalidatePath("/tai-khoan/khach-hang");
   return { ok: true };
 }
+
+export type RecruitState = { ok?: boolean; error?: string };
+
+export async function createRecruitmentLead(_prev: RecruitState, formData: FormData): Promise<RecruitState> {
+  const supabase = await createClient();
+  const name = (formData.get("name") as string)?.trim() || "";
+  const phone = (formData.get("phone") as string)?.trim() || "";
+  const email = (formData.get("email") as string)?.trim() || "";
+  const area = (formData.get("area") as string)?.trim() || "";
+  const note = (formData.get("note") as string)?.trim() || "";
+  if (!name) return { error: "Vui lòng nhập họ tên." };
+  if (!phone) return { error: "Vui lòng nhập số điện thoại." };
+  const { error } = await supabase.from("recruitment_leads").insert({ name, phone, email, area, note, is_read: false });
+  if (error) return { error: error.message };
+  return { ok: true };
+}
