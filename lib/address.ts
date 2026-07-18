@@ -25,7 +25,7 @@ export function publicArea(post: Post): string {
 
 // Địa chỉ đầy đủ (kèm đường & số nhà) - chỉ dành cho hội viên
 export function fullAddress(post: Post): string {
-  return [post.duong, post.phuong, post.quan].filter(Boolean).join(", ");
+  return [(post as any).so_nha, post.duong, post.phuong, post.quan].filter(Boolean).join(", ");
 }
 
 // Che phần đường/số nhà trong tiêu đề. Tiêu đề dạng "Loại {đường}, {quận}, {tỉnh}".
