@@ -8,9 +8,34 @@ type Props = {
   className?: string;
 };
 
+// Cac host anh ngoai duoc phep proxy qua /api/img de tranh chan hotlink / gioi han tai.
+const PROXY_HOSTS = [
+  "images.unsplash.com",
+  "vnecdn.net",
+  "vnexpress.net",
+  "cafefcdn.com",
+  "cafeland.vn",
+  "dantricdn.com",
+  "vietnamplus.vn",
+  "tienphong.vn",
+  "vneconomy.vn",
+];
+
+function toDisplaySrc(src: string): string {
+  try {
+    const u = new URL(src);
+    if (u.protocol === "https:" && PROXY_HOSTS.some((h) => u.hostname === h || u.hostname.endsWith("." + h))) {
+      return "/api/img?u=" + encodeURIComponent(src);
+    }
+  } catch {
+    // ignore, dung nguyen src
+  }
+  return src;
+}
+
 /**
- * Anh tin tuc: neu link anh ngoai bi loi (403 hotlink / 404) thi
- * hien placeholder co logo thay vi anh vo.
+ * Anh tin tuc: anh ngoai duoc tai qua proxy noi bo cho on dinh.
+ * Neu van loi thi hien placeholder co logo thay vi anh vo.
  */
 export default function NewsImage({ src, alt = "", className = "" }: Props) {
   const [failed, setFailed] = useState(false);
@@ -27,7 +52,7 @@ export default function NewsImage({ src, alt = "", className = "" }: Props) {
   return (
     // eslint-disable-next-line @next/next/no-img-element
     <img
-      src={src}
+      src={toDisplaySrc(src)}
       alt={alt}
       loading="lazy"
       onError={() => setFailed(true)}
@@ -35,4 +60,3 @@ export default function NewsImage({ src, alt = "", className = "" }: Props) {
     />
   );
 }
-
