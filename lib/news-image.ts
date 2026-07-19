@@ -90,7 +90,9 @@ function stripDiacritics(s: string): string {
     .normalize("NFD")
     .replace(/[\u0300-\u036f]/g, "")
     .replace(/[đĐ]/g, "d")
-    .toLowerCase();
+    .toLowerCase()
+    .replace(/[.,_\-/]+/g, " ")
+    .replace(/\s+/g, " ");
 }
 
 export function detectCity(title: string): string | null {
