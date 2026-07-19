@@ -93,6 +93,30 @@ const CITY_IMAGES: Record<string, string[]> = {
     "https://commons.wikimedia.org/wiki/Special:FilePath/250624%20Qu%E1%BB%91c%20L%E1%BB%99%2013%2C%20Ph%C3%BA%20L%E1%BB%A3i%2C%20Th%E1%BB%A7%20D%E1%BA%A7u%20M%E1%BB%99t%2C%20B%C3%ACnh%20D%C6%B0%C6%A1ng%20(1).jpg?width=1200",
     "https://commons.wikimedia.org/wiki/Special:FilePath/250624%20Qu%E1%BB%91c%20L%E1%BB%99%2013%2C%20Ph%C3%BA%20H%C3%B2a%2C%20Th%E1%BB%A7%20D%E1%BA%A7u%20M%E1%BB%99t%2C%20B%C3%ACnh%20D%C6%B0%C6%A1ng%20(5).jpg?width=1200",
   ],
+  nghean: [
+    "https://commons.wikimedia.org/wiki/Special:FilePath/Thanh%20vinh%20nhin%20tu%20nui%20quyet.jpg?width=1200",
+    "https://commons.wikimedia.org/wiki/Special:FilePath/B%C3%A3i%20bi%E1%BB%83n%20C%E1%BB%ADa%20L%C3%B2..jpg?width=1200",
+    "https://commons.wikimedia.org/wiki/Special:FilePath/Lenin%20Avenue%20in%20Vinh%20city.jpg?width=1200",
+    "https://commons.wikimedia.org/wiki/Special:FilePath/Cualovedem.jpg?width=1200",
+  ],
+  quangngai: [
+    "https://commons.wikimedia.org/wiki/Special:FilePath/Ly%20Son%20Island%2001%20-%20panoramio.jpg?width=1200",
+    "https://commons.wikimedia.org/wiki/Special:FilePath/Ly%20Son%20Island%2019%20-%20panoramio.jpg?width=1200",
+    "https://commons.wikimedia.org/wiki/Special:FilePath/L%C3%BD%20S%C6%A1n%2C%20Vietnam%20(Unsplash).jpg?width=1200",
+    "https://commons.wikimedia.org/wiki/Special:FilePath/Ly%20Son3.jpg?width=1200",
+  ],
+  sonla: [
+    "https://commons.wikimedia.org/wiki/Special:FilePath/S%C6%A1n%20La%20Province.JPG?width=1200",
+    "https://commons.wikimedia.org/wiki/Special:FilePath/Terraced%20paddy%20fields%2C%20Sonla%2C%20Vietnam.jpg?width=1200",
+    "https://commons.wikimedia.org/wiki/Special:FilePath/Chi%E1%BB%81u%20v%E1%BB%81%20S%C6%A1n%20La%20-%20panoramio.jpg?width=1200",
+    "https://commons.wikimedia.org/wiki/Special:FilePath/Moc-chau-tea-doi-2094890%20960%20720.jpg?width=1200",
+  ],
+  vinhlong: [
+    "https://commons.wikimedia.org/wiki/Special:FilePath/Th%E1%BB%8B%20tr%E1%BA%A5n%20Long%20H%E1%BB%93%2C%20V%C4%A9nh%20Long.JPG?width=1200",
+    "https://commons.wikimedia.org/wiki/Special:FilePath/S%C3%B4ng%20Long%20H%E1%BB%93%202.jpg?width=1200",
+    "https://commons.wikimedia.org/wiki/Special:FilePath/Vinh%20Long%20Can%20Tho%20roundabout.jpg?width=1200",
+    "https://commons.wikimedia.org/wiki/Special:FilePath/Long%20H%E1%BB%93%20District%2C%20Vinh%20Long%2C%20Vietnam%20-%20panoramio.jpg?width=1200",
+  ],
   generic: [
     "https://commons.wikimedia.org/wiki/Special:FilePath/Ho%20Chi%20Minh%20City%20panorama%202019%20(cropped).jpg?width=1200",
     "https://commons.wikimedia.org/wiki/Special:FilePath/Saigon%20at%20Blue%20Hour.jpg?width=1200",
@@ -129,7 +153,7 @@ const CITY_PATTERNS: { key: string; kws: string[] }[] = [
   { key: "hanoi", kws: ["ha noi", "thu do", "hoan kiem", "ba dinh", "cau giay", "tay ho", "long bien", "dong da", "ha dong", "hai ba trung", "hoang mai", "thanh xuan", "nam tu liem", "bac tu liem"] },
   { key: "hcm", kws: ["tp hcm", "tphcm", "tp ho chi minh", "ho chi minh", "sai gon", "thu duc", "quan 1", "quan 2", "quan 3", "quan 4", "quan 5", "quan 6", "quan 7", "quan 8", "quan 9", "quan 10", "quan 11", "quan 12", "binh thanh", "nha be", "go vap", "tan binh", "tan phu", "phu nhuan", "binh tan", "hoc mon", "cu chi"] },
   { key: "danang", kws: ["da nang", "son tra", "ngu hanh son", "my khe", "ba na", "hai chau", "lien chieu", "cam le", "thanh khe"] },
-  { key: "hue", kws: ["hue", "thua thien", "lang co"] },
+  { key: "hue", kws: ["thua thien hue", "co do hue", "tp hue", "thanh pho hue", "dai noi", "kinh thanh hue", "lang co"] },
   { key: "haiphong", kws: ["hai phong", "cat ba", "do son", "le chan", "thuy nguyen", "hong bang", "ngo quyen", "kien an"] },
   { key: "cantho", kws: ["can tho", "ninh kieu", "cai rang", "binh thuy"] },
   { key: "nhatrang", kws: ["nha trang", "khanh hoa", "cam ranh"] },
@@ -140,6 +164,10 @@ const CITY_PATTERNS: { key: string; kws: string[] }[] = [
   { key: "phanthiet", kws: ["phan thiet", "mui ne", "binh thuan", "la gi", "ke ga"] },
   { key: "dongnai", kws: ["dong nai", "bien hoa", "long thanh", "nhon trach", "trang bom", "long khanh"] },
   { key: "binhduong", kws: ["binh duong", "thu dau mot", "di an", "thuan an", "ben cat", "tan uyen"] },
+  { key: "nghean", kws: ["nghe an", "cua lo", "vinh city", "thanh vinh", "cua hoi"] },
+  { key: "quangngai", kws: ["quang ngai", "ly son", "dung quat", "binh son", "tra bong"] },
+  { key: "sonla", kws: ["son la", "moc chau", "mai son", "thuan chau", "phu yen son la"] },
+  { key: "vinhlong", kws: ["vinh long", "long ho", "binh minh vinh long", "mang thit", "tam binh"] },
 ];
 
 function stripDiacritics(s: string): string {
