@@ -90,7 +90,7 @@ const pillars = [
   },
   {
     title: "Góc nhìn thị trường",
-    desc: "Video phân tích và tin thị trường cập nhật liên tục, giúp bạn nhìn rõ bức tranh giá cả trước khi xuống tiền.",
+        desc: "Phân tích và tin thị trường cập nhật liên tục, giúp bạn nhìn rõ bức tranh giá cả trước khi xuống tiền.",
     icon: <path d="M4 19V5M4 19h16M8 16V9M12 16v-4M16 16v-7M20 16v-3" />,
   },
   {
