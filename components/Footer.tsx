@@ -21,4 +21,40 @@ export default function Footer() {
         <FooterCol title="Khám phá" links={[
           { href: "/tin-dang", label: "Tin đăng" },
           { href: "/tin-tuc", label: "Tin tức" },
-      { href: "/bang-gia", label: "Bảng giá" },
+          { href: "/bang-gia", label: "Bảng giá" },
+        ]} />
+        <FooterCol title="Về chúng tôi" links={[
+          { href: "/gioi-thieu", label: "Giới thiệu" },
+          { href: "/tuyen-dung", label: "Tuyển dụng" },
+          { href: "/chinh-sach-bao-mat", label: "Chính sách bảo mật" },
+        ]} />
+        <FooterCol title="Tài khoản" links={[
+          { href: "/dang-nhap", label: "Đăng nhập" },
+          { href: "/dang-ky", label: "Đăng ký" },
+          { href: "/dang-tin", label: "Đăng tin" },
+        ]} />
+      </div>
+      <div className="border-t border-paper-line py-5">
+        <div className="container-app flex flex-col items-center justify-between gap-2 text-xs text-ink-muted md:flex-row">
+          <p>© {new Date().getFullYear()} Nguồn Nhà Đất Việt Nam. Bảo lưu mọi quyền.</p>
+          <p>Thiết kế hiện đại · Tối ưu SEO</p>
+        </div>
+      </div>
+    </footer>
+  );
+}
+
+function FooterCol({ title, links }: { title: string; links: { href: string; label: string }[] }) {
+  return (
+    <div>
+      <h4 className="mb-3 text-sm font-bold text-ink">{title}</h4>
+      <ul className="space-y-2">
+        {links.map((l) => (
+          <li key={l.href}>
+            <Link href={l.href} className="text-sm text-ink-muted transition hover:text-brand-700">{l.label}</Link>
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+}
