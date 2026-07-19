@@ -85,7 +85,6 @@ export default async function HomePage() {
           </p>
         </div>
       </section>
-      <SpotlightSection />
 
       {/* CAM KẾT NHÀ THẬT */}
       <section className="border-t border-neutral-100 bg-white">
@@ -120,7 +119,7 @@ export default async function HomePage() {
           </div>
         </div>
       </section>
-      <PillarsSection />
+      <SpotlightSection />
 
       {/* NEWS & CAM NANG */}
       <section className="container-app py-14">
@@ -233,6 +232,44 @@ export default async function HomePage() {
           )}
         </div>
       </section>
+
+      <PillarsSection />
+
+      {/* CANH BAO RUI RO & LUA DAO */}
+      {news.length > 0 && (
+        <section className="container-app py-14">
+          <div className="rounded-3xl border border-red-200 bg-red-50/60 p-8 sm:p-10">
+            <div className="mb-8">
+              <h2 className="flex items-center gap-3 text-2xl font-extrabold text-red-700 sm:text-3xl">
+                <span aria-hidden>⚠️</span> Cảnh báo rủi ro &amp; lừa đảo
+              </h2>
+              <p className="mt-2 text-red-500">Kiến thức pháp lý giúp bạn mua nhà an toàn, tránh bẫy lừa đảo</p>
+            </div>
+            <div className="grid gap-5 sm:grid-cols-2">
+              {news.slice(0, 4).map((n) => (
+                <Link
+                  key={n.id}
+                  href={"/tin-tuc/" + n.id}
+                  className="group flex gap-3 rounded-2xl bg-white p-5 shadow-sm transition hover:shadow-md"
+                >
+                  <span className="mt-2 h-2 w-2 flex-shrink-0 rounded-full bg-red-500" />
+                  <div className="flex flex-col">
+                    <h3 className="font-bold text-neutral-900 transition group-hover:text-red-700">{n.tieu_de}</h3>
+                    {n.mo_ta && (
+                      <p className="mt-2 line-clamp-2 text-sm text-neutral-500">{n.mo_ta}</p>
+                    )}
+                  </div>
+                </Link>
+              ))}
+            </div>
+            <div className="mt-8">
+              <Link href="/tin-tuc" className="font-bold text-red-700 transition hover:text-red-800">
+                Xem thêm cảnh báo &rarr;
+              </Link>
+            </div>
+          </div>
+        </section>
+      )}
 
       <TestimonialsSection />
     </div>
