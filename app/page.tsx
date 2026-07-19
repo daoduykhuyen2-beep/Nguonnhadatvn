@@ -119,7 +119,6 @@ export default async function HomePage() {
           </div>
         </div>
       </section>
-      <SpotlightSection />
 
       {/* NEWS & CAM NANG */}
       <section className="container-app py-14">
@@ -233,7 +232,12 @@ export default async function HomePage() {
         </div>
       </section>
 
+      <SpotlightSection />
+
       <PillarsSection />
+
+
+      <TestimonialsSection />
 
       {/* CANH BAO RUI RO & LUA DAO */}
       {news.length > 0 && (
@@ -246,7 +250,7 @@ export default async function HomePage() {
               <p className="mt-2 text-red-500">Kiến thức pháp lý giúp bạn mua nhà an toàn, tránh bẫy lừa đảo</p>
             </div>
             <div className="grid gap-5 sm:grid-cols-2">
-              {news.slice(0, 4).map((n) => (
+              {news.map((n) => (
                 <Link
                   key={n.id}
                   href={"/tin-tuc/" + n.id}
@@ -270,8 +274,6 @@ export default async function HomePage() {
           </div>
         </section>
       )}
-
-      <TestimonialsSection />
     </div>
   );
 }
