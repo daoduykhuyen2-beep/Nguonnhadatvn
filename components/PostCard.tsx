@@ -1,7 +1,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import type { Post } from "@/lib/types";
-import { publicArea, maskTitle, fallbackImage } from "@/lib/address";
+import { publicArea, maskTitle, postFallbackImage } from "@/lib/address";
 
 function coverOf(p: Post): string {
   if (p.anh_bia) return p.anh_bia;
@@ -11,7 +11,7 @@ function coverOf(p: Post): string {
     if (a.cover) return a.cover;
     if (Array.isArray(a.list) && a.list.length) return a.list[0];
   }
-  return fallbackImage(p.id);
+  return postFallbackImage(p);
 }
 
 const TIER_BADGE: Record<string, { label: string; cls: string }> = {
