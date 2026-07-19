@@ -4,6 +4,8 @@ export const revalidate = 86400; // cache proxied images for a day
 
 // Only allow proxying images from these trusted news / stock hosts.
 const ALLOWED = [
+  "upload.wikimedia.org",
+  "commons.wikimedia.org",
   "images.unsplash.com",
   "vcdn1-vnexpress.vnecdn.net",
   "vcdn2-vnexpress.vnecdn.net",
