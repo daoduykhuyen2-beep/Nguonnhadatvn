@@ -161,6 +161,11 @@ const clientReviews: Testimonial[] = [
     role: "Mua căn hộ Quận 7",
     text: "Giá đúng như đăng, không phát sinh. Tôi tìm được căn hộ vừa túi tiền chỉ sau vài ngày liên hệ.",
   },
+  {
+    name: "Anh Hoàng Nam",
+    role: "Mua đất nền Long An",
+    text: "Sổ đỏ rõ ràng, được hỗ trợ kiểm tra pháp lý kỹ trước khi đặt cọc nên tôi hoàn toàn yên tâm.",
+  },
 ];
 
 const staffReviews: Testimonial[] = [
@@ -178,6 +183,11 @@ const staffReviews: Testimonial[] = [
     name: "Anh Đức Thịnh",
     role: "Trưởng nhóm sale",
     text: "Làm ở Nguồn Nhà Đất Việt Nam thấy yên tâm vì tin đăng được kiểm duyệt, khách tin tưởng ngay từ cuộc gọi đầu.",
+  },
+  {
+    name: "Chị Kim Ngân",
+    role: "Chuyên viên chăm sóc khách hàng",
+    text: "Khách để lại thông tin thật nên mình tư vấn đúng nhu cầu, tỉ lệ chốt cao hơn hẳn.",
   },
 ];
 
