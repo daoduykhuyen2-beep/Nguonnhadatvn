@@ -17,7 +17,7 @@ export default function AdminNewsForm() {
       <div className="space-y-4">
         <div><label className="mb-1.5 block text-sm font-medium text-neutral-700">Tiêu đề *</label><input name="tieu_de" className={inputCls} required /></div>
         <div className="grid gap-4 sm:grid-cols-2">
-          <div><label className="mb-1.5 block text-sm font-medium text-neutral-700">Loại</label><select name="loai" className={inputCls}><option value="tin_tuc">Tin tức</option><option value="huong_dan">Hướng dẫn</option><option value="thi_truong">Thị trường</option></select></div>
+          <div><label className="mb-1.5 block text-sm font-medium text-neutral-700">Loại</label><select name="loai" className={inputCls}><option value="tin_tuc">Tin tức</option><option value="huong_dan">Hướng dẫn</option><option value="thi_truong">Thị trường</option><option value="canh_bao">Cảnh báo lừa đảo</option></select></div>
           <div><MediaUploadField name="anh_bia" label="Ảnh bìa (tải lên, tối đa 5)" accept="image/*" /></div>
         </div>
         <div><label className="mb-1.5 block text-sm font-medium text-neutral-700">Mô tả ngắn</label><input name="mo_ta" className={inputCls} /></div>
