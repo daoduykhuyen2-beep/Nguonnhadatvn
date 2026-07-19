@@ -35,10 +35,11 @@ export default async function HomePage() {
   type NewsItem = { id: string; tieu_de: string; mo_ta: string | null; anh_bia: string | null; loai: string | null; created_at: string };
   const news = (newsData || []) as NewsItem[];
 
-  // Ưu tiên bài hướng dẫn/pháp lý cho mục cảnh báo; nếu thiếu thì bổ sung bài khác. Tối đa 4 bài cho gọn gàng, chuyên nghiệp.
+  // Mục cảnh báo: ưu tiên bài thuộc chuyên mục "Cảnh báo lừa đảo" (canh_bao), sau đó tới bài hướng dẫn/pháp lý, cuối cùng mới bổ sung bài khác để mục không bao giờ trống. Tối đa 4 bài cho gọn gàng, chuyên nghiệp.
   const warnItems = [
+    ...news.filter((n) => n.loai === "canh_bao"),
     ...news.filter((n) => n.loai === "huong_dan"),
-    ...news.filter((n) => n.loai !== "huong_dan"),
+    ...news.filter((n) => n.loai !== "canh_bao" && n.loai !== "huong_dan"),
   ].slice(0, 4);
 
   
