@@ -35,6 +35,12 @@ export default async function HomePage() {
   type NewsItem = { id: string; tieu_de: string; mo_ta: string | null; anh_bia: string | null; loai: string | null; created_at: string };
   const news = (newsData || []) as NewsItem[];
 
+  // Ưu tiên bài hướng dẫn/pháp lý cho mục cảnh báo; nếu thiếu thì bổ sung bài khác. Tối đa 4 bài cho gọn gàng, chuyên nghiệp.
+  const warnItems = [
+    ...news.filter((n) => n.loai === "huong_dan"),
+    ...news.filter((n) => n.loai !== "huong_dan"),
+  ].slice(0, 4);
+
   
   type MarketNews = { title: string; link: string; image: string; source: string };
   let marketNews: MarketNews[] = [];
@@ -240,36 +246,60 @@ export default async function HomePage() {
       <TestimonialsSection />
 
       {/* CANH BAO RUI RO & LUA DAO */}
-      {news.length > 0 && (
-        <section className="container-app py-14">
-          <div className="rounded-3xl border border-red-200 bg-red-50/60 p-8 sm:p-10">
-            <div className="mb-8">
-              <h2 className="flex items-center gap-3 text-2xl font-extrabold text-red-700 sm:text-3xl">
-                <span aria-hidden>⚠️</span> Cảnh báo rủi ro &amp; lừa đảo
-              </h2>
-              <p className="mt-2 text-red-500">Kiến thức pháp lý giúp bạn mua nhà an toàn, tránh bẫy lừa đảo</p>
-            </div>
-            <div className="grid gap-5 sm:grid-cols-2">
-              {news.map((n) => (
-                <Link
-                  key={n.id}
-                  href={"/tin-tuc/" + n.id}
-                  className="group flex gap-3 rounded-2xl bg-white p-5 shadow-sm transition hover:shadow-md"
-                >
-                  <span className="mt-2 h-2 w-2 flex-shrink-0 rounded-full bg-red-500" />
-                  <div className="flex flex-col">
-                    <h3 className="font-bold text-neutral-900 transition group-hover:text-red-700">{n.tieu_de}</h3>
-                    {n.mo_ta && (
-                      <p className="mt-2 line-clamp-2 text-sm text-neutral-500">{n.mo_ta}</p>
-                    )}
+      {warnItems.length > 0 && (
+        <section className="border-t border-neutral-100 bg-white">
+          <div className="container-app py-16">
+            <div className="overflow-hidden rounded-3xl border border-red-100 bg-gradient-to-br from-red-50 via-white to-white shadow-soft">
+              <div className="flex flex-col gap-6 p-8 sm:p-10 lg:flex-row lg:items-center lg:justify-between">
+                <div className="flex items-start gap-4">
+                  <span className="flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-2xl bg-red-600/10 text-2xl">
+                    <span aria-hidden>⚠️</span>
+                  </span>
+                  <div>
+                    <span className="inline-flex items-center rounded-full bg-red-100 px-3 py-1 text-xs font-bold uppercase tracking-wide text-red-700">
+                      An toàn giao dịch
+                    </span>
+                    <h2 className="mt-3 text-2xl font-extrabold text-neutral-900 sm:text-3xl">
+                      Cảnh báo rủi ro &amp; lừa đảo
+                    </h2>
+                    <p className="mt-2 max-w-xl text-sm text-neutral-500">
+                      Kiến thức pháp lý giúp bạn mua nhà an toàn, nhận diện dấu hiệu lừa đảo và tránh mất tiền oan.
+                    </p>
                   </div>
+                </div>
+                <Link
+                  href="/tin-tuc"
+                  className="inline-flex w-fit items-center gap-2 rounded-full border border-red-200 bg-white px-5 py-2.5 text-sm font-bold text-red-700 transition hover:bg-red-600 hover:text-white"
+                >
+                  Xem tất cả cảnh báo
+                  <span aria-hidden>&rarr;</span>
                 </Link>
-              ))}
-            </div>
-            <div className="mt-8">
-              <Link href="/tin-tuc" className="font-bold text-red-700 transition hover:text-red-800">
-                Xem thêm cảnh báo &rarr;
-              </Link>
+              </div>
+
+              <div className="grid gap-px bg-red-100 sm:grid-cols-2">
+                {warnItems.map((n, i) => (
+                  <Link
+                    key={n.id}
+                    href={"/tin-tuc/" + n.id}
+                    className="group flex gap-4 bg-white p-6 transition hover:bg-red-50/50"
+                  >
+                    <span className="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full bg-red-600 text-sm font-bold text-white">
+                      {i + 1}
+                    </span>
+                    <div className="flex flex-col">
+                      <h3 className="font-bold leading-snug text-neutral-900 transition group-hover:text-red-700">
+                        {n.tieu_de}
+                      </h3>
+                      {n.mo_ta && (
+                        <p className="mt-1.5 line-clamp-2 text-sm text-neutral-500">{n.mo_ta}</p>
+                      )}
+                      <span className="mt-3 inline-flex items-center gap-1 text-xs font-semibold text-red-600 opacity-0 transition group-hover:opacity-100">
+                        Đọc hướng dẫn <span aria-hidden>&rarr;</span>
+                      </span>
+                    </div>
+                  </Link>
+                ))}
+              </div>
             </div>
           </div>
         </section>
