@@ -1,21 +1,23 @@
 import type { Post } from "@/lib/types";
+import { detectCity, pickCityImage } from "@/lib/news-image";
 
-// Ảnh gợi ý (thành phố lớn Việt Nam) dùng khi tin đăng chưa có ảnh
-const FALLBACK_IMAGES = [
-  "https://images.unsplash.com/photo-1583417319070-4a69db38a482?w=800&q=80", // Sài Gòn
-  "https://images.unsplash.com/photo-1509030450996-dd1a26dda07a?w=800&q=80", // Hà Nội
-  "https://images.unsplash.com/photo-1602002418082-a4443e081dd1?w=800&q=80", // Sài Gòn skyline
-  "https://images.unsplash.com/photo-1555921015-5532091f6026?w=800&q=80",   // phố cổ Hà Nội
-  "https://images.unsplash.com/photo-1528127269322-539801943592?w=800&q=80", // Đà Nẵng
-  "https://images.unsplash.com/photo-1596422846543-75c6fc197f07?w=800&q=80", // nhà phố VN
-  "https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?w=800&q=80",   // căn hộ
-  "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=800&q=80", // biệt thự
-];
+// Anh goi y theo khu vuc (danh lam thang canh) khi tin dang chua co anh that.
+// Dua vao tieu de + quan/huyen de nhan dien thanh pho, moi tin ra 1 anh on dinh theo id.
+export function fallbackImage(id: number | string, hint?: string): string {
+  const key = String(id || "");
+  return pickCityImage(hint || "", key || "x");
+}
 
-// Lấy ảnh gợi ý ổn định theo id (cùng 1 tin luôn ra cùng 1 ảnh)
-export function fallbackImage(id: number | string): string {
-  const n = typeof id === "number" ? id : parseInt(String(id).replace(/\D/g, ""), 10) || 0;
-  return FALLBACK_IMAGES[n % FALLBACK_IMAGES.length];
+// Ghep goi y khu vuc tu 1 tin dang (tieu de + quan/huyen + phuong).
+export function postFallbackImage(post: Post): string {
+  const hint = [post.title, post.quan, post.phuong, post.duong].filter(Boolean).join(" ");
+  return fallbackImage(post.id, hint);
+}
+
+// Kiem tra 1 tin co the nhan dien duoc thanh pho hay khong.
+export function postCity(post: Post): string | null {
+  const hint = [post.title, post.quan, post.phuong].filter(Boolean).join(" ");
+  return detectCity(hint);
 }
 
 // Khu vực công khai: chỉ hiện Quận/Huyện - Tỉnh/Thành, KHÔNG hiện đường & số nhà
