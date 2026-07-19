@@ -1,6 +1,7 @@
 import Link from "next/link";
 import type { Metadata } from "next";
 import { createClient } from "@/lib/supabase/server";
+import { createImageAssigner } from "@/lib/news-image";
 
 export const metadata: Metadata = { title: "Tin tức & Cẩm nang bất động sản" };
 export const revalidate = 60;
@@ -23,6 +24,17 @@ function fmtDate(s: string) {
   try { return new Date(s).toLocaleDateString("vi-VN", { day: "2-digit", month: "2-digit", year: "numeric" }); } catch { return ""; }
 }
 
+// Tai anh ngoai qua proxy noi bo cho on dinh.
+function proxied(url: string): string {
+  try {
+    const u = new URL(url);
+    if (u.protocol === "https:" && u.hostname !== "www.nguonnhadatvn.vn") {
+      return "/api/img?u=" + encodeURIComponent(url);
+    }
+  } catch {}
+  return url;
+}
+
 export default async function TinTucPage({ searchParams }: { searchParams: Promise<{ loai?: string }> }) {
   const sp = await searchParams;
   const supabase = await createClient();
@@ -30,6 +42,14 @@ export default async function TinTucPage({ searchParams }: { searchParams: Promi
   if (sp.loai) query = query.eq("loai", sp.loai);
   const { data } = await query;
   const list = (data || []) as News[];
+
+  // Gan anh danh lam thang canh theo thanh pho, moi bai 1 anh khac nhau.
+  const assign = createImageAssigner();
+  const imgOf = new Map<string, string>();
+  for (const n of list) {
+    imgOf.set(n.id, proxied(assign(n.tieu_de, n.anh_bia, n.id)));
+  }
+
   const featured = list[0];
   const rest = list.slice(1);
 
@@ -54,9 +74,8 @@ export default async function TinTucPage({ searchParams }: { searchParams: Promi
           {featured && (
             <Link href={"/tin-tuc/" + featured.id} className="group mb-8 grid overflow-hidden rounded-2xl border border-neutral-100 bg-white shadow-sm transition hover:shadow-md md:grid-cols-2">
               <div className="aspect-video w-full overflow-hidden bg-neutral-100 md:aspect-auto">
-                {featured.anh_bia && /* eslint-disable-next-line @next/next/no-img-element */ (
-                  <img src={featured.anh_bia} alt={featured.tieu_de} className="h-full w-full object-cover transition group-hover:scale-105" />
-                )}
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img src={imgOf.get(featured.id)} alt={featured.tieu_de} className="h-full w-full object-cover transition group-hover:scale-105" />
               </div>
               <div className="flex flex-col justify-center p-6">
                 <span className="w-fit rounded-full bg-brand/10 px-2.5 py-0.5 text-xs font-semibold text-brand-dark">{LOAI[featured.loai || "tin_tuc"] || "Tin tức"}</span>
@@ -71,9 +90,8 @@ export default async function TinTucPage({ searchParams }: { searchParams: Promi
             {rest.map((n) => (
               <Link key={n.id} href={"/tin-tuc/" + n.id} className="group flex flex-col overflow-hidden rounded-2xl border border-neutral-100 bg-white shadow-sm transition hover:shadow-md">
                 <div className="aspect-video w-full overflow-hidden bg-neutral-100">
-                  {n.anh_bia && /* eslint-disable-next-line @next/next/no-img-element */ (
-                    <img src={n.anh_bia} alt={n.tieu_de} className="h-full w-full object-cover transition group-hover:scale-105" />
-                  )}
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img src={imgOf.get(n.id)} alt={n.tieu_de} className="h-full w-full object-cover transition group-hover:scale-105" />
                 </div>
                 <div className="flex flex-1 flex-col p-4">
                   <span className="w-fit rounded-full bg-brand/10 px-2 py-0.5 text-xs font-semibold text-brand-dark">{LOAI[n.loai || "tin_tuc"] || "Tin tức"}</span>
