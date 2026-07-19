@@ -3,13 +3,20 @@ import Image from "next/image";
 import type { Post } from "@/lib/types";
 import { publicArea, maskTitle, postFallbackImage } from "@/lib/address";
 
+// Anh placeholder (Unsplash) tu du lieu mau -> coi nhu chua co anh that,
+// de tin dang hien banner danh lam theo dung khu vuc.
+function isSeedImage(url: string | null | undefined): boolean {
+  if (!url) return true;
+  return /unsplash\.com/i.test(url);
+}
+
 function coverOf(p: Post): string {
-  if (p.anh_bia) return p.anh_bia;
+  if (p.anh_bia && !isSeedImage(p.anh_bia)) return p.anh_bia;
   const a = p.anh as any;
-  if (Array.isArray(a) && a.length) return a[0];
+  if (Array.isArray(a) && a.length && !isSeedImage(a[0])) return a[0];
   if (a && typeof a === "object") {
-    if (a.cover) return a.cover;
-    if (Array.isArray(a.list) && a.list.length) return a.list[0];
+    if (a.cover && !isSeedImage(a.cover)) return a.cover;
+    if (Array.isArray(a.list) && a.list.length && !isSeedImage(a.list[0])) return a.list[0];
   }
   return postFallbackImage(p);
 }
