@@ -118,6 +118,12 @@ const CITY_IMAGES: Record<string, string[]> = {
     "https://commons.wikimedia.org/wiki/Special:FilePath/Long%20H%E1%BB%93%20District%2C%20Vinh%20Long%2C%20Vietnam%20-%20panoramio.jpg?width=1200",
   ],
   generic: [
+    "https://commons.wikimedia.org/wiki/Special:FilePath/Khu%20%C4%91%C3%B4%20th%E1%BB%8B%20T%C3%A2y%20Nam%20Linh%20%C4%90%C3%A0m%2C%20Ho%C3%A0ng%20Mai%2C%20H%C3%A0%20N%E1%BB%99i%20001.jpg?width=1200",
+    "https://commons.wikimedia.org/wiki/Special:FilePath/Khu%20%C4%91%C3%B4%20th%E1%BB%8B%20B%E1%BA%AFc%20Linh%20%C4%90%C3%A0m%2C%20Ho%C3%A0ng%20Mai%2C%20H%C3%A0%20N%E1%BB%99i%2003.jpg?width=1200",
+    "https://commons.wikimedia.org/wiki/Special:FilePath/Chung%20c%C6%B0%20khu%20d%C3%A2n%20c%C6%B0%20m%E1%BB%9Bi-Ph%C6%B0%E1%BB%9Bc%20Long%20A%2C%20Qu%E1%BA%ADn%209%2C%20TPHCM%2C%20Vi%E1%BB%87t%20Nam%20-%20panoramio.jpg?width=1200",
+    "https://commons.wikimedia.org/wiki/Special:FilePath/C%E1%BB%95ng%20khu%20%C4%91%C3%B4%20th%E1%BB%8B%20M%E1%BB%B9%20%C4%90%C3%ACnh%20-%20M%E1%BB%85%20Tr%C3%AC%2C%20H%C3%A0%20N%E1%BB%99i%20001.JPG?width=1200",
+    "https://commons.wikimedia.org/wiki/Special:FilePath/Chung%20cu%20Icon56-ph%C6%B0%E1%BB%9Dng%2012%2C%20Qu%E1%BA%ADn%204%2C%20TPHCM%2C%20Vi%E1%BB%87t%20Nam%20-%20panoramio.jpg?width=1200",
+    "https://commons.wikimedia.org/wiki/Special:FilePath/Chung%20Cu%20-An%20Ph%C3%BA%2C%20Qu%E1%BA%ADn%202%2C%20TPHCM%2C%20Vi%E1%BB%87t%20Nam%20-%20panoramio.jpg?width=1200",
     "https://commons.wikimedia.org/wiki/Special:FilePath/Ho%20Chi%20Minh%20City%20panorama%202019%20(cropped).jpg?width=1200",
     "https://commons.wikimedia.org/wiki/Special:FilePath/Saigon%20at%20Blue%20Hour.jpg?width=1200",
     "https://commons.wikimedia.org/wiki/Special:FilePath/H%C3%A0%20T%C4%A9nh%20Province%20scenery.jpg?width=1200",
@@ -201,6 +207,9 @@ function isRealPhoto(url?: string | null): boolean {
   const u = url.trim();
   if (!u || !/^https?:\/\//i.test(u)) return false;
   if (u.includes("/logo") || u.endsWith(".svg")) return false;
+  // Loai anh stock nuoc ngoai (Unsplash...) de dung anh Viet Nam thay the.
+  const FOREIGN = ["images.unsplash.com", "unsplash.com", "plus.unsplash.com", "pexels.com", "pixabay.com"];
+  if (FOREIGN.some((h) => u.includes(h))) return false;
   return true;
 }
 
