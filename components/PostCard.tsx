@@ -3,6 +3,30 @@ import Image from "next/image";
 import type { Post } from "@/lib/types";
 import { publicArea, maskTitle, postFallbackImage } from "@/lib/address";
 
+// Nhan tieng Viet cho loai bat dong san (hien thi dep thay vi slug tho tu DB).
+const LOAI_BDS: Record<string, string> = {
+  can_ho: "Căn hộ",
+  chung_cu: "Chung cư",
+  nha_pho: "Nhà phố",
+  nha_rieng: "Nhà riêng",
+  biet_thu: "Biệt thự",
+  dat_nen: "Đất nền",
+  dat: "Đất",
+  shophouse: "Shophouse",
+  van_phong: "Văn phòng",
+  kho_xuong: "Kho xưởng",
+  mat_bang: "Mặt bằng",
+  phong_tro: "Phòng trọ",
+  khach_san: "Khách sạn",
+};
+function loaiLabel(v: string | null | undefined): string {
+  if (!v) return "";
+  const key = v.trim().toLowerCase();
+  if (LOAI_BDS[key]) return LOAI_BDS[key];
+  const words = key.replace(/_/g, " ").trim();
+  return words.charAt(0).toUpperCase() + words.slice(1);
+}
+
 // Anh placeholder (Unsplash) tu du lieu mau -> coi nhu chua co anh that,
 // de tin dang hien banner danh lam theo dung khu vuc.
 function isSeedImage(url: string | null | undefined): boolean {
@@ -59,7 +83,7 @@ export default function PostCard({ post }: { post: Post }) {
         <div className="flex flex-wrap gap-2 text-xs text-ink-muted">
           {post.dien_tich && <span className="chip">{post.dien_tich}</span>}
           {post.so_tang && <span className="chip">{post.so_tang} tầng</span>}
-          {post.loai && <span className="chip">{post.loai}</span>}
+          {post.loai && <span className="chip">{loaiLabel(post.loai)}</span>}
         </div>
         {area && <p className="line-clamp-1 text-sm text-ink-muted">📍 {area}</p>}
         <p className="text-xs text-brand-600">🔒 Đăng ký hội viên để xem địa chỉ đầy đủ</p>
