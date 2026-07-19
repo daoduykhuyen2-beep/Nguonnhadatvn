@@ -29,14 +29,25 @@ function pick(block: string, tag: string): string {
   return m[1].replace(/<!\[CDATA\[/g, "").replace(/\]\]>/g, "").replace(/<[^>]+>/g, "").replace(/&amp;amp;/g, "&").replace(/&amp;/g, "&").replace(/&quot;/g, '"').replace(/&#0?39;/g, "'").replace(/&apos;/g, "'").replace(/&lt;/g, "<").replace(/&gt;/g, ">").replace(/&nbsp;/g, " ").trim();
 }
 
+function decodeEntities(u: string): string {
+  return u
+    .replace(/&amp;/g, "&")
+    .replace(/&#38;/g, "&")
+    .replace(/&#x26;/gi, "&")
+    .replace(/&quot;/g, '"')
+    .replace(/&#0?39;/g, "'")
+    .replace(/&apos;/g, "'")
+    .trim();
+}
+
 function findImage(block: string): string {
   const enc = block.match(/<enclosure[^>]*url=["']([^"']+)["']/i);
-  if (enc) return enc[1];
+  if (enc) return decodeEntities(enc[1]);
   const media = block.match(/<media:content[^>]*url=["']([^"']+)["']/i);
-  if (media) return media[1];
+  if (media) return decodeEntities(media[1]);
   const desc = pick(block, "description");
   const img = desc.match(/<img[^>]*src=["']([^"']+)["']/i);
-  if (img) return img[1];
+  if (img) return decodeEntities(img[1]);
   return "";
 }
 
