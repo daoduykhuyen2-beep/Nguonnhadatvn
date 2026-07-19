@@ -151,9 +151,12 @@ export function createImageAssigner() {
   }
 
   return function assign(title: string, ownImage: string | null | undefined, key: string): string {
+    const city = detectCity(title);
+    // Bai nhac den 1 thanh pho -> luon dung anh danh lam cua thanh pho do.
+    if (city) return pick(city, key || title || "x");
+    // Khong ro thanh pho -> giu anh that cua bai neu co.
     if (isRealPhoto(ownImage)) return ownImage as string;
-    const city = detectCity(title) || "generic";
-    return pick(city, key || title || "x");
+    return pick("generic", key || title || "x");
   };
 }
 
