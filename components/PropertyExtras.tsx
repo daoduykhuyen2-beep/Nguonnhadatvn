@@ -248,17 +248,12 @@ function PriceChart({ post }: { post: Post }) {
 }
 
 const BANKS = [
-  { name: 'Vietcombank', short: 'VCB', logo: '/banks/vietcombank.png', color: '#007A33' },
   { name: 'BIDV', short: 'BIDV', logo: '/banks/bidv.png', color: '#00558C' },
-  { name: 'VietinBank', short: 'CTG', color: '#0072BC' },
-  { name: 'Agribank', short: 'AGR', color: '#8B1F24' },
   { name: 'Techcombank', short: 'TCB', logo: '/banks/techcombank.png', color: '#EC1C24' },
   { name: 'MB Bank', short: 'MB', logo: '/banks/mb.png', color: '#1E3A8A' },
-  { name: 'ACB', short: 'ACB', color: '#00548F' },
   { name: 'VPBank', short: 'VPB', logo: '/banks/vpbank.png', color: '#00A84F' },
   { name: 'Sacombank', short: 'STB', logo: '/banks/sacombank.png', color: '#0056A3' },
-  { name: 'TPBank', short: 'TPB', color: '#6C2E86' },
-];
+]
 
 function LoanCalculator({ post }: { post: Post }) {
   const price = parsePrice(post.gia);
