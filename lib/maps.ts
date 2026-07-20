@@ -111,7 +111,7 @@ async function distanceMatrix(
   oLng: number,
   dests: { lat: number; lng: number }[],
   mode: 'driving' | 'walking'
-): Promise<(number | null)[]> {
+): Promise<({ min: number | null; km: number | null })[]> {
   if (!dests.length) return [];
   const destStr = dests.map((d) => d.lat + ',' + d.lng).join('|');
   const url =
@@ -126,9 +126,14 @@ async function distanceMatrix(
     '&language=vi&key=' +
     KEY;
   const data = await jsonFetch(url);
-  if (!data || !data.rows || !data.rows[0]) return dests.map(() => null);
+  if (!data || !data.rows || !data.rows[0]) return dests.map(() => ({ min: null, km: null }));
   return data.rows[0].elements.map((el: any) =>
-    el && el.status === 'OK' && el.duration ? Math.round(el.duration.value / 60) : null
+    el && el.status === 'OK'
+      ? {
+          min: el.duration ? Math.round(el.duration.value / 60) : null,
+          km: el.distance ? Math.round((el.distance.value / 1000) * 10) / 10 : null,
+        }
+      : { min: null, km: null }
   );
 }
 
@@ -141,13 +146,16 @@ export async function getPropertyMapData(post: Post): Promise<PropertyMapData | 
   const items: { label: string; type: string; lat: number; lng: number; name: string; km: number }[] = [];
   found.forEach((f, i) => {
     if (f) {
+        const straightKm = haversineKm(geo.lat, geo.lng, f.plat, f.plng);
+        // Bo qua dia diem cach can nha hon 10 km (duong chim bay).
+        if (straightKm > 10) return;
       items.push({
         label: CATEGORIES[i].label,
         type: CATEGORIES[i].type,
         lat: f.plat,
         lng: f.plng,
         name: f.name,
-        km: Math.round(haversineKm(geo.lat, geo.lng, f.plat, f.plng) * 10) / 10,
+        km: Math.round(straightKm * 10) / 10,
       });
     }
   });
@@ -165,9 +173,10 @@ export async function getPropertyMapData(post: Post): Promise<PropertyMapData | 
   const places: NearbyPlace[] = items.map((it, i) => ({
     name: it.label + ' – ' + it.name,
     type: it.type,
-    km: it.km,
-    minutesDrive: drive[i] ?? null,
-    minutesWalk: walk[i] ?? null,
+    // Km hien thi lay tu khoang cach duong that (driving); fallback ve duong chim bay.
+    km: drive[i] && drive[i].km != null ? drive[i].km : it.km,
+    minutesDrive: drive[i] ? drive[i].min : null,
+    minutesWalk: walk[i] ? walk[i].min : null,
   }));
 
   return { lat: geo.lat, lng: geo.lng, formatted: geo.formatted, places };
