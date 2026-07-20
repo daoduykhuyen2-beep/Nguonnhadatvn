@@ -1,5 +1,12 @@
 import Link from "next/link";
 
+const banks = [
+{ src: "/banks/vpbank.png", alt: "VPBank" },
+{ src: "/banks/bidv.png", alt: "BIDV" },
+{ src: "/banks/sacombank.png", alt: "Sacombank" },
+{ src: "/banks/mb.png", alt: "MB Bank" },
+];
+
 export default function Footer() {
 return (
 <footer className="mt-16 border-t border-paper-line bg-paper-soft">
@@ -44,6 +51,24 @@ className="mt-4 inline-block"
 { href: "/dang-tin", label: "Đăng tin" },
 ]} />
 </div>
+
+<div className="border-t border-paper-line">
+<div className="container-app py-8">
+<h4 className="mb-4 text-center text-sm font-bold text-ink">Ngân hàng hỗ trợ</h4>
+<div className="grid grid-cols-2 gap-4 sm:grid-cols-4">
+{banks.map((b) => (
+<div
+key={b.alt}
+className="flex h-16 items-center justify-center rounded-xl border border-paper-line bg-white px-4 shadow-sm transition hover:shadow-md"
+>
+{/* eslint-disable-next-line @next/next/no-img-element */}
+<img src={b.src} alt={b.alt} title={b.alt} className="max-h-9 w-auto object-contain" />
+</div>
+))}
+</div>
+</div>
+</div>
+
 <div className="border-t border-paper-line py-5">
 <div className="container-app flex flex-col items-center justify-between gap-2 text-xs text-ink-muted md:flex-row">
 <p>© {new Date().getFullYear()} Nguồn Nhà Đất Việt Nam. Bảo lưu mọi quyền.</p>
