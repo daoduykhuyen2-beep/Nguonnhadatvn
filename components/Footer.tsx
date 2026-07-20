@@ -45,6 +45,67 @@ className="mt-4 inline-block"
 { href: "/dang-tin", label: "Đăng tin" },
 ]} />
 </div>
+      <div className="border-t border-paper-line bg-paper-soft">
+        <div className="container-app py-10">
+          <div className="grid gap-8 md:grid-cols-4">
+            <FooterCol
+              title="Nhà đất bán"
+              links={[
+                { href: "/mua-ban/can-ho-chung-cu", label: "Bán căn hộ chung cư" },
+                { href: "/mua-ban/nha-rieng", label: "Bán nhà riêng" },
+                { href: "/mua-ban/nha-mat-pho", label: "Bán nhà mặt phố" },
+                { href: "/mua-ban/dat-nen", label: "Bán đất nền" },
+                { href: "/mua-ban/biet-thu", label: "Bán biệt thự, liền kề" },
+              ]}
+            />
+            <FooterCol
+              title="Nhà đất cho thuê"
+              links={[
+                { href: "/cho-thue/can-ho-chung-cu", label: "Thuê căn hộ chung cư" },
+                { href: "/cho-thue/nha-rieng", label: "Thuê nhà riêng" },
+                { href: "/cho-thue/phong-tro", label: "Thuê phòng trọ" },
+                { href: "/cho-thue/van-phong", label: "Thuê văn phòng" },
+                { href: "/cho-thue/mat-bang", label: "Thuê mặt bằng kinh doanh" },
+              ]}
+            />
+            <FooterCol
+              title="Bất động sản theo tỉnh"
+              links={[
+                { href: "/mua-ban?tinh=ho-chi-minh", label: "Nhà đất TP. Hồ Chí Minh" },
+                { href: "/mua-ban?tinh=ha-noi", label: "Nhà đất Hà Nội" },
+                { href: "/mua-ban?tinh=da-nang", label: "Nhà đất Đà Nẵng" },
+                { href: "/mua-ban?tinh=binh-duong", label: "Nhà đất Bình Dương" },
+                { href: "/mua-ban?tinh=dong-nai", label: "Nhà đất Đồng Nai" },
+              ]}
+            />
+            <FooterCol
+              title="Hỗ trợ & tiện ích"
+              links={[
+                { href: "/tro-giup", label: "Câu hỏi thường gặp" },
+                { href: "/bang-gia", label: "Bảng giá dịch vụ" },
+                { href: "/dang-tin", label: "Hướng dẫn đăng tin" },
+                { href: "/gioi-thieu", label: "Về chúng tôi" },
+                { href: "mailto:hotro.nguonnhadatvn@gmail.com", label: "Góp ý - Báo lỗi" },
+              ]}
+            />
+          </div>
+
+          <div className="mt-8 border-t border-paper-line pt-6 text-sm leading-relaxed text-ink-muted">
+            <p>
+              Nguồn Nhà Đất Việt Nam là sàn đăng tin bất động sản trực tuyến, nơi kết nối
+              người mua, người bán và người thuê trên khắp cả nước. Chúng tôi mang đến kho tin
+              rao đa dạng gồm bán căn hộ chung cư, nhà riêng, nhà mặt phố, đất nền, biệt thự
+              cùng nhiều hình thức cho thuê như phòng trọ, văn phòng và mặt bằng kinh doanh.
+            </p>
+            <p className="mt-3">
+              Với công cụ tìm kiếm theo khu vực, mức giá và loại hình, bạn dễ dàng chọn được
+              bất động sản phù hợp với nhu cầu ở hoặc đầu tư. Người bán có thể đăng tin nhanh
+              chóng, minh bạch và tiếp cận đúng khách hàng tiềm năng. Mọi thắc mắc vui lòng xem
+              mục Trợ giúp hoặc liên hệ đội ngũ hỗ trợ để được giải đáp kịp thời.
+            </p>
+          </div>
+        </div>
+      </div>
 <div className="border-t border-paper-line py-5">
 <div className="container-app flex flex-col items-center justify-between gap-2 text-xs text-ink-muted md:flex-row">
 <p>© {new Date().getFullYear()} Nguồn Nhà Đất Việt Nam. Bảo lưu mọi quyền.</p>
