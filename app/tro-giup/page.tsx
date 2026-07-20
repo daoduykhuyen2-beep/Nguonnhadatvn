@@ -99,6 +99,29 @@ const SECTIONS: Section[] = [
       },
     ],
   },
+  {
+    id: "tin-vip",
+    title: "Tin VIP & Đẩy tin",
+    desc: "Cách giúp tin đăng của bạn hiển thị nổi bật và tiếp cận nhiều người mua hơn.",
+    faqs: [
+      {
+        q: "Tin VIP là gì và có lợi ích gì?",
+        a: "Tin VIP là tin được ưu tiên hiển thị ở vị trí cao, có hình ảnh lớn và nổi bật hơn tin Thường, nhờ đó tiếp cận được nhiều người xem và tăng khả năng có khách liên hệ.",
+      },
+      {
+        q: "Đẩy tin là gì?",
+        a: "Đẩy tin giúp đưa tin đăng của bạn trở lại vị trí đầu danh sách như khi vừa đăng mới, nhờ đó tin được nhiều người nhìn thấy hơn mà không cần đăng lại từ đầu.",
+      },
+      {
+        q: "Khi nào nên dùng tin VIP hoặc đẩy tin?",
+        a: "Bạn nên cân nhắc dùng tin VIP hoặc đẩy tin với những bất động sản cần bán/cho thuê nhanh, hoặc trong khu vực có nhiều tin cạnh tranh để giữ cho tin luôn ở vị trí dễ thấy.",
+      },
+      {
+        q: "Chi phí cho tin VIP và đẩy tin được tính thế nào?",
+        a: "Mức phí phụ thuộc vào loại tin và thời gian hiển thị bạn chọn. Bạn có thể xem chi tiết trong trang Bảng giá trước khi quyết định nâng cấp.",
+      },
+    ],
+  },
 ];
 
 function FaqItem({ faq }: { faq: Faq }) {
