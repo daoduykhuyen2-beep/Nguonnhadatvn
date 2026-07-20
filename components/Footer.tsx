@@ -36,7 +36,7 @@ className="mt-4 inline-block"
 <FooterCol title="Về chúng tôi" links={[
 { href: "/gioi-thieu", label: "Giới thiệu" },
 { href: "/tuyen-dung", label: "Tuyển dụng" },
-  { href: "/tro-giup", label: "Trợ giúp" },
+{ href: "/tro-giup", label: "Trợ giúp" },
 { href: "/chinh-sach-bao-mat", label: "Chính sách bảo mật" },
 ]} />
 <FooterCol title="Tài khoản" links={[
