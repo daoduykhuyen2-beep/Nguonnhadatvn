@@ -248,15 +248,15 @@ function PriceChart({ post }: { post: Post }) {
 }
 
 const BANKS = [
-  { name: 'Vietcombank', short: 'VCB', color: '#007A33' },
-  { name: 'BIDV', short: 'BIDV', color: '#00558C' },
+  { name: 'Vietcombank', short: 'VCB', logo: '/banks/vietcombank.png', color: '#007A33' },
+  { name: 'BIDV', short: 'BIDV', logo: '/banks/bidv.png', color: '#00558C' },
   { name: 'VietinBank', short: 'CTG', color: '#0072BC' },
   { name: 'Agribank', short: 'AGR', color: '#8B1F24' },
-  { name: 'Techcombank', short: 'TCB', color: '#EC1C24' },
-  { name: 'MB Bank', short: 'MB', color: '#1E3A8A' },
+  { name: 'Techcombank', short: 'TCB', logo: '/banks/techcombank.png', color: '#EC1C24' },
+  { name: 'MB Bank', short: 'MB', logo: '/banks/mb.png', color: '#1E3A8A' },
   { name: 'ACB', short: 'ACB', color: '#00548F' },
-  { name: 'VPBank', short: 'VPB', color: '#00A84F' },
-  { name: 'Sacombank', short: 'STB', color: '#0056A3' },
+  { name: 'VPBank', short: 'VPB', logo: '/banks/vpbank.png', color: '#00A84F' },
+  { name: 'Sacombank', short: 'STB', logo: '/banks/sacombank.png', color: '#0056A3' },
   { name: 'TPBank', short: 'TPB', color: '#6C2E86' },
 ];
 
@@ -343,15 +343,13 @@ function LoanCalculator({ post }: { post: Post }) {
       <p className="mt-5 mb-2 text-sm font-semibold text-slate-700">Ngan hang ho tro cho vay</p>
       <div className="flex flex-wrap gap-2">
         {BANKS.map((b) => (
-          <span
-            key={b.short}
-            className="inline-flex h-9 items-center rounded-lg px-3 text-xs font-bold text-white shadow-sm"
-            style={{ backgroundColor: b.color }}
-            title={b.name}
-          >
-            {b.short}
-          </span>
-        ))}
+            b.logo ? (
+              // eslint-disable-next-line @next/next/no-img-element
+              <img key={b.short} src={b.logo} alt={b.name} title={b.name} className="h-9 w-auto max-w-[96px] rounded-lg border border-slate-200 bg-white object-contain p-1 shadow-sm" />
+            ) : (
+              <span key={b.short} className="inline-flex h-9 items-center rounded-lg px-3 text-xs font-bold text-white shadow-sm" style={{ backgroundColor: b.color }} title={b.name}>{b.short}</span>
+            )
+          ))}
       </div>
       <p className="mt-3 text-xs italic text-slate-400">
         * Ket qua uoc tinh theo phuong phap du no giam dan, chi mang tinh tham khao.
