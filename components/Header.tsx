@@ -25,6 +25,7 @@ export default async function Header() {
     { href: "/bang-gia", label: "Bảng giá" },
     { href: "/tuyen-dung", label: "Tuyển dụng" },
     { href: "/gioi-thieu", label: "Giới thiệu" },
+    { href: "/tro-giup", label: "Trợ giúp" },
   ];
 
   return (
