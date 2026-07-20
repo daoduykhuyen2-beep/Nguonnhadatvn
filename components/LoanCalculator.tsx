@@ -1,6 +1,15 @@
 "use client";
 import { useState, useMemo } from "react";
 
+const BANKS = [
+  { name: "Vietcombank", src: "/banks/vietcombank.png" },
+  { name: "BIDV", src: "/banks/bidv.png" },
+  { name: "Techcombank", src: "/banks/techcombank.png" },
+  { name: "MB", src: "/banks/mb.png" },
+  { name: "VPBank", src: "/banks/vpbank.png" },
+  { name: "Sacombank", src: "/banks/sacombank.png" },
+];
+
 function fmt(n: number) { return new Intl.NumberFormat("vi-VN").format(Math.round(n)); }
 
 export default function LoanCalculator({ defaultPrice = 0 }: { defaultPrice?: number }) {
@@ -35,7 +44,18 @@ export default function LoanCalculator({ defaultPrice = 0 }: { defaultPrice?: nu
         <div className="rounded-xl bg-brand/5 p-4"><div className="text-xs text-neutral-500">Số tiền vay</div><div className="mt-1 text-lg font-bold text-neutral-900">{fmt(result.loan)} đ</div></div>
         <div className="rounded-xl bg-brand p-4 text-white"><div className="text-xs opacity-90">Trả hàng tháng</div><div className="mt-1 text-lg font-bold">{fmt(result.monthlyPay)} đ</div></div>
       </div>
-      <p className="mt-3 text-xs text-neutral-400">* Kết quả chỉ mang tính tham khảo theo phương pháp dư nợ giảm dần.</p>
+      <div className="mt-6">
+        <h4 className="mb-3 text-sm font-semibold text-neutral-800">Ngân hàng hỗ trợ cho vay</h4>
+        <div className="grid grid-cols-3 gap-3 sm:grid-cols-6">
+          {BANKS.map((b) => (
+            <div key={b.name} className="flex h-14 items-center justify-center rounded-xl border border-neutral-200 bg-white p-2 shadow-sm transition hover:shadow-md" title={b.name}>
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src={b.src} alt={b.name} className="max-h-9 w-auto object-contain" />
+            </div>
+          ))}
+        </div>
+      </div>
+      <p className="mt-4 text-xs text-neutral-400">* Kết quả chỉ mang tính tham khảo theo phương pháp dư nợ giảm dần.</p>
     </div>
   );
 }
