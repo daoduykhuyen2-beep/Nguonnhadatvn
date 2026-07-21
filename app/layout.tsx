@@ -40,19 +40,19 @@ export default function RootLayout({
 }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="vi" className={beVietnam.variable}>
+      <head>
+        {/* Google AdSense - dat truc tiep trong <head> theo yeu cau cua Google */}
+        <script
+          async
+          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1337313717244533"
+          crossOrigin="anonymous"
+        />
+      </head>
       <body className="min-h-screen bg-paper font-sans text-ink antialiased">
         <Header />
         <main className="min-h-[70vh]">{children}</main>
         <Footer />
         <VisitTracker />
-        {/* Google AdSense - ho tro Auto ads (Google tu chen quang cao) */}
-        <Script
-          id="google-adsense"
-          async
-          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1337313717244533"
-          crossOrigin="anonymous"
-          strategy="afterInteractive"
-        />
         <Script
           src={`https://www.googletagmanager.com/gtag/js?id=${GA_MEASUREMENT_ID}`}
           strategy="afterInteractive"
