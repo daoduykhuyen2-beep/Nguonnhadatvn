@@ -27,17 +27,16 @@ const AMENITY_ICON: Record<string, string> = {
   default: '📍',
 };
 
-const BANKS: { short: string; name: string; color: string }[] = [
-  { short: 'VCB', name: 'Vietcombank', color: '#0a8f4e' },
-  { short: 'BIDV', name: 'BIDV', color: '#00693e' },
-  { short: 'VTB', name: 'VietinBank', color: '#0b57a4' },
-  { short: 'AGR', name: 'Agribank', color: '#a51c30' },
-  { short: 'TCB', name: 'Techcombank', color: '#e11a2c' },
-  { short: 'MB', name: 'MB Bank', color: '#1e3a8a' },
-  { short: 'ACB', name: 'ACB', color: '#0057a8' },
-  { short: 'VPB', name: 'VPBank', color: '#00a86b' },
-  { short: 'TPB', name: 'TPBank', color: '#5b2d90' },
-  { short: 'SHB', name: 'SHB', color: '#f28b1e' },
+const BANKS: { short: string; name: string; color: string; logo?: string }[] = [
+  { short: 'VCB', name: 'Vietcombank', color: '#0a8f4e', logo: 'https://upload.wikimedia.org/wikipedia/commons/e/e3/Vietcombank_logo_fixed.svg' },
+  { short: 'BIDV', name: 'BIDV', color: '#00693e', logo: 'https://upload.wikimedia.org/wikipedia/commons/6/69/Logo_BIDV.svg' },
+  { short: 'VTB', name: 'VietinBank', color: '#0b57a4', logo: 'https://upload.wikimedia.org/wikipedia/commons/3/36/Vietinbank.png' },
+  { short: 'AGR', name: 'Agribank', color: '#a51c30', logo: 'https://upload.wikimedia.org/wikipedia/commons/f/f1/AgriBank-logo.png' },
+  { short: 'TCB', name: 'Techcombank', color: '#e11a2c', logo: 'https://upload.wikimedia.org/wikipedia/commons/7/7c/Techcombank_logo.png' },
+  { short: 'MB', name: 'MB Bank', color: '#1e3a8a', logo: 'https://upload.wikimedia.org/wikipedia/commons/2/25/Logo_MB_new.png' },
+  { short: 'ACB', name: 'ACB', color: '#0057a8', logo: 'https://upload.wikimedia.org/wikipedia/commons/d/d9/Asia_Commercial_Bank_logo.svg' },
+  { short: 'VPB', name: 'VPBank', color: '#00a86b', logo: 'https://upload.wikimedia.org/wikipedia/commons/4/4e/VPBank_logo.svg' },
+  { short: 'TPB', name: 'TPBank', color: '#5b2d90', logo: 'https://upload.wikimedia.org/wikipedia/commons/4/48/Logo_TPBank.svg' },
 ];
 
 export default function PropertyExtras({
