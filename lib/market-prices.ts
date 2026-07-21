@@ -41,23 +41,64 @@ export function pricePerM2(post: Post): number {
   return PROVINCE_PRICE_PER_M2[p] ?? DEFAULT_PRICE_PER_M2;
 }
 
-// 12-month reference trend of the area's average price/m2.
-// Deterministic gentle uptrend so numbers are stable per area.
-export function areaPriceTrend(post: Post): { month: string; pricePerM2: number }[] {
-  const base = pricePerM2(post);
-  const months = ['T1', 'T2', 'T3', 'T4', 'T5', 'T6', 'T7', 'T8', 'T9', 'T10', 'T11', 'T12'];
-  // seed from province name so each area has its own shape
-  const p = provinceOf(post);
-  let seed = 0;
-  for (let i = 0; i < p.length; i++) seed = (seed + p.charCodeAt(i)) % 100;
-  return months.map((m, i) => {
-    const wave = Math.sin((i + seed) / 3) * 0.02;
-    const drift = (i / 11) * 0.05; // ~5% annual reference growth
-    const v = Math.round((base * (0.97 + drift + wave)) / 1_000_000) * 1_000_000;
-    return { month: m, pricePerM2: v };
-  });
+// Parse dien_tich (area in m2) from the free-text field, e.g. "80 m2", "80m2", "80".
+export function parseArea(dienTich: string | null | undefined): number {
+  if (!dienTich) return 0;
+  const m = String(dienTich).replace(/,/g, ".").match(/[0-9]+(\.[0-9]+)?/);
+  const num = m ? parseFloat(m[0]) : 0;
+  return num > 0 ? num : 0;
 }
 
+export type AreaPriceStats = {
+  count: number;
+  avgPerM2: number;
+  minPerM2: number;
+  maxPerM2: number;
+  source: "listings" | "reference";
+};
+
+// Compute REAL average price per m2 from actual approved listings in the same area.
+// Only counts listings that have both a parseable price and a parseable area.
+// Falls back to the province reference figure when there is not enough data.
+export function computeAreaStats(current: Post, listings: Post[]): AreaPriceStats {
+  const prov = provinceOf(current);
+  const perM2List: number[] = [];
+  for (const p of listings) {
+    if (provinceOf(p) !== prov) continue;
+    const price = parsePriceRaw(p.gia);
+    const area = parseArea(p.dien_tich);
+    if (price > 0 && area > 0) {
+      const v = price / area;
+      if (v >= 1_000_000 && v <= 2_000_000_000) perM2List.push(v);
+    }
+  }
+  if (perM2List.length >= 3) {
+    perM2List.sort((a, b) => a - b);
+    const sum = perM2List.reduce((s, v) => s + v, 0);
+    const avg = Math.round(sum / perM2List.length);
+    return {
+      count: perM2List.length,
+      avgPerM2: avg,
+      minPerM2: Math.round(perM2List[0]),
+      maxPerM2: Math.round(perM2List[perM2List.length - 1]),
+      source: "listings",
+    };
+  }
+  const ref = pricePerM2(current);
+  return { count: perM2List.length, avgPerM2: ref, minPerM2: Math.round(ref * 0.85), maxPerM2: Math.round(ref * 1.15), source: "reference" };
+}
+
+// Lightweight price parser (VND) used by the stats above.
+function parsePriceRaw(gia: string | null | undefined): number {
+  if (!gia) return 0;
+  const s = String(gia).toLowerCase().replace(/,/g, ".");
+  const m = s.match(/[0-9]+(\.[0-9]+)?/);
+  const num = m ? parseFloat(m[0]) : 0;
+  if (!num) return 0;
+  if (s.includes("tỷ") || s.includes("ty")) return Math.round(num * 1e9);
+  if (s.includes("triệu") || s.includes("tr")) return Math.round(num * 1e6);
+  return Math.round(num);
+}
 export function formatVnd(n: number): string {
   if (n >= 1_000_000_000) {
     const t = n / 1_000_000_000;
