@@ -31,10 +31,10 @@ export default function Footer() {
               target="_blank"
               rel="noopener noreferrer"
               title="Đã đăng ký Bộ Công Thương"
-              className="mt-5 inline-flex w-fit items-center rounded-lg border border-slate-200 bg-white p-2 shadow-sm"
+              className="mt-4 inline-block"
             >
               {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src="/bo-cong-thuong.png" alt="Đã đăng ký Bộ Công Thương" className="h-10 w-auto object-contain" />
+              <img src="/bo-cong-thuong.png" alt="Đã đăng ký Bộ Công Thương" className="h-12 w-auto" />
             </a>
           </div>
 
@@ -100,21 +100,6 @@ export default function Footer() {
           />
         </div>
 
-        {/* Mô tả SEO */}
-        <div className="border-t border-paper-line pt-6 text-sm leading-relaxed text-ink-muted">
-          <p>
-            Nguồn Nhà Đất Việt Nam là sàn đăng tin bất động sản trực tuyến, nơi kết nối người mua,
-            người bán và người thuê trên khắp cả nước. Chúng tôi mang đến kho tin rao đa dạng gồm bán
-            căn hộ chung cư, nhà riêng, nhà mặt phố, đất nền, biệt thự cùng nhiều hình thức cho thuê
-            như phòng trọ, văn phòng và mặt bằng kinh doanh.
-          </p>
-          <p className="mt-3">
-            Với công cụ tìm kiếm theo khu vực, mức giá và loại hình, bạn dễ dàng chọn được bất động
-            sản phù hợp với nhu cầu ở hoặc đầu tư. Người bán có thể đăng tin nhanh chóng, minh bạch và
-            tiếp cận đúng khách hàng tiềm năng. Mọi thắc mắc vui lòng xem mục Trợ giúp hoặc liên hệ
-            đội ngũ hỗ trợ để được giải đáp kịp thời.
-          </p>
-        </div>
       </div>
 
       {/* Dòng bản quyền */}
