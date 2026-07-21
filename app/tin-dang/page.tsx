@@ -12,7 +12,7 @@ const PER_PAGE = 24;
 export default async function TinDangPage({
   searchParams,
 }: {
-  searchParams: Promise<{ q?: string; loai?: string; tinh?: string; page?: string }>;
+  searchParams: Promise<{ q?: string; giao_dich?: string; loai?: string; tinh?: string; page?: string }>;
 }) {
   const sp = await searchParams;
   const page = Math.max(1, parseInt(sp.page || "1", 10) || 1);
@@ -26,6 +26,7 @@ export default async function TinDangPage({
     .eq("trang_thai", "duyet");
 
   if (sp.loai) query = query.ilike("loai", `%${sp.loai}%`);
+  if (sp.giao_dich) query = query.eq("giao_dich", sp.giao_dich);
   // Lọc theo tỉnh/thành trên toàn quốc. Trường "quan" có dạng "Quận/Huyện - Tỉnh".
   if (sp.tinh) query = query.ilike("quan", `%- ${sp.tinh}`);
   if (sp.q) query = query.or(`title.ilike.%${sp.q}%,mota.ilike.%${sp.q}%,quan.ilike.%${sp.q}%`);
@@ -43,6 +44,7 @@ export default async function TinDangPage({
     const params = new URLSearchParams();
     if (sp.q) params.set("q", sp.q);
     if (sp.loai) params.set("loai", sp.loai);
+    if (sp.giao_dich) params.set("giao_dich", sp.giao_dich);
     if (sp.tinh) params.set("tinh", sp.tinh);
     params.set("page", String(p));
     return `/tin-dang?${params.toString()}`;
