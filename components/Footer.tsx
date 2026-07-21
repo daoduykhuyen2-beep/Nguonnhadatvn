@@ -106,6 +106,41 @@ className="mt-4 inline-block"
 { href: "/dang-tin", label: "Đăng tin" },
 ]} />
 </div>
+      <div className="border-t border-paper-line">
+        <div className="container-app flex flex-col items-center gap-4 py-8 text-center">
+          <div className="flex items-center gap-2">
+            <h4 className="text-sm font-bold text-ink">Tải ứng dụng</h4>
+            <span className="rounded-full bg-primary/10 px-2 py-0.5 text-xs font-semibold text-primary">
+              Sắp ra mắt
+            </span>
+          </div>
+          <p className="max-w-md text-sm text-ink-muted">
+            Ứng dụng di động Nguồn Nhà Đất Việt Nam đang được phát triển và sẽ sớm có mặt trên App Store và CH Play.
+          </p>
+          <div className="flex flex-wrap items-center justify-center gap-3">
+            <button
+              type="button"
+              disabled
+              aria-disabled="true"
+              title="Sắp ra mắt"
+              className="inline-flex cursor-not-allowed items-center gap-2 rounded-lg border border-paper-line bg-paper-soft px-4 py-2 text-sm font-medium text-ink-muted opacity-70"
+            >
+              <span aria-hidden="true"></span>
+              App Store
+            </button>
+            <button
+              type="button"
+              disabled
+              aria-disabled="true"
+              title="Sắp ra mắt"
+              className="inline-flex cursor-not-allowed items-center gap-2 rounded-lg border border-paper-line bg-paper-soft px-4 py-2 text-sm font-medium text-ink-muted opacity-70"
+            >
+              <span aria-hidden="true"></span>
+              CH Play
+            </button>
+          </div>
+        </div>
+      </div>
 <div className="border-t border-paper-line py-5">
 <div className="container-app flex flex-col items-center justify-between gap-2 text-xs text-ink-muted md:flex-row">
 <p>© {new Date().getFullYear()} Nguồn Nhà Đất Việt Nam. Bảo lưu mọi quyền.</p>
