@@ -6,7 +6,8 @@ import PostCard from "@/components/PostCard";
 import ContactBox from "@/components/ContactBox";
 import PropertyExtras from "@/components/PropertyExtras";
 import { publicArea, fullAddress, maskTitle, maskDescription, fallbackImage } from "@/lib/address";
-import { getPropertyMapData } from "@/lib/maps";
+import { getPropertyMapData, buildAddress } from "@/lib/maps";
+import { computeAreaStats } from "@/lib/market-prices";
 
 export const revalidate = 60;
 
@@ -95,6 +96,14 @@ export default async function PostDetail({ params }: { params: Promise<{ id: str
   const area = publicArea(post);
   const full = fullAddress(post);
   const mapData = await getPropertyMapData(post);
+  const mapAddress = buildAddress(post);
+
+  const { data: areaListings } = await supabase
+    .from("web_posts")
+    .select("gia, dien_tich, quan")
+    .eq("trang_thai", "duyet")
+    .limit(400);
+  const priceStats = computeAreaStats(post, (areaListings as Post[]) || []);
 
   return (
     <div className="container-app py-8">
@@ -149,7 +158,7 @@ export default async function PostDetail({ params }: { params: Promise<{ id: str
             )}
           </div>
 
-          <PropertyExtras post={post} mapData={mapData} />
+          <PropertyExtras post={post} mapData={mapData} address={mapAddress} priceStats={priceStats} />
         </div>
 
         {/* Contact sidebar */}
