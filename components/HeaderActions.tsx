@@ -23,8 +23,8 @@ export default function HeaderActions({ user, profile }: Props) {
                   <button
                     type="button"
                     onClick={() => setAppOpen((o) => !o)}
-                    aria-label="Tai ung dung di dong"
-                    title="Tai app - Sap ra mat"
+                    aria-label="Tải ứng dụng di động"
+                    title="Tải app - Sắp ra mắt"
                     className="flex h-10 w-10 items-center justify-center rounded-lg border border-paper-line bg-paper-soft text-ink-soft transition hover:bg-brand-50 hover:text-brand-700"
                   >
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-5 w-5">
@@ -35,11 +35,11 @@ export default function HeaderActions({ user, profile }: Props) {
                   {appOpen && (
                     <div className="absolute right-0 top-12 z-50 w-72 rounded-xl border border-paper-line bg-white p-4 shadow-lg">
                       <div className="flex items-center justify-between">
-                        <h4 className="text-sm font-bold text-ink">Ung dung di dong</h4>
-                        <span className="rounded-full bg-primary/10 px-2 py-0.5 text-[10px] font-semibold text-primary">Sap ra mat</span>
+                        <h4 className="text-sm font-bold text-ink">Ứng dụng di động</h4>
+                        <span className="rounded-full bg-primary/10 px-2 py-0.5 text-[10px] font-semibold text-primary">Sắp ra mắt</span>
                       </div>
                       <p className="mt-2 text-xs leading-relaxed text-ink-muted">
-                        Ung dung Nguon Nha Dat Viet Nam dang duoc phat trien va se som co mat tren App Store va CH Play.
+                        Ứng dụng Nguồn Nhà Đất Việt Nam đang được phát triển và sẽ sớm có mặt trên App Store và CH Play.
                       </p>
                       <div className="mt-3 flex flex-col gap-2">
                         <span className="inline-flex cursor-not-allowed items-center gap-2 rounded-lg border border-paper-line bg-paper-soft px-3 py-2 text-xs font-medium text-ink-muted opacity-80">
@@ -65,8 +65,8 @@ export default function HeaderActions({ user, profile }: Props) {
                   <button
                     type="button"
                     onClick={() => setAppOpen((o) => !o)}
-                    aria-label="Tai ung dung di dong"
-                    title="Tai app - Sap ra mat"
+                    aria-label="Tải ứng dụng di động"
+                    title="Tải app - Sắp ra mắt"
                     className="flex h-10 w-10 items-center justify-center rounded-lg border border-paper-line bg-paper-soft text-ink-soft transition hover:bg-brand-50 hover:text-brand-700"
                   >
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-5 w-5">
@@ -77,11 +77,11 @@ export default function HeaderActions({ user, profile }: Props) {
                   {appOpen && (
                     <div className="absolute right-0 top-12 z-50 w-72 rounded-xl border border-paper-line bg-white p-4 shadow-lg">
                       <div className="flex items-center justify-between">
-                        <h4 className="text-sm font-bold text-ink">Ung dung di dong</h4>
-                        <span className="rounded-full bg-primary/10 px-2 py-0.5 text-[10px] font-semibold text-primary">Sap ra mat</span>
+                        <h4 className="text-sm font-bold text-ink">Ứng dụng di động</h4>
+                        <span className="rounded-full bg-primary/10 px-2 py-0.5 text-[10px] font-semibold text-primary">Sắp ra mắt</span>
                       </div>
                       <p className="mt-2 text-xs leading-relaxed text-ink-muted">
-                        Ung dung Nguon Nha Dat Viet Nam dang duoc phat trien va se som co mat tren App Store va CH Play.
+                        Ứng dụng Nguồn Nhà Đất Việt Nam đang được phát triển và sẽ sớm có mặt trên App Store và CH Play.
                       </p>
                       <div className="mt-3 flex flex-col gap-2">
                         <span className="inline-flex cursor-not-allowed items-center gap-2 rounded-lg border border-paper-line bg-paper-soft px-3 py-2 text-xs font-medium text-ink-muted opacity-80">
