@@ -106,7 +106,6 @@ export default function Footer() {
       <div className="border-t border-paper-line py-5">
         <div className="container-app flex flex-col items-center justify-between gap-2 text-xs text-ink-muted md:flex-row">
           <p>© {new Date().getFullYear()} Nguồn Nhà Đất Việt Nam. Bảo lưu mọi quyền.</p>
-          <p>Thiết kế hiện đại · Tối ưu SEO</p>
         </div>
       </div>
     </footer>
