@@ -3,6 +3,7 @@ import { createClient } from "@/lib/supabase/server";
 import PostCard from "@/components/PostCard";
 import PostFilter from "@/components/PostFilter";
 import type { Post } from "@/lib/types";
+import AdSlot from "@/components/AdSlot";
 
 export const metadata = { title: "Tin đăng bất động sản" };
 export const revalidate = 60;
@@ -54,6 +55,8 @@ export default async function TinDangPage({
       <PostFilter />
 
       <p className="mt-4 text-sm text-ink-muted">Tìm thấy {total.toLocaleString("vi-VN")} tin đăng trên toàn quốc{sp.tinh ? " tại " + sp.tinh : ""}.</p>
+
+      <AdSlot slot="0000000003" />
 
       {posts.length === 0 ? (
         <div className="card mt-4 p-10 text-center text-ink-muted">
