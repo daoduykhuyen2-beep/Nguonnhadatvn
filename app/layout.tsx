@@ -45,6 +45,7 @@ export default function RootLayout({
         <main className="min-h-[70vh]">{children}</main>
         <Footer />
         <VisitTracker />
+        {/* Google AdSense - ho tro Auto ads (Google tu chen quang cao) */}
         <Script
           id="google-adsense"
           async
