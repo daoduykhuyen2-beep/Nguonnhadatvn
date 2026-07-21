@@ -36,7 +36,17 @@ export default async function TinDangPage({
     .order("created_at", { ascending: false })
     .range(from, to);
 
-  const posts = (data || []) as Post[];
+  let posts = (data || []) as Post[];
+  // Xoay vong trang dau (khi khong loc): giu nhom VIP o dau, xoay phan con lai theo thoi gian
+  // de khach quay lai luon thay tin moi thay vi cung mot danh sach co dinh.
+  const _isDefaultFeed = page === 1 && !sp.q && !sp.loai && !sp.giao_dich && !sp.tinh;
+  if (_isDefaultFeed && posts.length > 8) {
+    const _rot = Math.floor(Date.now() / (1000 * 60 * 20));
+    const _vip = posts.slice(0, 7);
+    const _rest = posts.slice(7);
+    const _off = _rest.length > 0 ? _rot % _rest.length : 0;
+    posts = _vip.concat(_rest.slice(_off)).concat(_rest.slice(0, _off));
+  }
   const total = count || 0;
   const totalPages = Math.max(1, Math.ceil(total / PER_PAGE));
 
