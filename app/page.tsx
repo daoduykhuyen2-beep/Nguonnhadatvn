@@ -6,7 +6,6 @@ import HeroBanner from "@/components/HeroBanner";
 import type { Post } from "@/lib/types";
 import NewsImage from "@/components/NewsImage";
 import { SpotlightSection, PillarsSection, TestimonialsSection } from "@/components/HomeSections";
-import AdSlot from "@/components/AdSlot";
 
 export const revalidate = 60;
 
@@ -93,11 +92,6 @@ export default async function HomePage() {
           </p>
         </div>
       </section>
-
-      {/* QUANG CAO - banner ngang giua trang chu */}
-      <div className="container-app">
-        <AdSlot slot="0000000001" />
-      </div>
 
       {/* CAM KẾT NHÀ THẬT */}
       <section className="border-t border-neutral-100 bg-white">
@@ -223,11 +217,6 @@ export default async function HomePage() {
           </div>
         )}
       </section>
-
-      {/* QUANG CAO - banner truoc danh sach tin */}
-      <div className="container-app">
-        <AdSlot slot="0000000002" />
-      </div>
 
       {/* LISTINGS - secondary */}
       <section className="border-t border-neutral-100 bg-neutral-50/50">
