@@ -8,6 +8,7 @@ import PropertyExtras from "@/components/PropertyExtras";
 import { publicArea, fullAddress, maskTitle, maskDescription, fallbackImage } from "@/lib/address";
 import { getPropertyMapData, buildAddress } from "@/lib/maps";
 import { computeAreaStats } from "@/lib/market-prices";
+import AdSlot from "@/components/AdSlot";
 
 export const revalidate = 60;
 
@@ -161,10 +162,13 @@ export default async function PostDetail({ params }: { params: Promise<{ id: str
           <PropertyExtras post={post} mapData={mapData} address={mapAddress} priceStats={priceStats} />
         </div>
 
+        <AdSlot slot="0000000004" />
+
         {/* Contact sidebar */}
         <aside>
           <div className="sticky top-24">
             <ContactBox postId={post.id} contactName={post.contact_name} contactPhone={post.contact_phone} favorited={favorited} hasAccess={hasAccess} />
+            <AdSlot slot="0000000005" format="vertical" responsive={false} style={{ display: "block", minHeight: 250 }} />
           </div>
         </aside>
       </div>
