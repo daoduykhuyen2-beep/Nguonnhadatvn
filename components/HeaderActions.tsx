@@ -10,6 +10,7 @@ type Props = {
 
 export default function HeaderActions({ user, profile }: Props) {
   const [open, setOpen] = useState(false);
+  const [appOpen, setAppOpen] = useState(false);
   const isStaff = profile?.role === "admin" || profile?.role === "pho_cong_dong" || profile?.is_admin;
 
   if (!user) {
@@ -18,18 +19,39 @@ export default function HeaderActions({ user, profile }: Props) {
         <Link href="/dang-nhap" className="btn-ghost hidden sm:inline-flex">
           Đăng nhập
         </Link>
-        <button
-          type="button"
-          disabled
-          aria-disabled="true"
-          title="Sắp ra mắt"
-          className="hidden cursor-not-allowed items-center gap-1 rounded-lg border border-paper-line bg-paper-soft px-3 py-2 text-sm font-medium text-ink-muted opacity-70 sm:inline-flex"
-        >
-          Tải app
-          <span className="rounded-full bg-primary/10 px-1.5 py-0.5 text-[10px] font-semibold text-primary">
-            Sắp ra mắt
-          </span>
-        </button>
+        <div className="relative">
+                  <button
+                    type="button"
+                    onClick={() => setAppOpen((o) => !o)}
+                    aria-label="Tai ung dung di dong"
+                    title="Tai app - Sap ra mat"
+                    className="flex h-10 w-10 items-center justify-center rounded-lg border border-paper-line bg-paper-soft text-ink-soft transition hover:bg-brand-50 hover:text-brand-700"
+                  >
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-5 w-5">
+                      <rect x="5" y="2" width="14" height="20" rx="2" ry="2"></rect>
+                      <line x1="12" y1="18" x2="12" y2="18"></line>
+                    </svg>
+                  </button>
+                  {appOpen && (
+                    <div className="absolute right-0 top-12 z-50 w-72 rounded-xl border border-paper-line bg-white p-4 shadow-lg">
+                      <div className="flex items-center justify-between">
+                        <h4 className="text-sm font-bold text-ink">Ung dung di dong</h4>
+                        <span className="rounded-full bg-primary/10 px-2 py-0.5 text-[10px] font-semibold text-primary">Sap ra mat</span>
+                      </div>
+                      <p className="mt-2 text-xs leading-relaxed text-ink-muted">
+                        Ung dung Nguon Nha Dat Viet Nam dang duoc phat trien va se som co mat tren App Store va CH Play.
+                      </p>
+                      <div className="mt-3 flex flex-col gap-2">
+                        <span className="inline-flex cursor-not-allowed items-center gap-2 rounded-lg border border-paper-line bg-paper-soft px-3 py-2 text-xs font-medium text-ink-muted opacity-80">
+                          App Store
+                        </span>
+                        <span className="inline-flex cursor-not-allowed items-center gap-2 rounded-lg border border-paper-line bg-paper-soft px-3 py-2 text-xs font-medium text-ink-muted opacity-80">
+                          CH Play
+                        </span>
+                      </div>
+                    </div>
+                  )}
+                </div>
         <Link href="/dang-tin" className="btn-primary">
           Đăng tin
         </Link>
@@ -39,18 +61,39 @@ export default function HeaderActions({ user, profile }: Props) {
 
   return (
     <div className="flex items-center gap-2">
-        <button
-          type="button"
-          disabled
-          aria-disabled="true"
-          title="Sắp ra mắt"
-          className="hidden cursor-not-allowed items-center gap-1 rounded-lg border border-paper-line bg-paper-soft px-3 py-2 text-sm font-medium text-ink-muted opacity-70 sm:inline-flex"
-        >
-          Tải app
-          <span className="rounded-full bg-primary/10 px-1.5 py-0.5 text-[10px] font-semibold text-primary">
-            Sắp ra mắt
-          </span>
-        </button>
+        <div className="relative">
+                  <button
+                    type="button"
+                    onClick={() => setAppOpen((o) => !o)}
+                    aria-label="Tai ung dung di dong"
+                    title="Tai app - Sap ra mat"
+                    className="flex h-10 w-10 items-center justify-center rounded-lg border border-paper-line bg-paper-soft text-ink-soft transition hover:bg-brand-50 hover:text-brand-700"
+                  >
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-5 w-5">
+                      <rect x="5" y="2" width="14" height="20" rx="2" ry="2"></rect>
+                      <line x1="12" y1="18" x2="12" y2="18"></line>
+                    </svg>
+                  </button>
+                  {appOpen && (
+                    <div className="absolute right-0 top-12 z-50 w-72 rounded-xl border border-paper-line bg-white p-4 shadow-lg">
+                      <div className="flex items-center justify-between">
+                        <h4 className="text-sm font-bold text-ink">Ung dung di dong</h4>
+                        <span className="rounded-full bg-primary/10 px-2 py-0.5 text-[10px] font-semibold text-primary">Sap ra mat</span>
+                      </div>
+                      <p className="mt-2 text-xs leading-relaxed text-ink-muted">
+                        Ung dung Nguon Nha Dat Viet Nam dang duoc phat trien va se som co mat tren App Store va CH Play.
+                      </p>
+                      <div className="mt-3 flex flex-col gap-2">
+                        <span className="inline-flex cursor-not-allowed items-center gap-2 rounded-lg border border-paper-line bg-paper-soft px-3 py-2 text-xs font-medium text-ink-muted opacity-80">
+                          App Store
+                        </span>
+                        <span className="inline-flex cursor-not-allowed items-center gap-2 rounded-lg border border-paper-line bg-paper-soft px-3 py-2 text-xs font-medium text-ink-muted opacity-80">
+                          CH Play
+                        </span>
+                      </div>
+                    </div>
+                  )}
+                </div>
       <Link href="/dang-tin" className="btn-primary">
         + Đăng tin
       </Link>
