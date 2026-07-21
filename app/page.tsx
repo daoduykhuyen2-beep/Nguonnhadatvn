@@ -11,14 +11,22 @@ export const revalidate = 60;
 
 export default async function HomePage() {
   const supabase = await createClient();
+  // Xoay vong tin noi bat: lay mot nhom lon roi chon cua so 8 tin thay doi theo thoi gian.
   const { data } = await supabase
     .from("web_posts")
     .select("*")
     .eq("trang_thai", "duyet")
     .order("rank_order", { ascending: true })
     .order("created_at", { ascending: false })
-    .limit(8);
-  const posts = (data || []) as Post[];
+    .limit(64);
+  const _poolAll = (data || []) as Post[];
+  const _rot = Math.floor(Date.now() / (1000 * 60 * 30));
+  const _vip = _poolAll.slice(0, 3);
+  const _rest = _poolAll.slice(3);
+  const _rotated = _rest.length > 0
+    ? _rest.slice(_rot % _rest.length).concat(_rest.slice(0, _rot % _rest.length))
+    : _rest;
+  const posts = _vip.concat(_rotated).slice(0, 8);
 
   const { count: soCanRaw } = await supabase
     .from("web_posts")
