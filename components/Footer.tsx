@@ -32,8 +32,12 @@ return (
                     { href: "/tin-dang?tinh=Hồ Chí Minh", label: "Nhà đất TP. Hồ Chí Minh" },
                     { href: "/tin-dang?tinh=Hà Nội", label: "Nhà đất Hà Nội" },
                     { href: "/tin-dang?tinh=Đà Nẵng", label: "Nhà đất Đà Nẵng" },
-                    { href: "/tin-dang?tinh=Bình Dương", label: "Nhà đất Bình Dương" },
-                    { href: "/tin-dang?tinh=Đồng Nai", label: "Nhà đất Đồng Nai" },
+                    { href: "/tin-dang?tinh=Thanh Hóa", label: "Nhà đất Thanh Hóa" },
+                    { href: "/tin-dang?tinh=Quảng Nam", label: "Nhà đất Quảng Nam" },
+                    { href: "/tin-dang?tinh=Hưng Yên", label: "Nhà đất Hưng Yên" },
+                    { href: "/tin-dang?tinh=Thái Nguyên", label: "Nhà đất Thái Nguyên" },
+                    { href: "/tin-dang?tinh=Hòa Bình", label: "Nhà đất Hòa Bình" },
+                    { href: "/tin-dang?tinh=Bắc Ninh", label: "Nhà đất Bắc Ninh" },
               ]}
             />
             <FooterCol
