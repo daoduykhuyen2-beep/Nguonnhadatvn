@@ -18,6 +18,18 @@ export default function HeaderActions({ user, profile }: Props) {
         <Link href="/dang-nhap" className="btn-ghost hidden sm:inline-flex">
           Đăng nhập
         </Link>
+        <button
+          type="button"
+          disabled
+          aria-disabled="true"
+          title="Sắp ra mắt"
+          className="hidden cursor-not-allowed items-center gap-1 rounded-lg border border-paper-line bg-paper-soft px-3 py-2 text-sm font-medium text-ink-muted opacity-70 sm:inline-flex"
+        >
+          Tải app
+          <span className="rounded-full bg-primary/10 px-1.5 py-0.5 text-[10px] font-semibold text-primary">
+            Sắp ra mắt
+          </span>
+        </button>
         <Link href="/dang-tin" className="btn-primary">
           Đăng tin
         </Link>
@@ -27,6 +39,18 @@ export default function HeaderActions({ user, profile }: Props) {
 
   return (
     <div className="flex items-center gap-2">
+        <button
+          type="button"
+          disabled
+          aria-disabled="true"
+          title="Sắp ra mắt"
+          className="hidden cursor-not-allowed items-center gap-1 rounded-lg border border-paper-line bg-paper-soft px-3 py-2 text-sm font-medium text-ink-muted opacity-70 sm:inline-flex"
+        >
+          Tải app
+          <span className="rounded-full bg-primary/10 px-1.5 py-0.5 text-[10px] font-semibold text-primary">
+            Sắp ra mắt
+          </span>
+        </button>
       <Link href="/dang-tin" className="btn-primary">
         + Đăng tin
       </Link>
