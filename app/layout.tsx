@@ -46,6 +46,13 @@ export default function RootLayout({
         <Footer />
         <VisitTracker />
         <Script
+          id="google-adsense"
+          async
+          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1337313717244533"
+          crossOrigin="anonymous"
+          strategy="afterInteractive"
+        />
+        <Script
           src={`https://www.googletagmanager.com/gtag/js?id=${GA_MEASUREMENT_ID}`}
           strategy="afterInteractive"
         />
