@@ -83,6 +83,8 @@ export default function PostCard({ post }: { post: Post }) {
         <div className="flex flex-wrap gap-2 text-xs text-ink-muted">
           {post.dien_tich && <span className="chip">{post.dien_tich}</span>}
           {post.so_tang && <span className="chip">{post.so_tang} tầng</span>}
+          {post.chieu_ngang && <span className="chip">Ngang {post.chieu_ngang}m</span>}
+          {post.chieu_dai && <span className="chip">Dài {post.chieu_dai}</span>}
           {post.loai && <span className="chip">{loaiLabel(post.loai)}</span>}
         </div>
         {area && <p className="line-clamp-1 text-sm text-ink-muted">📍 {area}</p>}
