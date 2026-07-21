@@ -31,10 +31,10 @@ export default function Footer() {
               target="_blank"
               rel="noopener noreferrer"
               title="Đã đăng ký Bộ Công Thương"
-              className="mt-4 inline-block"
+              className="mt-5 inline-flex w-fit items-center rounded-lg border border-slate-200 bg-white p-2 shadow-sm"
             >
               {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src="/bo-cong-thuong.png" alt="Đã đăng ký Bộ Công Thương" className="h-12 w-auto" />
+              <img src="/bo-cong-thuong.png" alt="Đã đăng ký Bộ Công Thương" className="h-10 w-auto object-contain" />
             </a>
           </div>
 
