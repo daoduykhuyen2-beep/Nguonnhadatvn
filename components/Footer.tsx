@@ -9,21 +9,21 @@ return (
             <FooterCol
               title="Nhà đất bán"
               links={[
-                    { href: "/tin-dang?loai=can_ho", label: "Bán căn hộ chung cư" },
-                    { href: "/tin-dang?loai=nha_pho", label: "Bán nhà riêng" },
-                    { href: "/tin-dang?loai=nha_pho", label: "Bán nhà mặt phố" },
-                    { href: "/tin-dang?loai=dat_nen", label: "Bán đất nền" },
-                    { href: "/tin-dang?loai=biet_thu", label: "Bán biệt thự, liền kề" },
+                    { href: "/tin-dang?giao_dich=ban&loai=can_ho", label: "Bán căn hộ chung cư" },
+                    { href: "/tin-dang?giao_dich=ban&loai=nha_pho", label: "Bán nhà riêng" },
+                    { href: "/tin-dang?giao_dich=ban&loai=nha_pho", label: "Bán nhà mặt phố" },
+                    { href: "/tin-dang?giao_dich=ban&loai=dat_nen", label: "Bán đất nền" },
+                    { href: "/tin-dang?giao_dich=ban&loai=biet_thu", label: "Bán biệt thự, liền kề" },
               ]}
             />
             <FooterCol
               title="Nhà đất cho thuê"
               links={[
-                    { href: "/tin-dang?loai=can_ho&q=cho thuê", label: "Thuê căn hộ chung cư" },
-                    { href: "/tin-dang?loai=nha_pho&q=cho thuê", label: "Thuê nhà riêng" },
-                    { href: "/tin-dang?q=phòng trọ", label: "Thuê phòng trọ" },
-                    { href: "/tin-dang?q=văn phòng", label: "Thuê văn phòng" },
-                    { href: "/tin-dang?q=mặt bằng", label: "Thuê mặt bằng kinh doanh" },
+                    { href: "/tin-dang?giao_dich=thue&loai=can_ho", label: "Thuê căn hộ chung cư" },
+                    { href: "/tin-dang?giao_dich=thue&loai=nha_pho", label: "Thuê nhà riêng" },
+                    { href: "/tin-dang?giao_dich=thue&q=phòng trọ", label: "Thuê phòng trọ" },
+                    { href: "/tin-dang?giao_dich=thue&q=văn phòng", label: "Thuê văn phòng" },
+                    { href: "/tin-dang?giao_dich=thue&q=mặt bằng", label: "Thuê mặt bằng kinh doanh" },
               ]}
             />
             <FooterCol
