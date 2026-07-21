@@ -9,31 +9,31 @@ return (
             <FooterCol
               title="Nhà đất bán"
               links={[
-                { href: "/mua-ban/can-ho-chung-cu", label: "Bán căn hộ chung cư" },
-                { href: "/mua-ban/nha-rieng", label: "Bán nhà riêng" },
-                { href: "/mua-ban/nha-mat-pho", label: "Bán nhà mặt phố" },
-                { href: "/mua-ban/dat-nen", label: "Bán đất nền" },
-                { href: "/mua-ban/biet-thu", label: "Bán biệt thự, liền kề" },
+                    { href: "/tin-dang?loai=can_ho", label: "Bán căn hộ chung cư" },
+                    { href: "/tin-dang?loai=nha_pho", label: "Bán nhà riêng" },
+                    { href: "/tin-dang?loai=nha_pho", label: "Bán nhà mặt phố" },
+                    { href: "/tin-dang?loai=dat_nen", label: "Bán đất nền" },
+                    { href: "/tin-dang?loai=biet_thu", label: "Bán biệt thự, liền kề" },
               ]}
             />
             <FooterCol
               title="Nhà đất cho thuê"
               links={[
-                { href: "/cho-thue/can-ho-chung-cu", label: "Thuê căn hộ chung cư" },
-                { href: "/cho-thue/nha-rieng", label: "Thuê nhà riêng" },
-                { href: "/cho-thue/phong-tro", label: "Thuê phòng trọ" },
-                { href: "/cho-thue/van-phong", label: "Thuê văn phòng" },
-                { href: "/cho-thue/mat-bang", label: "Thuê mặt bằng kinh doanh" },
+                    { href: "/tin-dang?loai=can_ho&q=cho thuê", label: "Thuê căn hộ chung cư" },
+                    { href: "/tin-dang?loai=nha_pho&q=cho thuê", label: "Thuê nhà riêng" },
+                    { href: "/tin-dang?q=phòng trọ", label: "Thuê phòng trọ" },
+                    { href: "/tin-dang?q=văn phòng", label: "Thuê văn phòng" },
+                    { href: "/tin-dang?q=mặt bằng", label: "Thuê mặt bằng kinh doanh" },
               ]}
             />
             <FooterCol
               title="Bất động sản theo tỉnh"
               links={[
-                { href: "/mua-ban?tinh=ho-chi-minh", label: "Nhà đất TP. Hồ Chí Minh" },
-                { href: "/mua-ban?tinh=ha-noi", label: "Nhà đất Hà Nội" },
-                { href: "/mua-ban?tinh=da-nang", label: "Nhà đất Đà Nẵng" },
-                { href: "/mua-ban?tinh=binh-duong", label: "Nhà đất Bình Dương" },
-                { href: "/mua-ban?tinh=dong-nai", label: "Nhà đất Đồng Nai" },
+                    { href: "/tin-dang?tinh=Hồ Chí Minh", label: "Nhà đất TP. Hồ Chí Minh" },
+                    { href: "/tin-dang?tinh=Hà Nội", label: "Nhà đất Hà Nội" },
+                    { href: "/tin-dang?tinh=Đà Nẵng", label: "Nhà đất Đà Nẵng" },
+                    { href: "/tin-dang?tinh=Bình Dương", label: "Nhà đất Bình Dương" },
+                    { href: "/tin-dang?tinh=Đồng Nai", label: "Nhà đất Đồng Nai" },
               ]}
             />
             <FooterCol
