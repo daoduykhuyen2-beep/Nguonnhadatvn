@@ -24,22 +24,22 @@ export type PropertyMapData = {
 
 // Categories we look up around each property, with a Vietnamese label.
 const CATEGORIES: { type: string; label: string; keyword?: string }[] = [
-  { type: 'school', label: 'Truong hoc' },
-  { type: 'hospital', label: 'Benh vien' },
-  { type: 'supermarket', label: 'Sieu thi' },
-  { type: 'bank', label: 'Ngan hang' },
-  { type: 'bus_station', label: 'Ben xe / tram xe buyt' },
-  { type: 'restaurant', label: 'Nha hang / quan an' },
-  { type: 'pharmacy', label: 'Nha thuoc' },
-  { type: 'park', label: 'Cong vien' },
+  { type: 'school', label: 'Trường học' },
+  { type: 'hospital', label: 'Bệnh viện' },
+  { type: 'supermarket', label: 'Siêu thị' },
+  { type: 'bank', label: 'Ngân hàng' },
+  { type: 'bus_station', label: 'Bến xe / trạm xe buýt' },
+  { type: 'restaurant', label: 'Nhà hàng / quán ăn' },
+  { type: 'pharmacy', label: 'Nhà thuốc' },
+  { type: 'park', label: 'Công viên' },
 ];
 
-function buildAddress(post: Post): string {
+export function buildAddress(post: Post): string {
   const parts = [post.duong, post.phuong, post.quan]
     .filter((s) => s && String(s).trim().length > 0);
   const base = parts.join(', ');
-  if (base) return base + ', Viet Nam';
-  return (post.title || '') + ', Viet Nam';
+  if (base) return base + ', Việt Nam';
+  return (post.title || '') + ', Việt Nam';
 }
 
 async function jsonFetch(url: string): Promise<any | null> {
@@ -147,7 +147,7 @@ export async function getPropertyMapData(post: Post): Promise<PropertyMapData | 
   found.forEach((f, i) => {
     if (f) {
         const straightKm = haversineKm(geo.lat, geo.lng, f.plat, f.plng);
-        // Bo qua dia diem cach can nha hon 10 km (duong chim bay).
+        // Bỏ qua địa điểm cách căn nhà hơn 10 km (đường chim bay).
         if (straightKm > 10) return;
       items.push({
         label: CATEGORIES[i].label,
