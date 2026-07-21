@@ -27,6 +27,19 @@ const AMENITY_ICON: Record<string, string> = {
   default: '📍',
 };
 
+const BANKS: { short: string; name: string; color: string }[] = [
+  { short: 'VCB', name: 'Vietcombank', color: '#0a8f4e' },
+  { short: 'BIDV', name: 'BIDV', color: '#00693e' },
+  { short: 'VTB', name: 'VietinBank', color: '#0b57a4' },
+  { short: 'AGR', name: 'Agribank', color: '#a51c30' },
+  { short: 'TCB', name: 'Techcombank', color: '#e11a2c' },
+  { short: 'MB', name: 'MB Bank', color: '#1e3a8a' },
+  { short: 'ACB', name: 'ACB', color: '#0057a8' },
+  { short: 'VPB', name: 'VPBank', color: '#00a86b' },
+  { short: 'TPB', name: 'TPBank', color: '#5b2d90' },
+  { short: 'SHB', name: 'SHB', color: '#f28b1e' },
+];
+
 export default function PropertyExtras({
   post,
   mapData,
