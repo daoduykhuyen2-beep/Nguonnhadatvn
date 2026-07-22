@@ -5,7 +5,7 @@ export default function Footer() {
     <footer className="mt-16 border-t border-paper-line bg-paper-soft">
       <div className="container-app py-12">
         {/* Hàng trên: thương hiệu + liên hệ */}
-        <div className="flex flex-col gap-6 border-b border-paper-line pb-8 md:flex-row md:items-center md:justify-between">
+        <div className="flex flex-col gap-6 border-b border-paper-line pb-8">
           <div className="flex items-center gap-3">
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img src="/logo.png" alt="Nguồn Nhà Đất Việt Nam" className="h-10 w-auto" />
