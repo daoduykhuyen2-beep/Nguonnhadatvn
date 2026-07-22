@@ -7,7 +7,8 @@ import type { Post } from "@/lib/types";
 import NewsImage from "@/components/NewsImage";
 import { SpotlightSection, PillarsSection, TestimonialsSection } from "@/components/HomeSections";
 
-export const revalidate = 60;
+export const revalidate = 0;
+export const dynamic = "force-dynamic";
 
 export default async function HomePage() {
   const supabase = await createClient();
@@ -20,13 +21,15 @@ export default async function HomePage() {
     .order("created_at", { ascending: false })
     .limit(64);
   const _poolAll = (data || []) as Post[];
-  const _rot = Math.floor(Date.now() / (1000 * 60 * 30));
   const _vip = _poolAll.slice(0, 3);
-  const _rest = _poolAll.slice(3);
-  const _rotated = _rest.length > 0
-    ? _rest.slice(_rot % _rest.length).concat(_rest.slice(0, _rot % _rest.length))
-    : _rest;
-  const posts = _vip.concat(_rotated).slice(0, 8);
+    const _rest = _poolAll.slice(3);
+    // Xao tron ngau nhien danh sach con lai moi lan truy cap de trang khong bi tinh.
+    const _shuffled = [..._rest];
+    for (let i = _shuffled.length - 1; i > 0; i--) {
+          const j = Math.floor(Math.random() * (i + 1));
+          [_shuffled[i], _shuffled[j]] = [_shuffled[j], _shuffled[i]];
+    }
+    const posts = _vip.concat(_shuffled).slice(0, 8);
 
   const { count: soCanRaw } = await supabase
     .from("web_posts")
@@ -65,8 +68,14 @@ export default async function HomePage() {
       }
     }
   } catch {}
-  const featured = news[0];
-  const rest = news.slice(1);
+  // Xao tron tin tuc moi lan truy cap
+    const _newsShuffled = [...news];
+    for (let i = _newsShuffled.length - 1; i > 0; i--) {
+          const j = Math.floor(Math.random() * (i + 1));
+          [_newsShuffled[i], _newsShuffled[j]] = [_newsShuffled[j], _newsShuffled[i]];
+    }
+    const featured = _newsShuffled[0];
+    const rest = _newsShuffled.slice(1);
 
   return (
     <div>
