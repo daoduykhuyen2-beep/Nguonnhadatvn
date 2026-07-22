@@ -26,16 +26,6 @@ export default function Footer() {
             <p className="text-sm leading-relaxed text-ink-muted">
               Sàn đăng tin bất động sản toàn quốc. Kết nối người mua và người bán nhanh chóng, minh bạch.
             </p>
-            <a
-              href="https://online.gov.vn/Home/WebDetails/5480"
-              target="_blank"
-              rel="noopener noreferrer"
-              title="Đã đăng ký Bộ Công Thương"
-              className="mt-4 inline-block"
-            >
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src="/bo-cong-thuong.png" alt="Đã đăng ký Bộ Công Thương" className="h-12 w-auto" />
-            </a>
           </div>
 
           <FooterCol
@@ -106,6 +96,10 @@ export default function Footer() {
       <div className="border-t border-paper-line py-5">
         <div className="container-app flex flex-col items-center justify-between gap-2 text-xs text-ink-muted md:flex-row">
           <p>© {new Date().getFullYear()} Nguồn Nhà Đất Việt Nam. Bảo lưu mọi quyền.</p>
+          <a href="https://online.gov.vn/Home/WebDetails/5480" target="_blank" rel="noopener noreferrer" title="Đã đăng ký Bộ Công Thương" className="inline-block">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src="/bo-cong-thuong.png" alt="Đã đăng ký Bộ Công Thương" className="h-12 w-auto" />
+          </a>
         </div>
       </div>
     </footer>
