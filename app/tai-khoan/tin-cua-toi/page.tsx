@@ -13,7 +13,7 @@ const STATUS: Record<string, { label: string; cls: string }> = {
 
 const TIER: Record<string, { label: string; cls: string }> = {
   vang: { label: "VIP Vàng", cls: "bg-amber-100 text-amber-800 border-amber-300" },
-  kim_cuong: { label: "VIP Kim cương", cls: "bg-sky-100 text-sky-800 border-sky-300" },
+  kim_cuong: { label: "VIP Kim cương", cls: "bg-brand/10 text-brand-dark border-brand/30" },
 };
 
 export default async function Page() {
