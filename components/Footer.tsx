@@ -71,6 +71,7 @@ export default function Footer() {
               { href: "/tro-giup", label: "Câu hỏi thường gặp" },
               { href: "/bang-gia", label: "Bảng giá dịch vụ" },
               { href: "/dang-tin", label: "Hướng dẫn đăng tin" },
+              { href: "/quy-che", label: "Quy chế đăng tin" },
               { href: "/gioi-thieu", label: "Về chúng tôi" },
               { href: "/chinh-sach-bao-mat", label: "Chính sách bảo mật" },
               { href: "mailto:hotro.nguonnhadatvn@gmail.com", label: "Góp ý - Báo lỗi" },
