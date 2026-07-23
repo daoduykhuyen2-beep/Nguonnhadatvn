@@ -140,11 +140,17 @@ export default async function PostDetail({ params }: { params: Promise<{ id: str
             )}
 
             <div className="mt-6 grid grid-cols-2 gap-4 sm:grid-cols-3">
-              <Info label="Loại" value={post.loai} />
+                            <Info label="Loại" value={post.loai === "can_ho" ? "Căn hộ / Chung cư" : post.loai === "du_an" ? "Dự án" : "Nhà đất / Nhà phố"} />
               <Info label="Diện tích" value={post.dien_tich} />
               <Info label="Chiều ngang" value={post.chieu_ngang} />
               <Info label="Chiều dài" value={post.chieu_dai} />
               <Info label="Số tầng" value={post.so_tang} />
+              {post.dien_tich_su_dung && <Info label="Diện tích sử dụng" value={post.dien_tich_su_dung} />}
+              {post.phap_ly && <Info label="Pháp lý" value={post.phap_ly} />}
+              {post.don_gia && <Info label="Đơn giá" value={post.don_gia} />}
+              {post.dang_dat && <Info label="Dáng đất" value={post.dang_dat} />}
+              {post.du_an && <Info label="Dự án / Chung cư" value={post.du_an} />}
+              {post.hien_trang && <Info label="Hiện trạng" value={post.hien_trang} />}
               <Info label="Lượt xem" value={post.luot_xem ? String(post.luot_xem) : "—"} />
             </div>
 
