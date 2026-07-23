@@ -20,9 +20,9 @@ export default function Footer() {
         </div>
 
         {/* Lưới liên kết hợp nhất */}
-        <div className="grid gap-8 py-10 md:grid-cols-2 lg:grid-cols-6">
+                <div className="grid grid-cols-2 gap-8 py-10 sm:grid-cols-3 lg:grid-cols-6">
           {/* Cột giới thiệu thương hiệu */}
-          <div className="md:col-span-2 lg:col-span-1">
+                    <div className="col-span-2 sm:col-span-3 lg:col-span-1">
             <p className="text-sm leading-relaxed text-ink-muted">
               Sàn đăng tin bất động sản toàn quốc. Kết nối người mua và người bán nhanh chóng, minh bạch.
             </p>
