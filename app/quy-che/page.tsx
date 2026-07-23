@@ -165,4 +165,3 @@ function buildHtml() {
 export default function QuyChePage() {
     return <div className="container-app max-w-5xl py-12"><div dangerouslySetInnerHTML={{ __html: buildHtml() }} /></div>;
 }
-</div>
