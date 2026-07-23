@@ -31,6 +31,7 @@ const nextConfig = {
       { protocol: 'https', hostname: 'images.unsplash.com' },
       { protocol: 'https', hostname: 'commons.wikimedia.org' },
       { protocol: 'https', hostname: 'upload.wikimedia.org' },
+      { protocol: 'https', hostname: 'assets-cdn.khonhapho.com' },
     ],
   },
   async headers() {
