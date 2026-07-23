@@ -34,6 +34,15 @@ export type Post = {
   promoted_at: string | null;
   ngay_het_han: string | null;
   het_han_vip: string | null;
+  tinh_thanh: string | null;
+  du_an: string | null;
+  dien_tich_su_dung: string | null;
+  dang_dat: string | null;
+  don_gia: string | null;
+  phap_ly: string | null;
+  loai_hop_dong: string | null;
+  dac_diem: string | null;
+  hien_trang: string | null;
 };
 
 export type Profile = {
