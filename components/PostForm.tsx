@@ -116,7 +116,7 @@ export default function PostForm({ action, post, submitLabel = "Đăng tin" }: P
           </label>
           <label className="relative flex cursor-pointer flex-col rounded-xl border border-neutral-200 p-4 transition hover:border-brand has-[:checked]:border-brand has-[:checked]:ring-1 has-[:checked]:ring-brand/40">
             <input type="radio" name="nang_cap" value="tin_kc_99" className="absolute right-3 top-3 accent-brand" />
-            <span className="text-sm font-semibold text-sky-600">Kim Cương</span>
+            <span className="text-sm font-semibold text-brand-600">Kim Cương</span>
             <span className="mt-1 text-xs text-neutral-500">Cao cấp nhất, hiển thị đầu tiên</span>
             <span className="mt-2 text-lg font-bold text-neutral-900">99.000đ</span>
           </label>
