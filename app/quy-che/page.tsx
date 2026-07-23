@@ -1,3 +1,4 @@
+// deploy trigger: dong bo mau xanh la hero
 export const metadata = {
     title: "Quy chế đăng tin - Nguồn Nhà Đất Việt Nam",
     description: "Quy chế, gói dịch vụ và quy định đăng tin bất động sản trên Nguồn Nhà Đất Việt Nam.",
