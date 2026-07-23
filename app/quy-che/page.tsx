@@ -1,17 +1,22 @@
 export const metadata = {
   title: "Quy chế đăng tin - Nguồn Nhà Đất Việt Nam",
-  description: "Quy chế và quy định đăng tin bất động sản trên Nguồn Nhà Đất Việt Nam.",
+  description: "Quy chế, gói dịch vụ và quy định đăng tin bất động sản trên Nguồn Nhà Đất Việt Nam.",
 };
 
 const intro = "Mọi quy định của website đều nhằm mục đích tốt cho cả người mua/thuê và người bán/cho thuê, vì đây là nguồn khách hàng của các cá nhân và nhà môi giới. Mong quý thành viên đăng tin có tính xây dựng, trung thực để website ngày càng phát triển.";
 
+const packages = [
+  ["Gói Đăng Tin Thoải Mái", "199.000đ", "399.000đ", "30 ngày", "Đăng tin không giới hạn + tặng 30 lượt đẩy tin lên đầu, tin hiển thị ngay không chờ duyệt.", true],
+  ["Tin VIP Vàng", "49.000đ", "", "15 ngày", "Nâng 1 tin lên hạng VIP Vàng, hiển thị ưu tiên phía trên tin thường, gắn nhãn nổi bật.", false],
+  ["Tin Kim Cương", "99.000đ", "", "15 ngày", "Nâng 1 tin lên hạng cao nhất, vị trí trên cả VIP Vàng, khung nổi bật cao cấp.", false],
+  ["Gói Xem Kho Nhà Toàn Quốc", "299.000đ", "2.999.000đ", "30 ngày", "Mở khóa hơn 20.000 nhà phố toàn quốc: địa chỉ, giá thật, hình ảnh và video thực tế.", false],
+  ];
+
 const displayRules = [
-  ["Gói Đăng Tin Thoải Mái - 199.000đ / 30 ngày", "Gói dành cho môi giới và chủ nhà: đăng tin bất động sản KHÔNG GIỚI HẠN số lượng trong 30 ngày, tặng kèm 30 lượt đẩy tin lên đầu danh sách. Giá ưu đãi 199.000đ (giá gốc 399.000đ). Xem chi tiết tại trang Bảng giá."],
-  ["Tin hiển thị ngay - không chờ duyệt", "Khi đăng bằng gói trả phí, tin của bạn được hiển thị ngay sau khi đăng mà không phải chờ kiểm duyệt. Bộ phận soát tin sẽ kiểm tra lại các tin này sau; tin vi phạm quy định vẫn có thể bị gỡ hoặc khóa tài khoản."],
-  ["Tin VIP Vàng - 49.000đ / 15 ngày", "Nâng 1 tin lên hạng VIP Vàng trong 15 ngày: hiển thị ưu tiên phía trên tin thường, gắn nhãn nổi bật thu hút nhiều khách xem hơn."],
-  ["Tin Kim Cương - 99.000đ / 15 ngày", "Nâng 1 tin lên hạng Kim Cương (hạng cao nhất) trong 15 ngày: vị trí hiển thị cao nhất - trên cả tin VIP Vàng, khung nổi bật cao cấp gắn nhãn Kim Cương, tiếp cận tối đa khách hàng tiềm năng."],
-  ["Gói Xem Kho Nhà Toàn Quốc - 299.000đ / 30 ngày", "Mở khóa toàn bộ kho hơn 20.000 căn nhà phố đang bán trên cả nước trong 30 ngày: xem đầy đủ địa chỉ, giá bán thật, diện tích, hình ảnh và video thực tế của từng căn. Giá ưu đãi 299.000đ (giá gốc 2.999.000đ)."],
-  ["Thanh toán và kích hoạt", "Thanh toán nhanh qua chuyển khoản, gói dịch vụ được kích hoạt tự động sau khi thanh toán thành công. Mọi mức giá và thời hạn được công bố công khai tại trang Bảng giá."],
+  ["Đăng tin hiển thị ngay", "Khi đăng bằng gói trả phí, tin của bạn hiển thị ngay sau khi đăng mà không phải chờ kiểm duyệt. Bộ phận soát tin sẽ kiểm tra lại sau; tin vi phạm vẫn có thể bị gỡ hoặc khóa tài khoản."],
+  ["Thanh toán và kích hoạt", "Thanh toán nhanh qua chuyển khoản, gói dịch vụ được kích hoạt tự động sau khi thanh toán thành công."],
+  ["Đẩy tin lên đầu", "Gói Đăng Tin Thoải Mái tặng 30 lượt đẩy tin, giúp tin của bạn quay lại đầu danh sách, tiếp cận nhiều khách hơn mỗi ngày."],
+  ["Minh bạch giá", "Mọi mức giá và thời hạn đều được công bố công khai tại trang Bảng giá, không phát sinh chi phí ẩn."],
   ];
 
 const rejectReasons = [
@@ -54,19 +59,53 @@ function levelBadge(i: number) {
   return colors[Math.min(i, colors.length - 1)];
 }
 
+function sectionHead(letter: string, id: string, title: string) {
+  return '<div id="' + id + '" class="scroll-mt-24 flex items-center gap-3"><span class="flex h-9 w-9 items-center justify-center rounded-full bg-rose-500 font-bold text-white">' + letter + '</span><h2 class="text-xl font-bold text-gray-900">' + esc(title) + '</h2></div>';
+}
+
 function buildHtml() {
   let h = "";
 
-h += '<div class="rounded-2xl bg-gradient-to-r from-rose-500 to-red-400 px-6 py-10 text-white shadow-lg">';
-  h += '<p class="text-sm font-medium uppercase tracking-wide text-rose-100">Nguồn Nhà Đất Việt Nam</p>';
-  h += '<h1 class="mt-2 text-3xl font-bold leading-tight">Quy chế đăng tin</h1>';
+h += '<div class="rounded-3xl bg-gradient-to-br from-rose-600 via-rose-500 to-red-400 px-6 py-12 text-white shadow-lg sm:px-10">';
+  h += '<span class="inline-flex items-center rounded-full bg-white/20 px-3 py-1 text-xs font-semibold uppercase tracking-wide">Nguồn Nhà Đất Việt Nam</span>';
+  h += '<h1 class="mt-3 text-3xl font-bold leading-tight sm:text-4xl">Quy chế đăng tin</h1>';
   h += '<p class="mt-3 max-w-2xl text-rose-50 leading-relaxed">' + esc(intro) + "</p>";
-  h += "</div>";
+  h += '<div class="mt-6 flex flex-wrap gap-3">';
+  h += '<a href="/bang-gia" class="rounded-xl bg-white px-5 py-2.5 text-sm font-semibold text-rose-600 shadow transition hover:bg-rose-50">Xem bảng giá</a>';
+  h += '<a href="/dang-tin" class="rounded-xl border border-white/60 px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-white/10">Đăng tin ngay</a>';
+  h += "</div></div>";
+
+h += '<nav class="mt-6 flex flex-wrap gap-2 rounded-2xl border border-gray-200 bg-white p-4 shadow-sm">';
+  const toc = [["#goi-dich-vu", "Gói dịch vụ & bảng giá"], ["#quy-dinh", "Quy định hiển thị tin"], ["#khong-duyet", "Lý do tin bị từ chối"], ["#khoa-tk", "Lý do khóa tài khoản"]];
+  for (const t of toc) {
+    h += '<a href="' + t[0] + '" class="rounded-lg bg-gray-50 px-3 py-1.5 text-sm font-medium text-gray-700 transition hover:bg-rose-50 hover:text-rose-600">' + esc(t[1]) + "</a>";
+  }
+  h += "</nav>";
 
 h += '<section class="mt-10">';
-  h += '<div class="flex items-center gap-3"><span class="flex h-9 w-9 items-center justify-center rounded-full bg-rose-500 font-bold text-white">A</span>';
-  h += '<h2 class="text-xl font-bold text-gray-900">Quy định về gói dịch vụ và hiển thị tin đăng</h2></div>';
-  h += '<div class="mt-5 grid gap-4 sm:grid-cols-2">';
+  h += sectionHead("A", "goi-dich-vu", "Gói dịch vụ & bảng giá");
+  h += '<div class="mt-5 overflow-hidden rounded-2xl border border-gray-200 shadow-sm">';
+  h += '<table class="w-full border-collapse text-left text-sm">';
+  h += '<thead class="bg-gray-50 text-gray-600"><tr>';
+  h += '<th class="px-4 py-3 font-semibold">Gói dịch vụ</th><th class="px-4 py-3 font-semibold">Giá</th><th class="px-4 py-3 font-semibold">Thời hạn</th><th class="hidden px-4 py-3 font-semibold sm:table-cell">Quyền lợi nổi bật</th>';
+  h += "</tr></thead><tbody>";
+  for (const p of packages) {
+    const popular = p[5] as unknown as boolean;
+    h += '<tr class="border-t border-gray-100 ' + (popular ? "bg-rose-50/50" : "bg-white") + '">';
+    h += '<td class="px-4 py-4 align-top"><div class="font-semibold text-gray-900">' + esc(p[0] as string) + "</div>";
+    if (popular) h += '<span class="mt-1 inline-block rounded-full bg-rose-500 px-2 py-0.5 text-xs font-semibold text-white">Phổ biến</span>';
+    h += "</td>";
+    h += '<td class="px-4 py-4 align-top"><div class="font-bold text-rose-600">' + esc(p[1] as string) + "</div>";
+    if (p[2]) h += '<div class="text-xs text-gray-400 line-through">' + esc(p[2] as string) + "</div>";
+    h += "</td>";
+    h += '<td class="px-4 py-4 align-top text-gray-700">' + esc(p[3] as string) + "</td>";
+    h += '<td class="hidden px-4 py-4 align-top text-gray-600 leading-relaxed sm:table-cell">' + esc(p[4] as string) + "</td>";
+    h += "</tr>";
+  }
+  h += "</tbody></table></div>";
+  h += '<div class="mt-4 text-center"><a href="/bang-gia" class="inline-flex items-center gap-2 rounded-xl bg-rose-500 px-6 py-3 text-sm font-semibold text-white shadow transition hover:bg-rose-600">Xem chi tiết & chọn gói tại trang Bảng giá</a></div>';
+
+h += '<div class="mt-6 grid gap-4 sm:grid-cols-2">';
   let n = 1;
   for (const r of displayRules) {
     h += '<div class="rounded-xl border border-gray-200 bg-white p-5 shadow-sm transition hover:shadow-md">';
@@ -78,9 +117,8 @@ h += '<section class="mt-10">';
   h += "</div></section>";
 
 h += '<section class="mt-12">';
-  h += '<div class="flex items-center gap-3"><span class="flex h-9 w-9 items-center justify-center rounded-full bg-rose-500 font-bold text-white">B</span>';
-  h += '<h2 class="text-xl font-bold text-gray-900">Những lý do khiến tin không được duyệt hoặc bị xóa</h2></div>';
-  h += '<div class="mt-5 rounded-xl border border-gray-200 bg-white p-6 shadow-sm">';
+  h += sectionHead("B", "khong-duyet", "Những lý do khiến tin không được duyệt hoặc bị xóa");
+  h += '<div class="mt-5 rounded-2xl border border-gray-200 bg-white p-6 shadow-sm">';
   h += '<ol class="grid gap-x-8 gap-y-3 sm:grid-cols-2">';
   let m = 1;
   for (const r of rejectReasons) {
@@ -92,12 +130,11 @@ h += '<section class="mt-12">';
   h += "</section>";
 
 h += '<section class="mt-12">';
-  h += '<div class="flex items-center gap-3"><span class="flex h-9 w-9 items-center justify-center rounded-full bg-rose-500 font-bold text-white">C</span>';
-  h += '<h2 class="text-xl font-bold text-gray-900">Những lý do khiến tài khoản bị khóa</h2></div>';
+  h += sectionHead("C", "khoa-tk", "Những lý do khiến tài khoản bị khóa");
   h += '<div class="mt-5 space-y-4">';
   let k = 1;
   for (const r of lockRules) {
-    h += '<div class="rounded-xl border border-gray-200 bg-white p-5 shadow-sm">';
+    h += '<div class="rounded-2xl border border-gray-200 bg-white p-5 shadow-sm">';
     h += '<div class="flex items-start gap-3"><span class="mt-0.5 flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-red-50 text-sm font-bold text-red-600">' + k + "</span>";
     h += '<div class="flex-1"><h3 class="font-semibold text-gray-900">' + esc(r[0] as string) + "</h3>";
     h += '<p class="mt-1 text-sm text-gray-600 leading-relaxed">' + esc(r[1] as string) + "</p>";
@@ -118,10 +155,13 @@ h += '<section class="mt-12">';
   }
   h += "</div></section>";
 
-h += '<div class="mt-12 rounded-2xl bg-gray-900 px-6 py-8 text-center text-white">';
-  h += '<p class="text-lg font-semibold">Xin cảm ơn sự hợp tác của Quý thành viên!</p>';
-  h += '<p class="mt-2 text-sm text-gray-300">Nguồn Nhà Đất Việt Nam luôn nỗ lực xây dựng một cộng đồng bất động sản uy tín và minh bạch.</p>';
-  h += "</div>";
+h += '<div class="mt-12 rounded-3xl bg-gray-900 px-6 py-10 text-center text-white sm:px-10">';
+  h += '<p class="text-xl font-bold">Xin cảm ơn sự hợp tác của Quý thành viên!</p>';
+  h += '<p class="mt-2 text-sm text-gray-300 mx-auto max-w-xl leading-relaxed">Nguồn Nhà Đất Việt Nam luôn nỗ lực xây dựng một cộng đồng bất động sản uy tín, minh bạch và chuyên nghiệp.</p>';
+  h += '<div class="mt-6 flex flex-wrap justify-center gap-3">';
+  h += '<a href="/bang-gia" class="rounded-xl bg-rose-500 px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-rose-600">Xem bảng giá</a>';
+  h += '<a href="/tro-giup" class="rounded-xl border border-white/40 px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-white/10">Trung tâm trợ giúp</a>';
+  h += "</div></div>";
 
 return h;
 }
