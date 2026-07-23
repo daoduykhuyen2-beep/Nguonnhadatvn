@@ -56,20 +56,20 @@ function levelBadge(i: number) {
 function buildHtml() {
   let h = "";
 
-h += '<div class="rounded-2xl bg-gradient-to-r from-blue-700 to-blue-500 px-6 py-10 text-white shadow-lg">';
-  h += '<p class="text-sm font-medium uppercase tracking-wide text-blue-100">Nguồn Nhà Đất Việt Nam</p>';
+h += '<div class="rounded-2xl bg-gradient-to-r from-rose-500 to-red-400 px-6 py-10 text-white shadow-lg">';
+  h += '<p class="text-sm font-medium uppercase tracking-wide text-rose-100">Nguồn Nhà Đất Việt Nam</p>';
   h += '<h1 class="mt-2 text-3xl font-bold leading-tight">Quy chế đăng tin</h1>';
-  h += '<p class="mt-3 max-w-2xl text-blue-50 leading-relaxed">' + esc(intro) + "</p>";
+  h += '<p class="mt-3 max-w-2xl text-rose-50 leading-relaxed">' + esc(intro) + "</p>";
   h += "</div>";
 
 h += '<section class="mt-10">';
-  h += '<div class="flex items-center gap-3"><span class="flex h-9 w-9 items-center justify-center rounded-full bg-blue-600 font-bold text-white">A</span>';
+  h += '<div class="flex items-center gap-3"><span class="flex h-9 w-9 items-center justify-center rounded-full bg-rose-500 font-bold text-white">A</span>';
   h += '<h2 class="text-xl font-bold text-gray-900">Quy định về thời gian hiển thị tin đăng</h2></div>';
   h += '<div class="mt-5 grid gap-4 sm:grid-cols-2">';
   let n = 1;
   for (const r of displayRules) {
     h += '<div class="rounded-xl border border-gray-200 bg-white p-5 shadow-sm transition hover:shadow-md">';
-    h += '<div class="flex items-start gap-3"><span class="mt-0.5 flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-blue-50 text-sm font-bold text-blue-700">' + n + "</span>";
+    h += '<div class="flex items-start gap-3"><span class="mt-0.5 flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-rose-50 text-sm font-bold text-rose-600">' + n + "</span>";
     h += "<div><h3 class=\"font-semibold text-gray-900\">" + esc(r[0] as string) + "</h3>";
     h += '<p class="mt-1 text-sm text-gray-600 leading-relaxed">' + esc(r[1] as string) + "</p></div></div></div>";
     n++;
@@ -77,7 +77,7 @@ h += '<section class="mt-10">';
   h += "</div></section>";
 
 h += '<section class="mt-12">';
-  h += '<div class="flex items-center gap-3"><span class="flex h-9 w-9 items-center justify-center rounded-full bg-blue-600 font-bold text-white">B</span>';
+  h += '<div class="flex items-center gap-3"><span class="flex h-9 w-9 items-center justify-center rounded-full bg-rose-500 font-bold text-white">B</span>';
   h += '<h2 class="text-xl font-bold text-gray-900">Những lý do khiến tin không được duyệt hoặc bị xóa</h2></div>';
   h += '<div class="mt-5 rounded-xl border border-gray-200 bg-white p-6 shadow-sm">';
   h += '<ol class="grid gap-x-8 gap-y-3 sm:grid-cols-2">';
@@ -87,11 +87,11 @@ h += '<section class="mt-12">';
     m++;
   }
   h += "</ol></div>";
-  h += '<div class="mt-4 rounded-xl border-l-4 border-blue-500 bg-blue-50 p-4 text-sm text-blue-900 leading-relaxed">Trường hợp vô tình vi phạm, bộ phận kiểm duyệt sẽ chủ động sửa tin giúp thành viên; nếu cố tình vi phạm nhiều lần sẽ không duyệt hoặc khóa tài khoản tùy theo số lần vi phạm.</div>';
+  h += '<div class="mt-4 rounded-xl border-l-4 border-rose-400 bg-rose-50 p-4 text-sm text-rose-900 leading-relaxed">Trường hợp vô tình vi phạm, bộ phận kiểm duyệt sẽ chủ động sửa tin giúp thành viên; nếu cố tình vi phạm nhiều lần sẽ không duyệt hoặc khóa tài khoản tùy theo số lần vi phạm.</div>';
   h += "</section>";
 
 h += '<section class="mt-12">';
-  h += '<div class="flex items-center gap-3"><span class="flex h-9 w-9 items-center justify-center rounded-full bg-blue-600 font-bold text-white">C</span>';
+  h += '<div class="flex items-center gap-3"><span class="flex h-9 w-9 items-center justify-center rounded-full bg-rose-500 font-bold text-white">C</span>';
   h += '<h2 class="text-xl font-bold text-gray-900">Những lý do khiến tài khoản bị khóa</h2></div>';
   h += '<div class="mt-5 space-y-4">';
   let k = 1;
