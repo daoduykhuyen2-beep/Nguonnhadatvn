@@ -6,11 +6,12 @@ export const metadata = {
 const intro = "Mọi quy định của website đều nhằm mục đích tốt cho cả người mua/thuê và người bán/cho thuê, vì đây là nguồn khách hàng của các cá nhân và nhà môi giới. Mong quý thành viên đăng tin có tính xây dựng, trung thực để website ngày càng phát triển.";
 
 const displayRules = [
-  ["Tin đăng miễn phí", "Tài khoản chưa chứng thực được đăng tối đa 2 tin miễn phí. Sau khi chứng thực, thành viên được đăng 2 tin miễn phí mỗi ngày. Khi đã dùng hết lượt miễn phí trong ngày, thành viên có thể đăng tin VIP để tiếp tục đăng."],
-  ["Tin thường", "Thời gian hiển thị tin thường là 60 ngày kể từ thời điểm đăng. Tin thường được kiểm duyệt trong vòng 24 giờ (trừ Chủ nhật). Các tin đúng quy định sẽ được hiển thị trên website."],
-  ["Tin VIP", "Thời gian hiển thị tin VIP bằng số ngày VIP cộng 60 ngày như tin thường. Tin VIP tự động hiển thị ngay mà không cần đợi kiểm duyệt; bộ phận soát tin sẽ kiểm tra lại các tin này sau."],
-  ["Tin không được duyệt", "Các tin không được duyệt sau 1 tháng nếu không chỉnh sửa lại nội dung sẽ tự động bị xóa khỏi hệ thống."],
-  ["Lưu trữ tin hết hạn", "Các tin đăng hết hạn sẽ được lưu trữ trong thời gian 2 tháng kể từ ngày hết hạn trước khi bị xóa vĩnh viễn."],
+  ["Gói Đăng Tin Thoải Mái - 199.000đ / 30 ngày", "Gói dành cho môi giới và chủ nhà: đăng tin bất động sản KHÔNG GIỚI HẠN số lượng trong 30 ngày, tặng kèm 30 lượt đẩy tin lên đầu danh sách. Giá ưu đãi 199.000đ (giá gốc 399.000đ). Xem chi tiết tại trang Bảng giá."],
+  ["Tin hiển thị ngay - không chờ duyệt", "Khi đăng bằng gói trả phí, tin của bạn được hiển thị ngay sau khi đăng mà không phải chờ kiểm duyệt. Bộ phận soát tin sẽ kiểm tra lại các tin này sau; tin vi phạm quy định vẫn có thể bị gỡ hoặc khóa tài khoản."],
+  ["Tin VIP Vàng - 49.000đ / 15 ngày", "Nâng 1 tin lên hạng VIP Vàng trong 15 ngày: hiển thị ưu tiên phía trên tin thường, gắn nhãn nổi bật thu hút nhiều khách xem hơn."],
+  ["Tin Kim Cương - 99.000đ / 15 ngày", "Nâng 1 tin lên hạng Kim Cương (hạng cao nhất) trong 15 ngày: vị trí hiển thị cao nhất - trên cả tin VIP Vàng, khung nổi bật cao cấp gắn nhãn Kim Cương, tiếp cận tối đa khách hàng tiềm năng."],
+  ["Gói Xem Kho Nhà Toàn Quốc - 299.000đ / 30 ngày", "Mở khóa toàn bộ kho hơn 20.000 căn nhà phố đang bán trên cả nước trong 30 ngày: xem đầy đủ địa chỉ, giá bán thật, diện tích, hình ảnh và video thực tế của từng căn. Giá ưu đãi 299.000đ (giá gốc 2.999.000đ)."],
+  ["Thanh toán và kích hoạt", "Thanh toán nhanh qua chuyển khoản, gói dịch vụ được kích hoạt tự động sau khi thanh toán thành công. Mọi mức giá và thời hạn được công bố công khai tại trang Bảng giá."],
   ];
 
 const rejectReasons = [
@@ -64,7 +65,7 @@ h += '<div class="rounded-2xl bg-gradient-to-r from-rose-500 to-red-400 px-6 py-
 
 h += '<section class="mt-10">';
   h += '<div class="flex items-center gap-3"><span class="flex h-9 w-9 items-center justify-center rounded-full bg-rose-500 font-bold text-white">A</span>';
-  h += '<h2 class="text-xl font-bold text-gray-900">Quy định về thời gian hiển thị tin đăng</h2></div>';
+  h += '<h2 class="text-xl font-bold text-gray-900">Quy định về gói dịch vụ và hiển thị tin đăng</h2></div>';
   h += '<div class="mt-5 grid gap-4 sm:grid-cols-2">';
   let n = 1;
   for (const r of displayRules) {
@@ -118,15 +119,18 @@ h += '<section class="mt-12">';
   h += "</div></section>";
 
 h += '<div class="mt-12 rounded-2xl bg-gray-900 px-6 py-8 text-center text-white">';
-  h += '<p class="text-base leading-relaxed text-gray-200">Website sẽ khóa tất cả các tài khoản cố tình vi phạm các quy định trên mà không cần báo trước.</p>';
-  h += '<p class="mt-3 text-lg font-semibold text-white">Xin cảm ơn sự hợp tác của quý thành viên!</p>';
+  h += '<p class="text-lg font-semibold">Xin cảm ơn sự hợp tác của Quý thành viên!</p>';
+  h += '<p class="mt-2 text-sm text-gray-300">Nguồn Nhà Đất Việt Nam luôn nỗ lực xây dựng một cộng đồng bất động sản uy tín và minh bạch.</p>';
   h += "</div>";
 
 return h;
 }
 
-export default function QuyChe() {
+export default function QuyChePage() {
   return (
-    <div className="container-app max-w-4xl py-10" dangerouslySetInnerHTML={{ __html: buildHtml() }} />
+    <div className="container-app max-w-5xl py-12">
+    <div dangerouslySetInnerHTML={{ __html: buildHtml() }} />
+    </div>
     );
 }
+</div>
