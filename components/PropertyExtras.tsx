@@ -216,6 +216,8 @@ function PriceChart({
       source: "reference",
     };
   const isReal = stats.source === "listings";
+  // Chi hien thi khi co du lieu that (tu tin dang thuc te), an uoc tinh tham khao
+  if (!isReal || stats.count < 3) return null;
 
   const area =
     typeof post.dien_tich === "number"
