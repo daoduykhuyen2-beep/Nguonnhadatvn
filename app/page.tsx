@@ -14,7 +14,7 @@ export default async function HomePage() {
   const supabase = await createClient();
   // Xoay vong tin noi bat: lay mot nhom lon roi chon cua so 8 tin thay doi theo thoi gian.
   const { data } = await supabase
-    .from("web_posts")
+    .from("web_posts_public")
     .select("*")
     .eq("trang_thai", "duyet")
     .order("rank_order", { ascending: true })
