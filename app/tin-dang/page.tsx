@@ -21,7 +21,7 @@ export default async function TinDangPage({
 
   const supabase = await createClient();
   let query = supabase
-    .from("web_posts")
+    .from("web_posts_public")
     .select("*", { count: "exact" })
     .eq("trang_thai", "duyet");
 
