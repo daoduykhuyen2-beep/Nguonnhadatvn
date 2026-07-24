@@ -18,6 +18,12 @@ const GA_MEASUREMENT_ID = "G-EGGN0LHY1E";
 export const metadata: Metadata = {
   metadataBase: new URL("https://www.nguonnhadatvn.vn"),
   alternates: { canonical: "/" },
+  twitter: {
+    card: "summary_large_image",
+    title: "Nguồn Nhà Đất Việt Nam",
+    description: "Sàn đăng tin bất động sản toàn quốc – nhà phố, đất nền, căn hộ. Đăng tin nhanh, tiếp cận khách mua thật.",
+    images: ["/logo.png"],
+  },
   title: {
     default: "Nguồn Nhà Đất Việt Nam",
     template: "%s | Nguồn Nhà Đất Việt Nam",
@@ -47,6 +53,7 @@ export default function RootLayout({
           src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1337313717244533"
           crossOrigin="anonymous"
         />
+        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify({ "@context": "https://schema.org", "@type": "Organization", name: "Nguồn Nhà Đất Việt Nam", url: "https://www.nguonnhadatvn.vn", logo: "https://www.nguonnhadatvn.vn/logo.png", description: "Sàn đăng tin bất động sản toàn quốc – nhà phố, đất nền, căn hộ." }) }} />
       </head>
       <body className="min-h-screen bg-paper font-sans text-ink antialiased">
         <Header />
