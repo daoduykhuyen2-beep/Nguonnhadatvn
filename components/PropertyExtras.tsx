@@ -192,7 +192,7 @@ export default function PropertyExtras({
         </section>
       ) : null}
 
-      <PriceChart post={post} priceStats={priceStats} />
+      {/* Da bo phan Gia tham khao thi truong khu vuc theo yeu cau */}
       <LoanCalculator post={post} />
     </div>
   );
