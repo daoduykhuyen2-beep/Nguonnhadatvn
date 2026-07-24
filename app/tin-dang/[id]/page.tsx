@@ -170,7 +170,7 @@ export default async function PostDetail({ params }: { params: Promise<{ id: str
         {/* Contact sidebar */}
         <aside>
           <div className="sticky top-24">
-            <ContactBox postId={post.id} contactName={post.contact_name} contactPhone={post.contact_phone} favorited={favorited} hasAccess={hasAccess} />
+            <ContactBox postId={post.id} contactName={post.contact_name} contactPhone={hasAccess ? post.contact_phone : null} favorited={favorited} hasAccess={hasAccess} />
           </div>
         </aside>
       </div>
