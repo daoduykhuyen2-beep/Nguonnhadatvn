@@ -32,7 +32,7 @@ export default async function HomePage() {
     const posts = _vip.concat(_shuffled).slice(0, 8);
 
   const { count: soCanRaw } = await supabase
-    .from("web_posts")
+    .from("web_posts_public")
     .select("id", { count: "estimated", head: true })
     .eq("trang_thai", "duyet");
   const soCan = soCanRaw ?? 0;
