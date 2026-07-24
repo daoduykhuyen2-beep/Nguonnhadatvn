@@ -26,7 +26,7 @@ function imagesOf(p: Post): string[] {
 
 async function getPost(id: string): Promise<Post | null> {
   const supabase = await createClient();
-  const { data } = await supabase.from("web_posts").select("*").eq("id", id).single();
+  const { data } = await supabase.from("web_posts_public").select("*").eq("id", id).maybeSingle();
   return (data as Post) || null;
 }
 
@@ -57,7 +57,7 @@ export default async function PostDetail({ params }: { params: Promise<{ id: str
 
   const supabase = await createClient();
   const { data: related } = await supabase
-    .from("web_posts")
+    .from("web_posts_public")
     .select("*")
     .eq("trang_thai", "duyet")
     .neq("id", post.id)
@@ -92,14 +92,14 @@ export default async function PostDetail({ params }: { params: Promise<{ id: str
     }
   }
 
-  const displayTitle = hasAccess ? (post.title || maskTitle(post)) : maskTitle(post);
+  if (hasAccess) { const { data: contact } = await supabase.rpc("get_post_contact", { p_post_id: post.id }); const c = Array.isArray(contact) ? contact[0] : contact; if (c) { (post as any).so_nha = c.so_nha; (post as any).duong = c.duong ?? (post as any).duong; (post as any).contact_phone = c.contact_phone; } }  const displayTitle = hasAccess ? (post.title || maskTitle(post)) : maskTitle(post);
   const area = publicArea(post);
   const full = fullAddress(post);
   const mapData = await getPropertyMapData(post);
   const mapAddress = buildAddress(post);
 
   const { data: areaListings } = await supabase
-    .from("web_posts")
+    .from("web_posts_public")
     .select("gia, dien_tich, quan")
     .eq("trang_thai", "duyet")
     .limit(400);
