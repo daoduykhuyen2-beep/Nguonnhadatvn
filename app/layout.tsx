@@ -22,7 +22,6 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Nguồn Nhà Đất Việt Nam",
     description: "Sàn đăng tin bất động sản toàn quốc – nhà phố, đất nền, căn hộ. Đăng tin nhanh, tiếp cận khách mua thật.",
-    images: ["/logo.png"],
   },
   title: {
     default: "Nguồn Nhà Đất Việt Nam",
@@ -37,7 +36,6 @@ export const metadata: Metadata = {
     locale: "vi_VN",
     siteName: "Nguồn Nhà Đất Việt Nam",
     url: "https://www.nguonnhadatvn.vn",
-    images: [{ url: "/logo.png", width: 512, height: 512, alt: "Nguồn Nhà Đất Việt Nam" }],
   },
 };
 
