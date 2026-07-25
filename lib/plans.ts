@@ -86,6 +86,45 @@ export const PLANS: Plan[] = [
       "Thời hạn nổi bật 15 ngày",
     ],
   },
+  {
+    code: "day_1",
+    group: "day",
+    name: "Đẩy tin 1 lần",
+    price: 29000,
+    pushCredits: 1,
+    desc: "Đẩy 1 tin của bạn lên đầu danh sách 1 lần, giúp tin tiếp cận nhiều khách hàng hơn.",
+    features: [
+      "Đẩy tin lên đầu danh sách 1 lần",
+      "Hiển thị ưu tiên phía trên tin thường",
+      "Tăng lượt xem và liên hệ",
+    ],
+  },
+  {
+    code: "day_3",
+    group: "day",
+    name: "Đẩy tin 3 lần",
+    price: 68000,
+    pushCredits: 3,
+    desc: "Gói 3 lượt đẩy tin, tiết kiệm hơn so với mua lẻ. Chủ động đẩy tin vào khung giờ vàng.",
+    features: [
+      "3 lượt đẩy tin lên đầu danh sách",
+      "Tiết kiệm hơn mua lẻ từng lần",
+      "Chủ động chọn thời điểm đẩy tin",
+    ],
+  },
+  {
+    code: "day_6",
+    group: "day",
+    name: "Đẩy tin 6 lần",
+    price: 99000,
+    pushCredits: 6,
+    desc: "Gói 6 lượt đẩy tin – lựa chọn tiết kiệm nhất cho môi giới đẩy tin thường xuyên.",
+    features: [
+      "6 lượt đẩy tin lên đầu danh sách",
+      "Giá tốt nhất trên mỗi lượt đẩy",
+      "Phù hợp môi giới đăng & đẩy tin thường xuyên",
+    ],
+  },
 ];
 
 export function getPlan(code: string): Plan | undefined {
