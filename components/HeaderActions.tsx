@@ -1,6 +1,6 @@
 "use client";
 import Link from "next/link";
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import NotificationBell from "@/components/NotificationBell";
 
 type Props = {
@@ -12,6 +12,28 @@ export default function HeaderActions({ user, profile }: Props) {
   const [open, setOpen] = useState(false);
   const [appOpen, setAppOpen] = useState(false);
   const isStaff = profile?.role === "admin" || profile?.role === "pho_cong_dong" || profile?.is_admin;
+  const menuRef = useRef<HTMLDivElement>(null);
+  const appRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    function handleClickOutside(e: MouseEvent) {
+      const target = e.target as Node;
+      if (menuRef.current && !menuRef.current.contains(target)) setOpen(false);
+      if (appRef.current && !appRef.current.contains(target)) setAppOpen(false);
+    }
+    function handleEsc(e: KeyboardEvent) {
+      if (e.key === "Escape") {
+        setOpen(false);
+        setAppOpen(false);
+      }
+    }
+    document.addEventListener("mousedown", handleClickOutside);
+    document.addEventListener("keydown", handleEsc);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+      document.removeEventListener("keydown", handleEsc);
+    };
+  }, []);
 
   if (!user) {
     return (
@@ -19,7 +41,7 @@ export default function HeaderActions({ user, profile }: Props) {
         <Link href="/dang-nhap" className="btn-ghost hidden sm:inline-flex">
           Đăng nhập
         </Link>
-        <div className="relative">
+        <div ref={appRef} className="relative">
                   <button
                     type="button"
                     onClick={() => setAppOpen((o) => !o)}
@@ -61,7 +83,7 @@ export default function HeaderActions({ user, profile }: Props) {
 
   return (
     <div className="flex items-center gap-2">
-        <div className="relative">
+        <div ref={appRef} className="relative">
                   <button
                     type="button"
                     onClick={() => setAppOpen((o) => !o)}
@@ -98,7 +120,7 @@ export default function HeaderActions({ user, profile }: Props) {
         + Đăng tin
       </Link>
       <NotificationBell />
-      <div className="relative">
+      <div ref={menuRef} className="relative">
         <button
           onClick={() => setOpen((o) => !o)}
           className="flex h-10 w-10 items-center justify-center overflow-hidden rounded-full border border-paper-line bg-brand-50 text-sm font-bold text-brand-700 ring-2 ring-brand-100 transition hover:ring-brand-200"
@@ -129,12 +151,12 @@ export default function HeaderActions({ user, profile }: Props) {
                 Số dư: {new Intl.NumberFormat("vi-VN").format(profile?.so_du || 0)}đ
               </p>
             </div>
-            <MenuLink href="/tai-khoan">Tài khoản</MenuLink>
-            <MenuLink href="/tai-khoan/tin-cua-toi">Tin của tôi</MenuLink>
-            <MenuLink href="/tai-khoan/nap-tien">Nạp tiền</MenuLink>
-            <MenuLink href="/tai-khoan/tin-yeu-thich">Tin yêu thích</MenuLink>
-            <MenuLink href="/thong-bao">Thông báo</MenuLink>
-            {isStaff && <MenuLink href="/admin">Quản trị</MenuLink>}
+            <MenuLink href="/tai-khoan" onClick={() => setOpen(false)}>Tài khoản</MenuLink>
+            <MenuLink href="/tai-khoan/tin-cua-toi" onClick={() => setOpen(false)}>Tin của tôi</MenuLink>
+            <MenuLink href="/tai-khoan/nap-tien" onClick={() => setOpen(false)}>Nạp tiền</MenuLink>
+            <MenuLink href="/tai-khoan/tin-yeu-thich" onClick={() => setOpen(false)}>Tin yêu thích</MenuLink>
+            <MenuLink href="/thong-bao" onClick={() => setOpen(false)}>Thông báo</MenuLink>
+            {isStaff && <MenuLink href="/admin" onClick={() => setOpen(false)}>Quản trị</MenuLink>}
             <div className="my-1 border-t border-paper-line" />
             <Link href="/dang-xuat" className="block px-4 py-2.5 text-sm font-medium text-red-600 hover:bg-red-50">
               Đăng xuất
@@ -146,9 +168,9 @@ export default function HeaderActions({ user, profile }: Props) {
   );
 }
 
-function MenuLink({ href, children }: { href: string; children: React.ReactNode }) {
+function MenuLink({ href, children, onClick }: { href: string; children: React.ReactNode; onClick?: () => void }) {
   return (
-    <Link href={href} className="block px-4 py-2.5 text-sm font-medium text-ink-soft hover:bg-brand-50 hover:text-brand-700">
+    <Link href={href} onClick={onClick} className="block px-4 py-2.5 text-sm font-medium text-ink-soft hover:bg-brand-50 hover:text-brand-700">
       {children}
     </Link>
   );
