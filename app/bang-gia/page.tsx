@@ -70,6 +70,39 @@ export default async function Page({ searchParams }: { searchParams: Promise<{ p
           </section>
         );
       })}
+            <section className="mx-auto mt-14 max-w-4xl">
+        <div className="grid gap-4 sm:grid-cols-3">
+          <div className="rounded-2xl border border-neutral-100 bg-white p-5 text-center shadow-sm">
+            <div className="text-base font-semibold text-neutral-900">Thanh toán an toàn</div>
+            <p className="mt-1 text-sm text-neutral-500">Chuyển khoản trực tiếp qua ngân hàng, không lưu thông tin thẻ.</p>
+          </div>
+          <div className="rounded-2xl border border-neutral-100 bg-white p-5 text-center shadow-sm">
+            <div className="text-base font-semibold text-neutral-900">Kích hoạt tự động</div>
+            <p className="mt-1 text-sm text-neutral-500">Hệ thống tự đối soát và kích hoạt gói trong 1-2 phút sau khi nhận được tiền.</p>
+          </div>
+          <div className="rounded-2xl border border-neutral-100 bg-white p-5 text-center shadow-sm">
+            <div className="text-base font-semibold text-neutral-900">Hỗ trợ tận tình</div>
+            <p className="mt-1 text-sm text-neutral-500">Đội ngũ hỗ trợ sẵn sàng giúp bạn trong suốt quá trình thanh toán.</p>
+          </div>
+        </div>
+        <div className="mt-8 rounded-2xl border border-neutral-100 bg-white p-6 shadow-sm">
+          <h3 className="text-lg font-bold text-neutral-900">Câu hỏi thường gặp</h3>
+          <div className="mt-3 divide-y divide-neutral-100">
+            <details className="py-3">
+              <summary className="cursor-pointer list-none text-sm font-semibold text-neutral-800">Thanh toán bằng cách nào?</summary>
+              <p className="mt-2 text-sm text-neutral-500">Bạn chọn gói, hệ thống tạo mã QR và nội dung chuyển khoản. Bạn quét mã bằng app ngân hàng hoặc chuyển khoản thủ công đúng nội dung.</p>
+            </details>
+            <details className="py-3">
+              <summary className="cursor-pointer list-none text-sm font-semibold text-neutral-800">Bao lâu thì gói được kích hoạt?</summary>
+              <p className="mt-2 text-sm text-neutral-500">Thông thường 1-2 phút sau khi ngân hàng báo có, hệ thống tự động kích hoạt gói và gửi thông báo cho bạn.</p>
+            </details>
+            <details className="py-3">
+              <summary className="cursor-pointer list-none text-sm font-semibold text-neutral-800">Có xuất hóa đơn không?</summary>
+              <p className="mt-2 text-sm text-neutral-500">Có. Bạn có thể yêu cầu xuất hóa đơn VAT trong mục Tài khoản sau khi thanh toán thành công.</p>
+            </details>
+          </div>
+        </div>
+      </section>
     </div>
   );
 }
