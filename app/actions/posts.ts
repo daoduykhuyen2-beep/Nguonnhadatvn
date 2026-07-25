@@ -40,13 +40,18 @@ export async function createPost(_prev: ActionState, formData: FormData): Promis
   const d = collect(formData);
   if (!d.title) return { error: "Vui lòng nhập tiêu đề." };
   if (!d.contact_phone) return { error: "Vui lòng nhập số điện thoại liên hệ." };
+  // Kiểm tra và trừ lượt đăng tin theo gói (admin được miễn). Hết lượt sẽ báo lỗi và không tạo tin.
+  const { data: soNgay, error: quotaError } = await supabase.rpc("dung_kho_tin", { p_loai: "thuong" });
+  if (quotaError) return { error: quotaError.message || "Bạn đã hết lượt đăng tin. Vui lòng mua thêm gói để tiếp tục." };
+  const soNgayValid = Number(soNgay) || 15;
+  const ngayHetHan = new Date(Date.now() + soNgayValid * 24 * 60 * 60 * 1000).toISOString();
   const { data, error } = await supabase.from("web_posts").insert({
     owner: user.id,
     title: d.title, loai: d.loai, quan: d.quan, phuong: d.phuong, duong: d.duong, so_nha: d.so_nha,
     gia: d.gia, dien_tich: d.dien_tich, chieu_ngang: d.chieu_ngang, chieu_dai: d.chieu_dai,
     so_tang: d.so_tang, contact_name: d.contact_name, contact_phone: d.contact_phone,
     mota: d.mota, video: d.video, anh: d.anh, anh_bia: d.anh_bia,
-    status: "thuong", trang_thai: "duyet",
+    status: "thuong", trang_thai: "duyet", ngay_het_han: ngayHetHan,
   }).select("id").single();
   if (error || !data) return { error: error?.message || "Không tạo được tin." };
   revalidatePath("/tai-khoan/tin-cua-toi");
