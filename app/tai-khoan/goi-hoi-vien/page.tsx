@@ -15,6 +15,9 @@ export default async function Page() {
   const memberships = mergedMemberships.map((m, i) => m || hoiVienPlans[i]);
   const tier = p?.membership_tier || "free";
   const active = p?.membership_expires_at ? new Date(p.membership_expires_at).getTime() > Date.now() : false;
+    const msLeft = p?.membership_expires_at ? new Date(p.membership_expires_at).getTime() - Date.now() : 0;
+  const daysLeft = msLeft > 0 ? Math.ceil(msLeft / 86400000) : 0;
+  const expiringSoon = active && daysLeft > 0 && daysLeft <= 7;
   return (
     <div className="space-y-6">
       <h1 className="text-xl font-bold text-neutral-900">Gói Đối tác</h1>
@@ -31,6 +34,14 @@ export default async function Page() {
           {active && p?.membership_expires_at && <span className="text-sm text-neutral-500">còn hạn đến {new Date(p.membership_expires_at).toLocaleDateString("vi-VN")}</span>}
         </div>
       </div>
+      {active && daysLeft > 0 && (
+        <div className={`flex flex-wrap items-center justify-between gap-3 rounded-2xl border p-4 ${expiringSoon ? "border-amber-300 bg-amber-50" : "border-neutral-200 bg-white"}`}>
+          <div className={`text-sm font-medium ${expiringSoon ? "text-amber-800" : "text-neutral-600"}`}>
+            {expiringSoon ? `Gói của bạn sắp hết hạn, chỉ còn ${daysLeft} ngày. Gia hạn ngay để không gián đoạn quyền xem kho nhà.` : `Gói của bạn còn hiệu lực ${daysLeft} ngày.`}
+          </div>
+          <Link href="/bang-gia" className={`whitespace-nowrap rounded-xl px-4 py-2 text-sm font-semibold text-white ${expiringSoon ? "bg-amber-500 hover:bg-amber-600" : "bg-brand hover:bg-brand-dark"}`}>Gia hạn ngay</Link>
+        </div>
+      )}
 
       {/* Banner đánh vào tâm lý người mua nhà */}
       <div className="rounded-2xl border border-brand/30 bg-brand/5 p-5">
