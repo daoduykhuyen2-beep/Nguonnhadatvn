@@ -24,7 +24,7 @@ export default function MobileNav({ nav }: { nav: NavItem[] }) {
     };
   }, []);
   return (
-    <div ref={navRef} className="md:hidden">
+    <div ref={navRef} onMouseLeave={() => setOpen(false)} className="md:hidden">
       <button
         type="button"
         aria-label="Menu"
