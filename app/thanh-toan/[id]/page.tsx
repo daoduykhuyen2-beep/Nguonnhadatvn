@@ -36,6 +36,15 @@ export default async function Page({ params, searchParams }: { params: Promise<{
       <p className="mt-1 text-sm text-neutral-500">Quét mã QR hoặc chuyển khoản theo đúng nội dung bên dưới. Hệ thống tự động xác nhận qua SePay.</p>
 
       <div className="mt-6"><PaymentStatus paymentId={order.id} initialStatus={order.status} /></div>
+      <div className="mt-4 rounded-2xl border border-brand/20 bg-brand/5 p-5">
+        <div className="text-sm font-semibold text-brand-dark">Hướng dẫn thanh toán nhanh</div>
+        <ol className="mt-2 space-y-1.5 text-sm text-neutral-600">
+          <li>1. Quét mã QR bằng app ngân hàng, hoặc chuyển khoản thủ công đúng số tiền và nội dung bên dưới.</li>
+          <li>2. Giữ nguyên nội dung chuyển khoản để hệ thống đối soát chính xác.</li>
+          <li>3. Sau khi chuyển khoản 1-2 phút, hệ thống tự động xác nhận và kích hoạt gói cho bạn.</li>
+        </ol>
+        <p className="mt-3 text-xs text-neutral-500">Trạng thái ở trên sẽ tự cập nhật khi thanh toán thành công, bạn không cần tải lại trang. Nếu sau 5 phút chưa được kích hoạt, vui lòng liên hệ hỗ trợ.</p>
+      </div>
 
       {vi === "ok" && (
         <div className="mt-4 rounded-xl border border-green-200 bg-green-50 px-4 py-3 text-sm text-green-700">Thanh toán bằng số dư thành công! Quyền lợi đã được kích hoạt.</div>
