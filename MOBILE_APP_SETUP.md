@@ -150,3 +150,11 @@ npx cap sync
 npx cap open android   # build Android
 npx cap open ios       # build iOS (can Mac + Xcode)
 \`\`\`
+
+git clone https://github.com/daoduykhuyen2-beep/Nguonnhadatvn.git
+cd Nguonnhadatvn && npm install
+npm install @capacitor/core @capacitor/cli @capacitor/app @capacitor/splash-screen
+npx cap add android
+npx cap add ios
+npx cap open android   (build Android trong Android Studio)
+npx cap open ios       (build iOS trong Xcode)
