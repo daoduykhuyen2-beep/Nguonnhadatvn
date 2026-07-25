@@ -97,26 +97,12 @@ export default async function HomePage() {
         </div>
       </section>
 
-      {/* CAM KET */}
-      <section className="border-b border-brand-100 bg-brand-50">
-        <div className="container-app flex flex-col items-center gap-3 py-6 text-center sm:flex-row sm:justify-center sm:gap-4">
-          <span className="inline-flex items-center gap-2 rounded-full bg-brand-600 px-4 py-1.5 text-sm font-bold text-white">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className="h-4 w-4"><path fillRule="evenodd" d="M16.704 4.153a.75.75 0 0 1 .143 1.052l-8 10.5a.75.75 0 0 1-1.127.075l-4.5-4.5a.75.75 0 0 1 1.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 0 1 1.05-.143Z" clipRule="evenodd" /></svg>
-            CAM KẾT
-          </span>
-          <p className="text-base font-semibold text-brand-900">
-            Nhà tại Nguồn Nhà Đất Việt Nam cam kết 100% nhà thật, địa chỉ thật khi khách hàng mua gói.
-          </p>
-        </div>
-      </section>
-
       {/* CAM KẾT NHÀ THẬT */}
       <section className="border-t border-neutral-100 bg-white">
         <div className="container-app py-14">
           <div className="grid items-center gap-8 lg:grid-cols-[1.1fr_0.9fr]">
             <div>
-              <span className="inline-flex items-center gap-2 rounded-full bg-brand/10 px-4 py-1.5 text-sm font-bold text-brand-dark">Hơn {soCanText} căn nhà đang bán</span>
-              <h2 className="mt-4 text-2xl font-bold text-neutral-900 sm:text-3xl">{soCanText} căn nhà — <span className="text-brand-dark">100% là nhà thật</span></h2>
+              <h2 className="mt-4 text-2xl font-bold text-neutral-900 sm:text-3xl">{soCanText} bất động sản đang được rao bán trên toàn quốc</h2>
               <div className="mt-4 space-y-3 text-sm leading-relaxed text-neutral-600">
                 <p>Toàn bộ <strong className="font-semibold text-brand-dark">{soCanText} căn</strong> đang đăng trên website đều là bất động sản có thật, được đội ngũ kiểm duyệt trước khi hiển thị. Bạn ưng căn nào, chỉ cần để lại số điện thoại — chúng tôi liên hệ ngay và gửi đúng căn đó với đúng vị trí, đúng diện tích như mô tả.</p>
                 <p>Với số lượng tin cực lớn nên một vài căn tạm dùng ảnh minh họa, nhưng <strong className="font-semibold text-neutral-800">vị trí và diện tích luôn chính xác 100%</strong>. Nhân viên sẽ tư vấn trực tiếp, dẫn bạn xem đúng căn bạn quan tâm — cam kết không tin ảo, không mất thời gian.</p>
