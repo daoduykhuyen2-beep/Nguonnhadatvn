@@ -27,7 +27,7 @@ function PlanCard({ plan, highlight, postId }: { plan: any; highlight?: boolean;
       {disc > 0 && <span className="mt-1 inline-block w-fit rounded-md bg-red-50 px-2 py-0.5 text-xs font-semibold text-red-600">-{disc}%{promo && plan.promoLabel ? " · " + plan.promoLabel : ""}</span>}
       <ul className="mt-4 flex-1 space-y-2 text-sm text-neutral-600">
         {plan.days && <li className="flex gap-2"><span className="text-brand">✓</span> Thời hạn {plan.days} ngày</li>}
-        {plan.quota && <li className="flex gap-2"><span className="text-brand">✓</span> {plan.quota >= 999999 ? "Đăng tin không giới hạn" : plan.quota + " tin đăng"}</li>}
+        {plan.quota && <li className="flex gap-2"><span className="text-brand">✓</span> {plan.quota >= 9999 ? "Đăng tin miễn phí" : plan.quota + " tin đăng"}</li>}
         {plan.pushCredits && <li className="flex gap-2"><span className="text-brand">✓</span> {plan.pushCredits} lượt đẩy tin</li>}
         {plan.tier && plan.group !== "hoi_vien" && <li className="flex gap-2"><span className="text-brand">✓</span> Hiển thị {plan.tier === "kim_cuong" ? "VIP Kim cương" : plan.tier === "vang" ? "VIP Vàng" : "tin thường"}</li>}
         {plan.features && plan.features.map((f: string, idx: number) => (
