@@ -3,19 +3,10 @@ import { PLANS, getPlan, type Plan } from "@/lib/plans";
 
 // Map mã gói ở UI (chữ thường) sang mã chuẩn mà các hàm DB (apply_post_plan/apply_membership) yêu cầu.
 const DB_CODE: Record<string, string> = {
-  tin_thuong_15: "TIN_THUONG_15",
-  tin_vang_15: "VIP_VANG",
-  tin_kc_15: "VIP_KC",
   tin_vip_49: "VIP_VANG",
   tin_kc_99: "VIP_KC",
   dt_thoai_mai: "DT_THOAIMAI",
-  day_1: "DAY_1",
-  day_3: "DAY_3",
-  day_6: "DAY_6",
   hv_xem_kho: "HV_XEM_KHO",
-  hv_co_ban: "COMBO_COBAN",
-  hv_chuyen_nghiep: "COMBO_CHUYENNGHIEP",
-  hv_vip: "COMBO_VIP",
   naptien: "NAPTIEN",
 };
 
@@ -48,5 +39,3 @@ export async function getPlanMerged(code: string): Promise<Plan | null> {
   } catch {}
   return base;
 }
-
-export { PLANS };
