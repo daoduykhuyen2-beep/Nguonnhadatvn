@@ -41,7 +41,7 @@ export default function HeaderActions({ user, profile }: Props) {
         <Link href="/dang-nhap" className="btn-ghost hidden sm:inline-flex">
           Đăng nhập
         </Link>
-        <div ref={appRef} className="relative">
+        <div ref={appRef} onMouseLeave={() => setAppOpen(false)} className="relative">
                   <button
                     type="button"
                     onClick={() => setAppOpen((o) => !o)}
@@ -83,7 +83,7 @@ export default function HeaderActions({ user, profile }: Props) {
 
   return (
     <div className="flex items-center gap-2">
-        <div ref={appRef} className="relative">
+        <div ref={appRef} onMouseLeave={() => setAppOpen(false)} className="relative">
                   <button
                     type="button"
                     onClick={() => setAppOpen((o) => !o)}
@@ -120,7 +120,7 @@ export default function HeaderActions({ user, profile }: Props) {
         + Đăng tin
       </Link>
       <NotificationBell />
-      <div ref={menuRef} className="relative">
+      <div ref={menuRef} onMouseLeave={() => setOpen(false)} className="relative">
         <button
           onClick={() => setOpen((o) => !o)}
           className="flex h-10 w-10 items-center justify-center overflow-hidden rounded-full border border-paper-line bg-brand-50 text-sm font-bold text-brand-700 ring-2 ring-brand-100 transition hover:ring-brand-200"
