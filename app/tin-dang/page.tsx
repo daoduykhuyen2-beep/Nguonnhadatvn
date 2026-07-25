@@ -5,8 +5,8 @@ import PostFilter from "@/components/PostFilter";
 import type { Post } from "@/lib/types";
 
 export const metadata = { title: "Tin đăng bất động sản" };
-export const revalidate = 60;
-
+export const revalidate = 0;
+export const dynamic = "force-dynamic";
 const PER_PAGE = 24;
 
 export default async function TinDangPage({
