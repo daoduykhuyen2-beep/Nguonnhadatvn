@@ -116,10 +116,17 @@ export async function POST(req: NextRequest) {
     // Goi day tin: cong so luot day (push_credits) cho user.
     const credits = plan?.pushCredits || 0;
     if (credits > 0) {
-      const { data: prof } = await supabase.from("profiles").select("push_credits").eq("id", order.user_id).single();
-      const current = prof?.push_credits || 0;
-      const { error } = await supabase.from("profiles").update({ push_credits: current + credits }).eq("id", order.user_id);
-      if (error) return NextResponse.json({ success: false, error: "push credits failed" }, { status: 500 });
+      // Cong luot day nguyen tu qua RPC (tranh race condition). Neu RPC chua co, fallback read-then-write.
+      const { error: rpcErr } = await supabase.rpc("add_push_credits", {
+        p_user_id: order.user_id,
+        p_amount: credits,
+      });
+      if (rpcErr) {
+        const { data: prof } = await supabase.from("profiles").select("push_credits").eq("id", order.user_id).single();
+        const current = prof?.push_credits || 0;
+        const { error } = await supabase.from("profiles").update({ push_credits: current + credits }).eq("id", order.user_id);
+        if (error) return NextResponse.json({ success: false, error: "push credits failed" }, { status: 500 });
+      }
     }
   } else if (order.post_id) {
     const { error } = await supabase.rpc("apply_post_plan", { p_payment_id: order.id });
