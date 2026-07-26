@@ -25,7 +25,18 @@ export default async function TinDangPage({
     .select("*", { count: "exact" })
     .eq("trang_thai", "duyet");
 
-  if (sp.loai) query = query.ilike("loai", `%${sp.loai}%`);
+  if (sp.loai) {
+    // Bo loc gui slug (nha_pho, tho_cu, can_ho, du_an). Du lieu cu luu slug,
+    // tin moi dang qua form co the luu chu hien thi -> khop ca hai.
+    const LOAI_ALIAS: Record<string, string[]> = {
+      nha_pho: ["nha_pho", "Nhà phố", "Nhà mặt tiền", "Nhà hẻm", "Biệt thự"],
+      tho_cu: ["tho_cu", "Nhà phố", "Nhà mặt tiền", "Nhà hẻm"],
+      can_ho: ["can_ho", "Căn hộ"],
+      du_an: ["du_an", "Đất nền", "Dự án"],
+    };
+    const terms = LOAI_ALIAS[sp.loai] || [sp.loai];
+    query = query.or(terms.map((t) => `loai.ilike.%${t}%`).join(","));
+  }
   if (sp.giao_dich) query = query.eq("giao_dich", sp.giao_dich);
   // Lọc theo tỉnh/thành trên toàn quốc. Trường "quan" có dạng "Quận/Huyện - Tỉnh".
   if (sp.tinh) query = query.ilike("quan", `%- ${sp.tinh}`);
@@ -46,6 +57,13 @@ export default async function TinDangPage({
     const _rest = posts.slice(7);
     const _off = _rest.length > 0 ? _rot % _rest.length : 0;
     posts = _vip.concat(_rest.slice(_off)).concat(_rest.slice(0, _off));
+  }
+  // Uu tien hien thi tin "nha pho" len dau danh sach (trang dau, khi khong loc).
+  if (_isDefaultFeed) {
+    const _isNhaPho = (p: Post) => /nha_pho|Nhà phố/i.test(String(p.loai || ""));
+    const _nhaPho = posts.filter(_isNhaPho);
+    const _khac = posts.filter((p) => !_isNhaPho(p));
+    posts = _nhaPho.concat(_khac);
   }
   const total = count || 0;
   const totalPages = Math.max(1, Math.ceil(total / PER_PAGE));
