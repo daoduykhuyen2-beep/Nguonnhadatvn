@@ -90,10 +90,19 @@ function parseGiaTrieu(raw: string | null): number | null {
   return num;
 }
 
+function parseNum(raw: string | null): number | null {
+  if (!raw) return null;
+  const s = String(raw).replace(/,/g, ".");
+  const mm = s.match(/([0-9]+(?:\.[0-9]+)?)/);
+  if (!mm) return null;
+  const num = parseFloat(mm[1]);
+  return isNaN(num) ? null : num;
+}
+
 export default async function TinDangPage({
   searchParams,
 }: {
-  searchParams: Promise<{ q?: string; giao_dich?: string; loai?: string; tinh?: string; quan?: string; gia?: string; page?: string }>;
+  searchParams: Promise<{ q?: string; giao_dich?: string; loai?: string; tinh?: string; quan?: string; gia?: string; dien_tich?: string; so_tang?: string; page?: string }>;
 }) {
   const sp = await searchParams;
   const page = Math.max(1, parseInt(sp.page || "1", 10) || 1);
@@ -143,19 +152,54 @@ export default async function TinDangPage({
   }
   const _hasGia = _giaMin !== null || _giaMax !== null;
 
+  // Lọc diện tích (m²) và số tầng — cũng lưu dạng chuỗi nên lọc bằng JS.
+  let _dtMin: number | null = null;
+  let _dtMax: number | null = null;
+  if (sp.dien_tich) {
+    const _p = sp.dien_tich.split("-");
+    _dtMin = _p[0] !== "" && _p[0] !== undefined ? parseFloat(_p[0]) : null;
+    _dtMax = _p[1] !== "" && _p[1] !== undefined ? parseFloat(_p[1]) : null;
+  }
+  const _hasDt = _dtMin !== null || _dtMax !== null;
+
+  let _tangMin: number | null = null;
+  let _tangMax: number | null = null;
+  if (sp.so_tang) {
+    const _p = sp.so_tang.split("-");
+    _tangMin = _p[0] !== "" && _p[0] !== undefined ? parseFloat(_p[0]) : null;
+    _tangMax = _p[1] !== "" && _p[1] !== undefined ? parseFloat(_p[1]) : null;
+  }
+  const _hasTang = _tangMin !== null || _tangMax !== null;
+
+  const _hasClientFilter = _hasGia || _hasDt || _hasTang;
+
   let posts: Post[] = [];
   let count: number | null = 0;
 
-  if (_hasGia) {
+  if (_hasClientFilter) {
     const { data } = await query
       .order("rank_order", { ascending: true })
       .order("created_at", { ascending: false })
-      .range(0, 999);
+      .range(0, 4999);
     const _all = ((data || []) as Post[]).filter((pp) => {
-      const _g = parseGiaTrieu(pp.gia);
-      if (_g === null) return false;
-      if (_giaMin !== null && _g < _giaMin) return false;
-      if (_giaMax !== null && _g > _giaMax) return false;
+      if (_hasGia) {
+        const _g = parseGiaTrieu(pp.gia);
+        if (_g === null) return false;
+        if (_giaMin !== null && _g < _giaMin) return false;
+        if (_giaMax !== null && _g > _giaMax) return false;
+      }
+      if (_hasDt) {
+        const _a = parseNum((pp as { dien_tich?: string | null }).dien_tich ?? null);
+        if (_a === null) return false;
+        if (_dtMin !== null && _a < _dtMin) return false;
+        if (_dtMax !== null && _a > _dtMax) return false;
+      }
+      if (_hasTang) {
+        const _t = parseNum((pp as { so_tang?: string | null }).so_tang ?? null);
+        if (_t === null) return false;
+        if (_tangMin !== null && _t < _tangMin) return false;
+        if (_tangMax !== null && _t > _tangMax) return false;
+      }
       return true;
     });
     count = _all.length;
@@ -210,6 +254,8 @@ export default async function TinDangPage({
     if (sp.tinh) params.set("tinh", sp.tinh);
     if (sp.quan) params.set("quan", sp.quan);
     if (sp.gia) params.set("gia", sp.gia);
+    if (sp.dien_tich) params.set("dien_tich", sp.dien_tich);
+    if (sp.so_tang) params.set("so_tang", sp.so_tang);
     params.set("page", String(p));
     return `/tin-dang?${params.toString()}`;
   }
