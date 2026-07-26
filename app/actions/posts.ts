@@ -112,3 +112,24 @@ export async function deletePost(id: number): Promise<ActionState> {
   revalidatePath("/tin-dang");
   return { ok: true };
 }
+
+export async function boostPost(postId: number): Promise<{ ok: boolean; error?: string; remaining?: number }> {
+  const supabase = await createClient();
+  const { data: { user } } = await supabase.auth.getUser();
+  if (!user) return { ok: false, error: "Vui lòng đăng nhập." };
+  const { data, error } = await supabase.rpc("boost_post", { p_post_id: postId });
+  if (error) return { ok: false, error: error.message };
+  const res = (data || {}) as { ok?: boolean; error?: string; remaining?: number };
+  if (!res.ok) {
+    const map: Record<string, string> = {
+      het_luot_day: "Bạn đã hết lượt đẩy tin. Vui lòng mua thêm gói đẩy tin.",
+      khong_phai_tin_cua_ban: "Bạn chỉ có thể đẩy tin của chính mình.",
+      khong_tim_thay_tin: "Không tìm thấy tin.",
+      chua_dang_nhap: "Vui lòng đăng nhập.",
+    };
+    return { ok: false, error: map[res.error || ""] || "Không đẩy được tin." };
+  }
+  revalidatePath("/tai-khoan/tin-cua-toi");
+  revalidatePath("/tin-dang");
+  return { ok: true, remaining: res.remaining };
+}
