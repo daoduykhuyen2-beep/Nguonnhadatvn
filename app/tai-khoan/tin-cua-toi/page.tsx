@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { createClient } from "@/lib/supabase/server";
 import DeletePostButton from "@/components/DeletePostButton";
+import BoostPostButton from "@/components/BoostPostButton";
 import type { Post } from "@/lib/types";
 export const metadata = { title: "Tin của tôi | Tài khoản" };
 
@@ -21,11 +22,17 @@ export default async function Page() {
   const { data: { user } } = await supabase.auth.getUser();
   const { data: posts } = await supabase.from("web_posts").select("*").eq("owner", user!.id).order("created_at", { ascending: false });
   const list = (posts || []) as Post[];
+  const { data: profile } = await supabase.from("profiles").select("push_credits").eq("id", user!.id).single();
+  const pushCredits = profile?.push_credits || 0;
   return (
     <div>
       <div className="mb-6 flex items-center justify-between">
         <h1 className="text-xl font-bold text-neutral-900">Tin của tôi <span className="text-sm font-normal text-neutral-400">({list.length})</span></h1>
-        <Link href="/dang-tin" className="rounded-xl bg-brand px-4 py-2 text-sm font-semibold text-white transition hover:bg-brand-dark">+ Đăng tin</Link>
+        <div className="flex items-center gap-3">
+          <span className="inline-flex items-center gap-1.5 rounded-xl border border-amber-300 bg-amber-50 px-3 py-2 text-sm font-semibold text-amber-700" title="Số lượt đẩy tin còn lại">Lượt đẩy tin: {pushCredits}</span>
+          <Link href="/bang-gia" className="rounded-xl border border-amber-400 px-3 py-2 text-sm font-semibold text-amber-700 transition hover:bg-amber-400 hover:text-white">Mua lượt đẩy</Link>
+          <Link href="/dang-tin" className="rounded-xl bg-brand px-4 py-2 text-sm font-semibold text-white transition hover:bg-brand-dark">+ Đăng tin</Link>
+        </div>
       </div>
       {list.length === 0 ? (
         <div className="rounded-2xl border border-dashed border-neutral-200 bg-white py-16 text-center">
@@ -56,6 +63,7 @@ export default async function Page() {
                   <div className="mt-auto flex items-center gap-2 pt-2">
                     <Link href={"/sua-tin/" + p.id} className="rounded-lg border border-neutral-200 px-3 py-1.5 text-sm font-medium text-neutral-700 transition hover:border-brand hover:text-brand">Sửa</Link>
                     <Link href={"/bang-gia?post=" + p.id} className="rounded-lg border border-brand/40 bg-brand/5 px-3 py-1.5 text-sm font-semibold text-brand transition hover:bg-brand hover:text-white">Nâng cấp</Link>
+                    <BoostPostButton postId={p.id} credits={pushCredits} />
                     <DeletePostButton id={p.id} />
                     <span className="ml-auto text-xs text-neutral-400">{p.luot_xem || 0} lượt xem</span>
                   </div>
