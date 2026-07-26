@@ -9,10 +9,91 @@ export const revalidate = 0;
 export const dynamic = "force-dynamic";
 const PER_PAGE = 24;
 
+// Danh sách tỉnh/thành (đồng bộ với form đăng tin & bộ lọc) để đếm số tin theo tỉnh.
+const TINH_LIST: string[] = [
+  "An Giang",
+  "Bà Rịa - Vũng Tàu",
+  "Bạc Liêu",
+  "Bắc Giang",
+  "Bắc Kạn",
+  "Bắc Ninh",
+  "Bến Tre",
+  "Bình Dương",
+  "Bình Định",
+  "Bình Phước",
+  "Bình Thuận",
+  "Cà Mau",
+  "Cao Bằng",
+  "Cần Thơ",
+  "Đà Nẵng",
+  "Đắk Lắk",
+  "Đắk Nông",
+  "Điện Biên",
+  "Đồng Nai",
+  "Đồng Tháp",
+  "Gia Lai",
+  "Hà Giang",
+  "Hà Nam",
+  "Hà Nội",
+  "Hà Tĩnh",
+  "Hải Dương",
+  "Hải Phòng",
+  "Hậu Giang",
+  "Hòa Bình",
+  "Hưng Yên",
+  "Khánh Hòa",
+  "Kiên Giang",
+  "Kon Tum",
+  "Lai Châu",
+  "Lâm Đồng",
+  "Lạng Sơn",
+  "Lào Cai",
+  "Long An",
+  "Nam Định",
+  "Nghệ An",
+  "Ninh Bình",
+  "Ninh Thuận",
+  "Phú Thọ",
+  "Phú Yên",
+  "Quảng Bình",
+  "Quảng Nam",
+  "Quảng Ngãi",
+  "Quảng Ninh",
+  "Quảng Trị",
+  "Sóc Trăng",
+  "Sơn La",
+  "Tây Ninh",
+  "Thái Bình",
+  "Thái Nguyên",
+  "Thanh Hóa",
+  "Thừa Thiên Huế",
+  "Tiền Giang",
+  "TP. Hồ Chí Minh",
+  "Trà Vinh",
+  "Tuyên Quang",
+  "Vĩnh Long",
+  "Vĩnh Phúc",
+  "Yên Bái",
+];
+
+// Trích giá trị số (đơn vị triệu VNĐ) từ chuỗi giá tự do như "5 tỷ", "500 triệu", "12 tr/tháng".
+function parseGiaTrieu(raw: string | null): number | null {
+  if (!raw) return null;
+  const s = String(raw).toLowerCase().replace(/\./g, "").replace(/,/g, ".");
+  const mm = s.match(/([0-9]+(?:\.[0-9]+)?)/);
+  if (!mm) return null;
+  const num = parseFloat(mm[1]);
+  if (isNaN(num)) return null;
+  if (/(tỷ|ty|tỉ)/.test(s)) return num * 1000;
+  if (/(triệu|trieu|tr)/.test(s)) return num;
+  if (num >= 1000000) return num / 1000000;
+  return num;
+}
+
 export default async function TinDangPage({
   searchParams,
 }: {
-  searchParams: Promise<{ q?: string; giao_dich?: string; loai?: string; tinh?: string; page?: string }>;
+  searchParams: Promise<{ q?: string; giao_dich?: string; loai?: string; tinh?: string; gia?: string; page?: string }>;
 }) {
   const sp = await searchParams;
   const page = Math.max(1, parseInt(sp.page || "1", 10) || 1);
@@ -20,6 +101,22 @@ export default async function TinDangPage({
   const to = from + PER_PAGE - 1;
 
   const supabase = await createClient();
+
+  // Đếm số tin đã duyệt theo từng tỉnh/thành để hiển thị cạnh bộ lọc.
+  const tinhCounts: Record<string, number> = {};
+  {
+    const { data: _allQuan } = await supabase
+      .from("web_posts_public")
+      .select("quan")
+      .eq("trang_thai", "duyet");
+    for (const _row of (_allQuan || []) as { quan: string | null }[]) {
+      const _q = (_row.quan || "").trim();
+      if (!_q) continue;
+      for (const _t of TINH_LIST) {
+        if (_q.toLowerCase().includes(_t.toLowerCase())) { tinhCounts[_t] = (tinhCounts[_t] || 0) + 1; break; }
+      }
+    }
+  }
   let query = supabase
     .from("web_posts_public")
     .select("*", { count: "exact" })
@@ -30,19 +127,48 @@ export default async function TinDangPage({
     query = query.eq("loai", sp.loai);
   }
   if (sp.giao_dich) query = query.eq("giao_dich", sp.giao_dich);
-  // Lọc theo tỉnh/thành trên toàn quốc. Trường "quan" có dạng "Quận/Huyện - Tỉnh".
-  if (sp.tinh) query = query.ilike("quan", `%- ${sp.tinh}`);
+  // Lọc theo tỉnh/thành trên toàn quốc. Cột "quan" chứa tên tỉnh (có thể kèm quận/huyện).
+  if (sp.tinh) query = query.ilike("quan", `%${sp.tinh}%`);
   if (sp.q) query = query.or(`title.ilike.%${sp.q}%,mota.ilike.%${sp.q}%,quan.ilike.%${sp.q}%`);
 
-  const { data, count } = await query
-    .order("rank_order", { ascending: true })
-    .order("created_at", { ascending: false })
-    .range(from, to);
+  // Xử lý lọc khoảng giá: cột "gia" lưu dạng chuỗi nên lọc bằng JS sau khi lấy dữ liệu.
+  let _giaMin: number | null = null;
+  let _giaMax: number | null = null;
+  if (sp.gia) {
+    const _parts = sp.gia.split("-");
+    _giaMin = _parts[0] !== "" && _parts[0] !== undefined ? parseFloat(_parts[0]) : null;
+    _giaMax = _parts[1] !== "" && _parts[1] !== undefined ? parseFloat(_parts[1]) : null;
+  }
+  const _hasGia = _giaMin !== null || _giaMax !== null;
 
-  let posts = (data || []) as Post[];
+  let posts: Post[] = [];
+  let count: number | null = 0;
+
+  if (_hasGia) {
+    const { data } = await query
+      .order("rank_order", { ascending: true })
+      .order("created_at", { ascending: false })
+      .range(0, 999);
+    const _all = ((data || []) as Post[]).filter((pp) => {
+      const _g = parseGiaTrieu(pp.gia);
+      if (_g === null) return false;
+      if (_giaMin !== null && _g < _giaMin) return false;
+      if (_giaMax !== null && _g > _giaMax) return false;
+      return true;
+    });
+    count = _all.length;
+    posts = _all.slice(from, to + 1);
+  } else {
+    const { data, count: _c } = await query
+      .order("rank_order", { ascending: true })
+      .order("created_at", { ascending: false })
+      .range(from, to);
+    posts = (data || []) as Post[];
+    count = _c;
+  }
   // Xoay vong trang dau (khi khong loc): giu nhom VIP o dau, xoay phan con lai theo thoi gian
   // de khach quay lai luon thay tin moi thay vi cung mot danh sach co dinh.
-  const _isDefaultFeed = page === 1 && !sp.q && !sp.loai && !sp.giao_dich && !sp.tinh;
+  const _isDefaultFeed = page === 1 && !sp.q && !sp.loai && !sp.giao_dich && !sp.tinh && !sp.gia;
   if (_isDefaultFeed && posts.length > 8) {
     const _rot = Math.floor(Date.now() / (1000 * 60 * 20));
     const _vip = posts.slice(0, 7);
@@ -80,6 +206,7 @@ export default async function TinDangPage({
     if (sp.loai) params.set("loai", sp.loai);
     if (sp.giao_dich) params.set("giao_dich", sp.giao_dich);
     if (sp.tinh) params.set("tinh", sp.tinh);
+    if (sp.gia) params.set("gia", sp.gia);
     params.set("page", String(p));
     return `/tin-dang?${params.toString()}`;
   }
@@ -87,7 +214,7 @@ export default async function TinDangPage({
   return (
     <div className="container-app py-8">
       <h1 className="section-title mb-4">Tin đăng bất động sản</h1>
-      <PostFilter />
+      <PostFilter counts={tinhCounts} />
 
       <p className="mt-4 text-sm text-ink-muted">Tìm thấy {total.toLocaleString("vi-VN")} tin đăng trên toàn quốc{sp.tinh ? " tại " + sp.tinh : ""}.</p>
 
