@@ -73,7 +73,7 @@ const TINH = [
   "Thanh Hóa",
   "Thừa Thiên Huế",
   "Tiền Giang",
-  "TP. Hồ Chí Minh",
+  "Hồ Chí Minh",
   "Trà Vinh",
   "Tuyên Quang",
   "Vĩnh Long",
@@ -119,7 +119,7 @@ const QUAN_BY_TINH: Record<string, string[]> = {
   "Thái Nguyên": ["Đồng Hỷ", "Phổ Yên", "Phú Lương", "Sông Công", "Thái Nguyên"],
   "Thanh Hóa": ["Bá Thước", "Bỉm Sơn", "Cẩm Thủy", "Đông Sơn", "Hà Trung", "Hậu Lộc", "Hoằng Hóa", "Nga Sơn", "Nghi Sơn", "Ngọc Lặc", "Như Xuân", "Quảng Xương", "Sầm Sơn", "Thạch Thành", "Thanh Hóa", "Thiệu Hóa", "Thọ Xuân", "Thường Xuân", "Triệu Sơn", "Vĩnh Lộc", "Yên Định"],
   "Thừa Thiên Huế": ["Huế"],
-  "TP. Hồ Chí Minh": ["Bình Chánh", "Bình Tân", "Bình Thạnh", "Cần Giờ", "Củ Chi", "Gò Vấp", "Hóc Môn", "Nhà Bè", "Phú Nhuận", "Quận 1", "Quận 10", "Quận 11", "Quận 12", "Quận 3", "Quận 4", "Quận 5", "Quận 6", "Quận 7", "Quận 8", "Tân Bình", "Tân Phú", "Thủ Đức"],
+  "Hồ Chí Minh": ["Bình Chánh", "Bình Tân", "Bình Thạnh", "Cần Giờ", "Củ Chi", "Gò Vấp", "Hóc Môn", "Nhà Bè", "Phú Nhuận", "Quận 1", "Quận 10", "Quận 11", "Quận 12", "Quận 3", "Quận 4", "Quận 5", "Quận 6", "Quận 7", "Quận 8", "Tân Bình", "Tân Phú", "Thủ Đức"],
   "Vĩnh Phúc": ["Phúc Yên", "Tam Đảo"],
 };
 
