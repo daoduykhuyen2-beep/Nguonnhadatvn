@@ -5,7 +5,16 @@ import ImageMultiUploadField from "@/components/ImageMultiUploadField";
 import type { Post } from "@/lib/types";
 
 const TINH = ["An Giang","Bà Rịa - Vũng Tàu","Bạc Liêu","Bắc Giang","Bắc Kạn","Bắc Ninh","Bến Tre","Bình Dương","Bình Định","Bình Phước","Bình Thuận","Cà Mau","Cao Bằng","Cần Thơ","Đà Nẵng","Đắk Lắk","Đắk Nông","Điện Biên","Đồng Nai","Đồng Tháp","Gia Lai","Hà Giang","Hà Nam","Hà Nội","Hà Tĩnh","Hải Dương","Hải Phòng","Hậu Giang","Hòa Bình","Hưng Yên","Khánh Hòa","Kiên Giang","Kon Tum","Lai Châu","Lâm Đồng","Lạng Sơn","Lào Cai","Long An","Nam Định","Nghệ An","Ninh Bình","Ninh Thuận","Phú Thọ","Phú Yên","Quảng Bình","Quảng Nam","Quảng Ngãi","Quảng Ninh","Quảng Trị","Sóc Trăng","Sơn La","Tây Ninh","Thái Bình","Thái Nguyên","Thanh Hóa","Thừa Thiên Huế","Tiền Giang","TP. Hồ Chí Minh","Trà Vinh","Tuyên Quang","Vĩnh Long","Vĩnh Phúc","Yên Bái"];
-const LOAI = ["Nhà phố","Nhà mặt tiền","Nhà hẻm","Biệt thự","Căn hộ","Đất nền","Cho thuê"];
+const LOAI = [
+  { label: "Nhà phố", value: "nha_pho" },
+  { label: "Nhà thổ cư", value: "tho_cu" },
+  { label: "Căn hộ", value: "can_ho" },
+  { label: "Dự án / Đất nền", value: "du_an" },
+];
+const GIAO_DICH = [
+  { label: "Bán", value: "ban" },
+  { label: "Cho thuê", value: "thue" },
+];
 
 const inputCls = "w-full rounded-xl border border-neutral-200 bg-white px-3.5 py-2.5 text-sm text-neutral-900 outline-none transition focus:border-brand focus:ring-2 focus:ring-brand/20";
 const labelCls = "mb-1.5 block text-sm font-medium text-neutral-700";
@@ -25,8 +34,9 @@ export default function PostForm({ action, post, submitLabel = "Đăng tin" }: P
   const [state, formAction] = useActionState(action, {} as any);
   const anh: string[] = (post?.anh as string[]) || [];
   const [loai, setLoai] = useState<string>(post?.loai || "");
+  const [giaoDich, setGiaoDich] = useState<string>((post as any)?.giao_dich || "ban");
   const [gia, setGia] = useState<string>(post?.gia || "");
-  const isRent = loai === "Cho thuê";
+  const isRent = giaoDich === "thue";
   return (
     <form action={formAction} className="space-y-6">
       {state?.error && <div className="rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">{state.error}</div>}
@@ -40,10 +50,16 @@ export default function PostForm({ action, post, submitLabel = "Đăng tin" }: P
           </div>
           <div className="grid gap-4 sm:grid-cols-2">
             <div>
+              <label className={labelCls}>Giao dịch</label>
+              <select name="giao_dich" value={giaoDich} onChange={(e) => setGiaoDich(e.target.value)} className={inputCls}>
+                {GIAO_DICH.map((x) => <option key={x.value} value={x.value}>{x.label}</option>)}
+              </select>
+            </div>
+            <div>
               <label className={labelCls}>Loại BĐS</label>
               <select name="loai" value={loai} onChange={(e) => setLoai(e.target.value)} className={inputCls}>
                 <option value="">-- Chọn loại --</option>
-                {LOAI.map((x) => <option key={x} value={x}>{x}</option>)}
+                {LOAI.map((x) => <option key={x.value} value={x.value}>{x.label}</option>)}
               </select>
             </div>
             <div>
