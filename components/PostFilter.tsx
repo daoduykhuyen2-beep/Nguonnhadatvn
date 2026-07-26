@@ -2,7 +2,12 @@
 import { useRouter, useSearchParams } from "next/navigation";
 import { useState } from "react";
 
-const LOAI = ["Nhà phố", "Nhà mặt tiền", "Nhà hẻm", "Biệt thự", "Căn hộ", "Đất nền", "Cho thuê"];
+const LOAI = [
+  { label: "Nhà phố", value: "nha_pho" },
+  { label: "Nhà thổ cư", value: "tho_cu" },
+  { label: "Căn hộ", value: "can_ho" },
+  { label: "Dự án / Đất nền", value: "du_an" },
+];
 
 // Danh sách tỉnh/thành toàn quốc (lọc theo địa phương, không phải theo trang)
 const TINH = [
@@ -112,7 +117,7 @@ export default function PostFilter() {
         />
         <select className="input md:w-44" value={loai} onChange={(e) => { setLoai(e.target.value); apply({ loai: e.target.value }); }}>
           <option value="">Loại BĐS</option>
-          {LOAI.map((l) => <option key={l} value={l}>{l}</option>)}
+          {LOAI.map((l) => <option key={l.value} value={l.value}>{l.label}</option>)}
         </select>
         <select className="input md:w-48" value={tinh} onChange={(e) => { setTinh(e.target.value); apply({ tinh: e.target.value }); }}>
           <option value="">Toàn quốc</option>
