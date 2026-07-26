@@ -140,6 +140,25 @@ const KHOANG_GIA = [
   { value: "50000-", label: "Trên 50 tỷ" },
 ];
 
+const DIEN_TICH = [
+  { value: "", label: "Diện tích" },
+  { value: "0-30", label: "Dưới 30 m²" },
+  { value: "30-50", label: "30 - 50 m²" },
+  { value: "50-100", label: "50 - 100 m²" },
+  { value: "100-200", label: "100 - 200 m²" },
+  { value: "200-", label: "Trên 200 m²" },
+];
+
+const SO_TANG = [
+  { value: "", label: "Số tầng" },
+  { value: "1", label: "1 tầng" },
+  { value: "2", label: "2 tầng" },
+  { value: "3", label: "3 tầng" },
+  { value: "4", label: "4 tầng" },
+  { value: "5-", label: "5+ tầng" },
+];
+
+
 type CountMap = Record<string, number>;
 
 export default function PostFilter({ counts = {} }: { counts?: CountMap }) {
@@ -151,10 +170,12 @@ export default function PostFilter({ counts = {} }: { counts?: CountMap }) {
   const [quan, setQuan] = useState(sp.get("quan") || "");
   const [giaoDich, setGiaoDich] = useState(sp.get("giao_dich") || "");
   const [gia, setGia] = useState(sp.get("gia") || "");
+  const [dienTich, setDienTich] = useState(sp.get("dien_tich") || "");
+  const [soTang, setSoTang] = useState(sp.get("so_tang") || "");
 
   const quanList = QUAN_BY_TINH[tinh] || [];
 
-  function buildUrl(next: { q?: string; loai?: string; tinh?: string; quan?: string; giao_dich?: string; gia?: string }) {
+  function buildUrl(next: { q?: string; loai?: string; tinh?: string; quan?: string; giao_dich?: string; gia?: string; dien_tich?: string; so_tang?: string }) {
     const params = new URLSearchParams();
     const _q = next.q !== undefined ? next.q : q;
     const _loai = next.loai !== undefined ? next.loai : loai;
@@ -162,17 +183,21 @@ export default function PostFilter({ counts = {} }: { counts?: CountMap }) {
     const _quan = next.quan !== undefined ? next.quan : quan;
     const _giao_dich = next.giao_dich !== undefined ? next.giao_dich : giaoDich;
     const _gia = next.gia !== undefined ? next.gia : gia;
+    const _dien_tich = next.dien_tich !== undefined ? next.dien_tich : dienTich;
+    const _so_tang = next.so_tang !== undefined ? next.so_tang : soTang;
     if (_q) params.set("q", _q);
     if (_loai) params.set("loai", _loai);
     if (_giao_dich) params.set("giao_dich", _giao_dich);
     if (_tinh) params.set("tinh", _tinh);
     if (_quan) params.set("quan", _quan);
     if (_gia) params.set("gia", _gia);
+    if (_dien_tich) params.set("dien_tich", _dien_tich);
+    if (_so_tang) params.set("so_tang", _so_tang);
     const qs = params.toString();
     return "/tin-dang" + (qs ? "?" + qs : "");
   }
 
-  function apply(next: { q?: string; loai?: string; tinh?: string; quan?: string; giao_dich?: string; gia?: string } = {}) {
+  function apply(next: { q?: string; loai?: string; tinh?: string; quan?: string; giao_dich?: string; gia?: string; dien_tich?: string; so_tang?: string } = {}) {
     router.push(buildUrl(next));
   }
 
@@ -184,11 +209,11 @@ export default function PostFilter({ counts = {} }: { counts?: CountMap }) {
   }
 
   function reset() {
-    setQ(""); setLoai(""); setTinh(""); setQuan(""); setGiaoDich(""); setGia("");
+    setQ(""); setLoai(""); setTinh(""); setQuan(""); setGiaoDich(""); setGia(""); setDienTich(""); setSoTang("");
     router.push("/tin-dang");
   }
 
-  const hasFilter = q || loai || tinh || quan || giaoDich || gia;
+  const hasFilter = q || loai || tinh || quan || giaoDich || gia || dienTich || soTang;
 
   return (
     <div className="card p-4">
@@ -210,6 +235,12 @@ export default function PostFilter({ counts = {} }: { counts?: CountMap }) {
         </select>
         <select className="input" value={gia} onChange={(e) => { setGia(e.target.value); apply({ gia: e.target.value }); }}>
           {KHOANG_GIA.map((g) => <option key={g.value} value={g.value}>{g.label}</option>)}
+        </select>
+        <select className="input" value={dienTich} onChange={(e) => { setDienTich(e.target.value); apply({ dien_tich: e.target.value }); }}>
+          {DIEN_TICH.map((d) => <option key={d.value} value={d.value}>{d.label}</option>)}
+        </select>
+        <select className="input" value={soTang} onChange={(e) => { setSoTang(e.target.value); apply({ so_tang: e.target.value }); }}>
+          {SO_TANG.map((s) => <option key={s.value} value={s.value}>{s.label}</option>)}
         </select>
         <select className="input" value={tinh} onChange={(e) => onTinhChange(e.target.value)}>
           <option value="">Toàn quốc</option>
