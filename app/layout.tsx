@@ -45,6 +45,7 @@ export default function RootLayout({
   return (
     <html lang="vi" className={beVietnam.variable}>
       <head>
+        <meta name="google-adsense-account" content="ca-pub-1337313717244533" />
         {/* Google AdSense - dat truc tiep trong <head> theo yeu cau cua Google */}
         <script
           async
