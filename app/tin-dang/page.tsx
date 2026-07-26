@@ -58,6 +58,20 @@ export default async function TinDangPage({
     const _off = _rest.length > 0 ? _rot % _rest.length : 0;
     posts = _vip.concat(_rest.slice(_off)).concat(_rest.slice(0, _off));
   }
+  // Uu tien tin vua duoc day (boosted_at trong 48h) len dau danh sach (trang dau, khi khong loc).
+  if (_isDefaultFeed) {
+    const _now = Date.now();
+    const _boostMs = 48 * 60 * 60 * 1000;
+    const _isBoosted = (p: Post) => {
+      const b = (p as { boosted_at?: string | null }).boosted_at;
+      return !!b && (_now - new Date(b).getTime()) < _boostMs;
+    };
+    const _boosted = posts
+      .filter(_isBoosted)
+      .sort((a, b) => new Date((b as { boosted_at?: string }).boosted_at || 0).getTime() - new Date((a as { boosted_at?: string }).boosted_at || 0).getTime());
+    const _conLai = posts.filter((p) => !_isBoosted(p));
+    posts = _boosted.concat(_conLai);
+  }
   // Uu tien hien thi tin "nha pho" len dau danh sach (trang dau, khi khong loc).
   if (_isDefaultFeed) {
     const _isNhaPho = (p: Post) => /nha_pho|Nhà phố/i.test(String(p.loai || ""));
