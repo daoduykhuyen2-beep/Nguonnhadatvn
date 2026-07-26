@@ -14,6 +14,7 @@ function collect(formData: FormData) {
   return {
     title: (formData.get("title") as string)?.trim() || "",
     loai: (formData.get("loai") as string) || "",
+    giao_dich: (formData.get("giao_dich") as string) || "ban",
     quan: (formData.get("quan") as string)?.trim() || "",
     phuong: (formData.get("phuong") as string)?.trim() || "",
     duong: (formData.get("duong") as string)?.trim() || "",
@@ -47,7 +48,7 @@ export async function createPost(_prev: ActionState, formData: FormData): Promis
   const ngayHetHan = new Date(Date.now() + soNgayValid * 24 * 60 * 60 * 1000).toISOString();
   const { data, error } = await supabase.from("web_posts").insert({
     owner: user.id,
-    title: d.title, loai: d.loai, quan: d.quan, phuong: d.phuong, duong: d.duong, so_nha: d.so_nha,
+    title: d.title, loai: d.loai, giao_dich: d.giao_dich, quan: d.quan, phuong: d.phuong, duong: d.duong, so_nha: d.so_nha,
     gia: d.gia, dien_tich: d.dien_tich, chieu_ngang: d.chieu_ngang, chieu_dai: d.chieu_dai,
     so_tang: d.so_tang, contact_name: d.contact_name, contact_phone: d.contact_phone,
     mota: d.mota, video: d.video, anh: d.anh, anh_bia: d.anh_bia,
@@ -88,7 +89,7 @@ export async function updatePost(id: number, _prev: ActionState, formData: FormD
   const d = collect(formData);
   if (!d.title) return { error: "Vui lòng nhập tiêu đề." };
   const { error } = await supabase.from("web_posts").update({
-    title: d.title, loai: d.loai, quan: d.quan, phuong: d.phuong, duong: d.duong,
+    title: d.title, loai: d.loai, giao_dich: d.giao_dich, quan: d.quan, phuong: d.phuong, duong: d.duong,
     gia: d.gia, dien_tich: d.dien_tich, chieu_ngang: d.chieu_ngang, chieu_dai: d.chieu_dai,
     so_tang: d.so_tang, contact_name: d.contact_name, contact_phone: d.contact_phone,
     mota: d.mota, video: d.video, anh: d.anh, anh_bia: d.anh_bia,
