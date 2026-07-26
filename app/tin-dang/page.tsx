@@ -26,16 +26,8 @@ export default async function TinDangPage({
     .eq("trang_thai", "duyet");
 
   if (sp.loai) {
-    // Bo loc gui slug (nha_pho, tho_cu, can_ho, du_an). Du lieu cu luu slug,
-    // tin moi dang qua form co the luu chu hien thi -> khop ca hai.
-    const LOAI_ALIAS: Record<string, string[]> = {
-      nha_pho: ["nha_pho", "Nhà phố", "Nhà mặt tiền", "Nhà hẻm", "Biệt thự"],
-      tho_cu: ["tho_cu", "Nhà phố", "Nhà mặt tiền", "Nhà hẻm"],
-      can_ho: ["can_ho", "Căn hộ"],
-      du_an: ["du_an", "Đất nền", "Dự án"],
-    };
-    const terms = LOAI_ALIAS[sp.loai] || [sp.loai];
-    query = query.or(terms.map((t) => `loai.ilike.%${t}%`).join(","));
+    // Bo loc theo slug chuan (nha_pho, tho_cu, can_ho, du_an) - khop truc tiep cot loai.
+    query = query.eq("loai", sp.loai);
   }
   if (sp.giao_dich) query = query.eq("giao_dich", sp.giao_dich);
   // Lọc theo tỉnh/thành trên toàn quốc. Trường "quan" có dạng "Quận/Huyện - Tỉnh".
