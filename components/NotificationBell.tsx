@@ -42,8 +42,18 @@ export default function NotificationBell() {
 
   useEffect(() => {
     load();
-    const t = setInterval(load, 60000);
-    return () => clearInterval(t);
+    // Poll thuong xuyen hon de thay thong bao gan nhu tuc thi.
+    const t = setInterval(load, 15000);
+    // Realtime: khi co thong bao moi (vd: kich hoat goi) thi cap nhat ngay.
+    const supabase = createClient();
+    const channel = supabase
+      .channel("noti-realtime")
+      .on("postgres_changes", { event: "INSERT", schema: "public", table: "notifications" }, () => load())
+      .subscribe();
+    return () => {
+      clearInterval(t);
+      supabase.removeChannel(channel);
+    };
   }, []);
 
   useEffect(() => {
