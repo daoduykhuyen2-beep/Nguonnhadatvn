@@ -112,6 +112,15 @@ export async function POST(req: NextRequest) {
       p_user_id: order.user_id, p_plan_code: order.plan_code, p_days: plan?.days || 30,
     });
     if (error) return NextResponse.json({ success: false, error: "membership failed" }, { status: 500 });
+  } else if (plan?.group === "day") {
+    // Goi day tin: cong so luot day (push_credits) cho user.
+    const credits = plan?.pushCredits || 0;
+    if (credits > 0) {
+      const { data: prof } = await supabase.from("profiles").select("push_credits").eq("id", order.user_id).single();
+      const current = prof?.push_credits || 0;
+      const { error } = await supabase.from("profiles").update({ push_credits: current + credits }).eq("id", order.user_id);
+      if (error) return NextResponse.json({ success: false, error: "push credits failed" }, { status: 500 });
+    }
   } else if (order.post_id) {
     const { error } = await supabase.rpc("apply_post_plan", { p_payment_id: order.id });
     if (error) return NextResponse.json({ success: false, error: "post plan failed" }, { status: 500 });
@@ -119,8 +128,10 @@ export async function POST(req: NextRequest) {
 
   await supabase.from("notifications").insert({
     target_user: order.user_id,
-    tieu_de: "Đăng ký gói thành công",
-    noi_dung: "Đơn " + order.plan_code + " đã được kích hoạt. Cảm ơn bạn!",
+    tieu_de: plan?.group === "day" ? "Nạp lượt đẩy tin thành công" : "Đăng ký gói thành công",
+    noi_dung: plan?.group === "day"
+      ? ("Bạn đã được cộng " + (plan?.pushCredits || 0) + " lượt đẩy tin. Vào \"Tin của tôi\" để đẩy tin lên đầu.")
+      : ("Gói " + (plan?.name || order.plan_code) + " đã được kích hoạt. Cảm ơn bạn!"),
     loai: "goi_dich_vu",
   }).then(() => {}, () => {});
 
