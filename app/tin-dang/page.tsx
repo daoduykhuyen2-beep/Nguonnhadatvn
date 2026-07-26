@@ -93,7 +93,7 @@ function parseGiaTrieu(raw: string | null): number | null {
 export default async function TinDangPage({
   searchParams,
 }: {
-  searchParams: Promise<{ q?: string; giao_dich?: string; loai?: string; tinh?: string; gia?: string; page?: string }>;
+  searchParams: Promise<{ q?: string; giao_dich?: string; loai?: string; tinh?: string; quan?: string; gia?: string; page?: string }>;
 }) {
   const sp = await searchParams;
   const page = Math.max(1, parseInt(sp.page || "1", 10) || 1);
@@ -129,6 +129,8 @@ export default async function TinDangPage({
   if (sp.giao_dich) query = query.eq("giao_dich", sp.giao_dich);
   // Lọc theo tỉnh/thành trên toàn quốc. Cột "quan" chứa tên tỉnh (có thể kèm quận/huyện).
   if (sp.tinh) query = query.ilike("quan", `%${sp.tinh}%`);
+  // Lọc theo quận/huyện (khớp trong cột "quan").
+  if (sp.quan) query = query.ilike("quan", `%${sp.quan}%`);
   if (sp.q) query = query.or(`title.ilike.%${sp.q}%,mota.ilike.%${sp.q}%,quan.ilike.%${sp.q}%`);
 
   // Xử lý lọc khoảng giá: cột "gia" lưu dạng chuỗi nên lọc bằng JS sau khi lấy dữ liệu.
@@ -168,7 +170,7 @@ export default async function TinDangPage({
   }
   // Xoay vong trang dau (khi khong loc): giu nhom VIP o dau, xoay phan con lai theo thoi gian
   // de khach quay lai luon thay tin moi thay vi cung mot danh sach co dinh.
-  const _isDefaultFeed = page === 1 && !sp.q && !sp.loai && !sp.giao_dich && !sp.tinh && !sp.gia;
+  const _isDefaultFeed = page === 1 && !sp.q && !sp.loai && !sp.giao_dich && !sp.tinh && !sp.quan && !sp.gia;
   if (_isDefaultFeed && posts.length > 8) {
     const _rot = Math.floor(Date.now() / (1000 * 60 * 20));
     const _vip = posts.slice(0, 7);
@@ -206,6 +208,7 @@ export default async function TinDangPage({
     if (sp.loai) params.set("loai", sp.loai);
     if (sp.giao_dich) params.set("giao_dich", sp.giao_dich);
     if (sp.tinh) params.set("tinh", sp.tinh);
+    if (sp.quan) params.set("quan", sp.quan);
     if (sp.gia) params.set("gia", sp.gia);
     params.set("page", String(p));
     return `/tin-dang?${params.toString()}`;
