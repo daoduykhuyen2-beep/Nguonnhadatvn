@@ -161,7 +161,7 @@ const SO_TANG = [
 
 type CountMap = Record<string, number>;
 
-export default function PostFilter({ counts = {} }: { counts?: CountMap }) {
+export default function PostFilter({ counts = {}, quanCounts = {} }: { counts?: CountMap; quanCounts?: Record<string, CountMap> }) {
   const router = useRouter();
   const sp = useSearchParams();
   const [q, setQ] = useState(sp.get("q") || "");
@@ -173,7 +173,9 @@ export default function PostFilter({ counts = {} }: { counts?: CountMap }) {
   const [dienTich, setDienTich] = useState(sp.get("dien_tich") || "");
   const [soTang, setSoTang] = useState(sp.get("so_tang") || "");
 
-  const quanList = QUAN_BY_TINH[tinh] || [];
+  const _quanCountMap = quanCounts[tinh] || {};
+  const _quanFromData = Object.keys(_quanCountMap).sort((a, b) => (_quanCountMap[b] || 0) - (_quanCountMap[a] || 0));
+  const quanList = _quanFromData.length > 0 ? _quanFromData : (QUAN_BY_TINH[tinh] || []);
 
   function buildUrl(next: { q?: string; loai?: string; tinh?: string; quan?: string; giao_dich?: string; gia?: string; dien_tich?: string; so_tang?: string }) {
     const params = new URLSearchParams();
@@ -225,6 +227,14 @@ export default function PostFilter({ counts = {} }: { counts?: CountMap }) {
           onChange={(e) => setQ(e.target.value)}
           onKeyDown={(e) => e.key === "Enter" && apply()}
         />
+        <select className="input" value={tinh} onChange={(e) => onTinhChange(e.target.value)}>
+          <option value="">Toàn quốc</option>
+          {TINH.map((t) => <option key={t} value={t}>{counts[t] ? t + " (" + counts[t] + ")" : t}</option>)}
+        </select>
+        <select className="input" value={quan} disabled={!tinh || quanList.length === 0} onChange={(e) => { setQuan(e.target.value); apply({ quan: e.target.value }); }}>
+          <option value="">{tinh ? (quanList.length ? "Tất cả quận/huyện" : "Không có dữ liệu quận/huyện") : "Chọn tỉnh trước"}</option>
+          {quanList.map((h) => <option key={h} value={h}>{_quanCountMap[h] ? h + " (" + _quanCountMap[h] + ")" : h}</option>)}
+        </select>
         <select className="input" value={giaoDich} onChange={(e) => { setGiaoDich(e.target.value); apply({ giao_dich: e.target.value }); }}>
           <option value="">Bán / Cho thuê</option>
           {GIAO_DICH.map((g) => <option key={g.value} value={g.value}>{g.label}</option>)}
@@ -241,14 +251,6 @@ export default function PostFilter({ counts = {} }: { counts?: CountMap }) {
         </select>
         <select className="input" value={soTang} onChange={(e) => { setSoTang(e.target.value); apply({ so_tang: e.target.value }); }}>
           {SO_TANG.map((s) => <option key={s.value} value={s.value}>{s.label}</option>)}
-        </select>
-        <select className="input" value={tinh} onChange={(e) => onTinhChange(e.target.value)}>
-          <option value="">Toàn quốc</option>
-          {TINH.map((t) => <option key={t} value={t}>{counts[t] ? t + " (" + counts[t] + ")" : t}</option>)}
-        </select>
-        <select className="input" value={quan} disabled={!tinh || quanList.length === 0} onChange={(e) => { setQuan(e.target.value); apply({ quan: e.target.value }); }}>
-          <option value="">{tinh ? (quanList.length ? "Tất cả quận/huyện" : "Không có dữ liệu quận/huyện") : "Chọn tỉnh trước"}</option>
-          {quanList.map((h) => <option key={h} value={h}>{h}</option>)}
         </select>
         <button onClick={() => apply()} className="btn-primary">Tìm kiếm</button>
       </div>
