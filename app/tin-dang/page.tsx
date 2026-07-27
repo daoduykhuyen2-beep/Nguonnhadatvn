@@ -124,6 +124,7 @@ export default async function TinDangPage({
         .from("web_posts_public")
         .select("quan")
         .eq("trang_thai", "duyet")
+        .order("id", { ascending: true })
         .range(_off, _off + _BATCH - 1);
       const _chunk = (_rows || []) as { quan: string | null }[];
       for (const _row of _chunk) {
