@@ -173,8 +173,16 @@ export default async function TinDangPage({
   let _tangMax: number | null = null;
   if (sp.so_tang) {
     const _p = sp.so_tang.split("-");
-    _tangMin = _p[0] !== "" && _p[0] !== undefined ? parseFloat(_p[0]) : null;
-    _tangMax = _p[1] !== "" && _p[1] !== undefined ? parseFloat(_p[1]) : null;
+    if (_p.length === 1) {
+      // Gia tri don (1,2,3,4) => khop CHINH XAC so tang do
+      const _v = _p[0] !== "" && _p[0] !== undefined ? parseFloat(_p[0]) : null;
+      _tangMin = _v;
+      _tangMax = _v;
+    } else {
+      // Khoang (vd "5-") => lon hon hoac bang can duoi
+      _tangMin = _p[0] !== "" && _p[0] !== undefined ? parseFloat(_p[0]) : null;
+      _tangMax = _p[1] !== "" && _p[1] !== undefined ? parseFloat(_p[1]) : null;
+    }
   }
   const _hasTang = _tangMin !== null || _tangMax !== null;
 
