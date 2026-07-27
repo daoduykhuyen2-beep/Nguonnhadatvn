@@ -205,11 +205,25 @@ export default async function TinDangPage({
   let count: number | null = 0;
 
   if (_hasClientFilter) {
-    const { data } = await query
+    // Lấy TẤT CẢ dòng khớp bộ lọc DB (tỉnh/quận/loại/từ khóa) theo lô 1000,
+    // rồi lọc giá/diện tích/số tầng bằng JS trên toàn bộ (không giới hạn 5000 dòng nữa).
+    const _cfBase = query
       .order("rank_order", { ascending: true })
       .order("created_at", { ascending: false })
-      .range(0, 4999);
-    const _all = ((data || []) as Post[]).filter((pp) => {
+      .order("id", { ascending: true });
+    const _CF_BATCH = 1000;
+    let _cfOff = 0;
+    const _rawAll: Post[] = [];
+    // eslint-disable-next-line no-constant-condition
+    while (true) {
+      const { data: _cfData } = await _cfBase.range(_cfOff, _cfOff + _CF_BATCH - 1);
+      const _cfChunk = (_cfData || []) as Post[];
+      _rawAll.push(..._cfChunk);
+      if (_cfChunk.length < _CF_BATCH) break;
+      _cfOff += _CF_BATCH;
+      if (_cfOff > 100000) break;
+    }
+    const _all = _rawAll.filter((pp) => {
       if (_hasGia) {
         const _g = parseGiaTrieu(pp.gia);
         if (_g === null) return false;
