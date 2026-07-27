@@ -179,6 +179,9 @@ export default async function TinDangPage({
     _giaMax = _parts[1] !== "" && _parts[1] !== undefined ? parseFloat(_parts[1]) : null;
   }
   const _hasGia = _giaMin !== null || _giaMax !== null;
+  // Lọc giá trực tiếp trên DB qua cột số gia_trieu (triệu VND) — nhanh, không cần quét toàn bộ.
+  if (_giaMin !== null) query = query.gte("gia_trieu", _giaMin);
+  if (_giaMax !== null) query = query.lte("gia_trieu", _giaMax);
 
   // Lọc diện tích (m²) và số tầng — cũng lưu dạng chuỗi nên lọc bằng JS.
   let _dtMin: number | null = null;
@@ -199,7 +202,7 @@ export default async function TinDangPage({
   }
   const _hasTang = _tangMin !== null || _tangMax !== null;
 
-  const _hasClientFilter = _hasGia || _hasDt || _hasTang;
+  const _hasClientFilter = _hasDt || _hasTang;
 
   let posts: Post[] = [];
   let count: number | null = 0;
@@ -224,12 +227,6 @@ export default async function TinDangPage({
       if (_cfOff > 100000) break;
     }
     const _all = _rawAll.filter((pp) => {
-      if (_hasGia) {
-        const _g = parseGiaTrieu(pp.gia);
-        if (_g === null) return false;
-        if (_giaMin !== null && _g < _giaMin) return false;
-        if (_giaMax !== null && _g > _giaMax) return false;
-      }
       if (_hasDt) {
         const _a = parseNum((pp as { dien_tich?: string | null }).dien_tich ?? null);
         if (_a === null) return false;
