@@ -135,7 +135,17 @@ export default async function TinDangPage({
   if (sp.tinh) query = query.ilike("quan", `%${sp.tinh}%`);
   // Lọc theo quận/huyện (khớp trong cột "quan").
   if (sp.quan) query = query.ilike("quan", `${sp.quan},%`);
-  if (sp.q) query = query.or(`title.ilike.%${sp.q}%,mota.ilike.%${sp.q}%,quan.ilike.%${sp.q}%`);
+  // Tìm kiếm không dấu: chuẩn hoá từ khoá (bỏ dấu + chữ thường) rồi khớp với cột search_text.
+  if (sp.q) {
+    const _kw = sp.q
+      .normalize("NFD")
+      .replace(/[\u0300-\u036f]/g, "")
+      .replace(/đ/g, "d")
+      .replace(/Đ/g, "d")
+      .toLowerCase()
+      .trim();
+    if (_kw) query = query.ilike("search_text", `%${_kw}%`);
+  }
 
   // Xử lý lọc khoảng giá: cột "gia" lưu dạng chuỗi nên lọc bằng JS sau khi lấy dữ liệu.
   let _giaMin: number | null = null;
