@@ -167,7 +167,7 @@ export default async function TinDangPage({
   // Lọc theo tỉnh/thành trên toàn quốc. Cột "quan" chứa tên tỉnh (có thể kèm quận/huyện).
   if (sp.tinh) query = query.ilike("quan", `%${sp.tinh}%`);
   // Lọc theo quận/huyện (khớp trong cột "quan").
-  if (sp.quan) query = query.ilike("quan", `%${sp.quan}%`);
+  if (sp.quan) query = query.ilike("quan", `${sp.quan},%`);
   if (sp.q) query = query.or(`title.ilike.%${sp.q}%,mota.ilike.%${sp.q}%,quan.ilike.%${sp.q}%`);
 
   // Xử lý lọc khoảng giá: cột "gia" lưu dạng chuỗi nên lọc bằng JS sau khi lấy dữ liệu.
