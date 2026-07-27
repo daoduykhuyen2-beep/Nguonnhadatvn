@@ -115,43 +115,19 @@ export default async function TinDangPage({
   const tinhCounts: Record<string, number> = {};
   const quanCounts: Record<string, Record<string, number>> = {};
   {
-    // Lấy toàn bộ cột "quan" theo lô 1000 dòng để đếm đầy đủ (PostgREST giới hạn 1000/lần).
-    const _BATCH = 1000;
-    let _off = 0;
-    // eslint-disable-next-line no-constant-condition
-    while (true) {
-      const { data: _rows } = await supabase
-        .from("web_posts_public")
-        .select("quan")
-        .eq("trang_thai", "duyet")
-        .order("id", { ascending: true })
-        .range(_off, _off + _BATCH - 1);
-      const _chunk = (_rows || []) as { quan: string | null }[];
-      for (const _row of _chunk) {
-        const _raw = (_row.quan || "").trim();
-        if (!_raw) continue;
-        const _parts = _raw.split(",").map((x) => x.trim()).filter(Boolean);
-        let _tinh = "";
-        let _q = "";
-        if (_parts.length >= 2) {
-          _tinh = _parts[_parts.length - 1];
-          _q = _parts[0];
-        } else {
-          for (const _t of TINH_LIST) {
-            if (_raw.toLowerCase().includes(_t.toLowerCase())) { _tinh = _t; break; }
-          }
-          _q = _raw;
-        }
-        if (!_tinh) continue;
-        tinhCounts[_tinh] = (tinhCounts[_tinh] || 0) + 1;
-        if (_q && _q !== _tinh) {
-          if (!quanCounts[_tinh]) quanCounts[_tinh] = {};
-          quanCounts[_tinh][_q] = (quanCounts[_tinh][_q] || 0) + 1;
-        }
+    // Đếm số tin theo tỉnh + quận bằng MỘT truy vấn tổng hợp (RPC) thay vì tải 31k dòng mỗi lần.
+    const { data: _agg } = await supabase.rpc("get_quan_counts");
+    const _rows = (_agg || []) as { tinh: string | null; quan: string | null; n: number }[];
+    for (const _row of _rows) {
+      const _tinh = (_row.tinh || "").trim();
+      const _q = (_row.quan || "").trim();
+      const _n = _row.n || 0;
+      if (!_tinh) continue;
+      tinhCounts[_tinh] = (tinhCounts[_tinh] || 0) + _n;
+      if (_q && _q !== _tinh) {
+        if (!quanCounts[_tinh]) quanCounts[_tinh] = {};
+        quanCounts[_tinh][_q] = (quanCounts[_tinh][_q] || 0) + _n;
       }
-      if (_chunk.length < _BATCH) break;
-      _off += _BATCH;
-      if (_off > 100000) break;
     }
   }
   let query = supabase
