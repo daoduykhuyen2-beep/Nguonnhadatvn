@@ -90,15 +90,6 @@ function parseGiaTrieu(raw: string | null): number | null {
   return num;
 }
 
-function parseNum(raw: string | null): number | null {
-  if (!raw) return null;
-  const s = String(raw).replace(/,/g, ".");
-  const mm = s.match(/([0-9]+(?:\.[0-9]+)?)/);
-  if (!mm) return null;
-  const num = parseFloat(mm[1]);
-  return isNaN(num) ? null : num;
-}
-
 export default async function TinDangPage({
   searchParams,
 }: {
@@ -159,75 +150,35 @@ export default async function TinDangPage({
   if (_giaMin !== null) query = query.gte("gia_trieu", _giaMin);
   if (_giaMax !== null) query = query.lte("gia_trieu", _giaMax);
 
-  // Lọc diện tích (m²) và số tầng — cũng lưu dạng chuỗi nên lọc bằng JS.
-  let _dtMin: number | null = null;
-  let _dtMax: number | null = null;
+  // Loc dien tich (m2) qua cot so dien_tich_num (nhanh, loc thang trong DB).
   if (sp.dien_tich) {
     const _p = sp.dien_tich.split("-");
-    _dtMin = _p[0] !== "" && _p[0] !== undefined ? parseFloat(_p[0]) : null;
-    _dtMax = _p[1] !== "" && _p[1] !== undefined ? parseFloat(_p[1]) : null;
+    const _dtMin = _p[0] !== "" && _p[0] !== undefined ? parseFloat(_p[0]) : null;
+    const _dtMax = _p[1] !== "" && _p[1] !== undefined ? parseFloat(_p[1]) : null;
+    if (_dtMin !== null) query = query.gte("dien_tich_num", _dtMin);
+    if (_dtMax !== null) query = query.lte("dien_tich_num", _dtMax);
   }
-  const _hasDt = _dtMin !== null || _dtMax !== null;
 
-  let _tangMin: number | null = null;
-  let _tangMax: number | null = null;
+  // Loc so tang qua cot so so_tang_num (nhanh, loc thang trong DB).
   if (sp.so_tang) {
     const _p = sp.so_tang.split("-");
     if (_p.length === 1) {
       // Gia tri don (1,2,3,4) => khop CHINH XAC so tang do
-      const _v = _p[0] !== "" && _p[0] !== undefined ? parseFloat(_p[0]) : null;
-      _tangMin = _v;
-      _tangMax = _v;
+      const _v = _p[0] !== "" && _p[0] !== undefined ? parseInt(_p[0], 10) : null;
+      if (_v !== null) query = query.eq("so_tang_num", _v);
     } else {
-      // Khoang (vd "5-") => lon hon hoac bang can duoi
-      _tangMin = _p[0] !== "" && _p[0] !== undefined ? parseFloat(_p[0]) : null;
-      _tangMax = _p[1] !== "" && _p[1] !== undefined ? parseFloat(_p[1]) : null;
+      // Khoang (vd "5-") => tu can duoi tro len
+      const _tMin = _p[0] !== "" && _p[0] !== undefined ? parseInt(_p[0], 10) : null;
+      const _tMax = _p[1] !== "" && _p[1] !== undefined ? parseInt(_p[1], 10) : null;
+      if (_tMin !== null) query = query.gte("so_tang_num", _tMin);
+      if (_tMax !== null) query = query.lte("so_tang_num", _tMax);
     }
   }
-  const _hasTang = _tangMin !== null || _tangMax !== null;
-
-  const _hasClientFilter = _hasDt || _hasTang;
 
   let posts: Post[] = [];
   let count: number | null = 0;
 
-  if (_hasClientFilter) {
-    // Lấy TẤT CẢ dòng khớp bộ lọc DB (tỉnh/quận/loại/từ khóa) theo lô 1000,
-    // rồi lọc giá/diện tích/số tầng bằng JS trên toàn bộ (không giới hạn 5000 dòng nữa).
-    const _cfBase = query
-      .order("rank_order", { ascending: true })
-      .order("created_at", { ascending: false })
-      .order("id", { ascending: true });
-    const _CF_BATCH = 1000;
-    let _cfOff = 0;
-    const _rawAll: Post[] = [];
-    // eslint-disable-next-line no-constant-condition
-    while (true) {
-      const { data: _cfData } = await _cfBase.range(_cfOff, _cfOff + _CF_BATCH - 1);
-      const _cfChunk = (_cfData || []) as Post[];
-      _rawAll.push(..._cfChunk);
-      if (_cfChunk.length < _CF_BATCH) break;
-      _cfOff += _CF_BATCH;
-      if (_cfOff > 100000) break;
-    }
-    const _all = _rawAll.filter((pp) => {
-      if (_hasDt) {
-        const _a = parseNum((pp as { dien_tich?: string | null }).dien_tich ?? null);
-        if (_a === null) return false;
-        if (_dtMin !== null && _a < _dtMin) return false;
-        if (_dtMax !== null && _a > _dtMax) return false;
-      }
-      if (_hasTang) {
-        const _t = parseNum((pp as { so_tang?: string | null }).so_tang ?? null);
-        if (_t === null) return false;
-        if (_tangMin !== null && _t < _tangMin) return false;
-        if (_tangMax !== null && _t > _tangMax) return false;
-      }
-      return true;
-    });
-    count = _all.length;
-    posts = _all.slice(from, to + 1);
-  } else {
+  {
     const { data, count: _c } = await query
       .order("rank_order", { ascending: true })
       .order("created_at", { ascending: false })
