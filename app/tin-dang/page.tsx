@@ -113,17 +113,44 @@ export default async function TinDangPage({
 
   // Đếm số tin đã duyệt theo từng tỉnh/thành để hiển thị cạnh bộ lọc.
   const tinhCounts: Record<string, number> = {};
+  const quanCounts: Record<string, Record<string, number>> = {};
   {
-    const { data: _allQuan } = await supabase
-      .from("web_posts_public")
-      .select("quan")
-      .eq("trang_thai", "duyet");
-    for (const _row of (_allQuan || []) as { quan: string | null }[]) {
-      const _q = (_row.quan || "").trim();
-      if (!_q) continue;
-      for (const _t of TINH_LIST) {
-        if (_q.toLowerCase().includes(_t.toLowerCase())) { tinhCounts[_t] = (tinhCounts[_t] || 0) + 1; break; }
+    // Lấy toàn bộ cột "quan" theo lô 1000 dòng để đếm đầy đủ (PostgREST giới hạn 1000/lần).
+    const _BATCH = 1000;
+    let _off = 0;
+    // eslint-disable-next-line no-constant-condition
+    while (true) {
+      const { data: _rows } = await supabase
+        .from("web_posts_public")
+        .select("quan")
+        .eq("trang_thai", "duyet")
+        .range(_off, _off + _BATCH - 1);
+      const _chunk = (_rows || []) as { quan: string | null }[];
+      for (const _row of _chunk) {
+        const _raw = (_row.quan || "").trim();
+        if (!_raw) continue;
+        const _parts = _raw.split(",").map((x) => x.trim()).filter(Boolean);
+        let _tinh = "";
+        let _q = "";
+        if (_parts.length >= 2) {
+          _tinh = _parts[_parts.length - 1];
+          _q = _parts[0];
+        } else {
+          for (const _t of TINH_LIST) {
+            if (_raw.toLowerCase().includes(_t.toLowerCase())) { _tinh = _t; break; }
+          }
+          _q = _raw;
+        }
+        if (!_tinh) continue;
+        tinhCounts[_tinh] = (tinhCounts[_tinh] || 0) + 1;
+        if (_q && _q !== _tinh) {
+          if (!quanCounts[_tinh]) quanCounts[_tinh] = {};
+          quanCounts[_tinh][_q] = (quanCounts[_tinh][_q] || 0) + 1;
+        }
       }
+      if (_chunk.length < _BATCH) break;
+      _off += _BATCH;
+      if (_off > 100000) break;
     }
   }
   let query = supabase
@@ -263,7 +290,7 @@ export default async function TinDangPage({
   return (
     <div className="container-app py-8">
       <h1 className="section-title mb-4">Tin đăng bất động sản</h1>
-      <PostFilter counts={tinhCounts} />
+      <PostFilter counts={tinhCounts} quanCounts={quanCounts} />
 
       <p className="mt-4 text-sm text-ink-muted">Tìm thấy {total.toLocaleString("vi-VN")} tin đăng trên toàn quốc{sp.tinh ? " tại " + sp.tinh : ""}.</p>
 
