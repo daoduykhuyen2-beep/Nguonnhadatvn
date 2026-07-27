@@ -134,7 +134,7 @@ export async function adminSendPasswordReset(email: string): Promise<AdminState>
   if (!allowed) return { error: "Không có quyền." };
   const clean = (email || "").trim();
   if (!clean) return { error: "Thành viên chưa có email." };
-  const origin = process.env.NEXT_PUBLIC_SITE_URL || "https://www.nguonnhadatvn.vn";
+  const origin = "https://www.nguonnhadatvn.vn";
   const { error } = await supabase.auth.resetPasswordForEmail(clean, {
     redirectTo: origin + "/auth/callback?next=/dat-lai-mat-khau",
   });
