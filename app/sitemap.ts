@@ -1,7 +1,7 @@
 import type { MetadataRoute } from "next";
 import { createClient } from "@/lib/supabase/server";
 
-const SITE = process.env.NEXT_PUBLIC_SITE_URL || "https://nguonnhadatvn.vercel.app";
+const SITE = "https://www.nguonnhadatvn.vn";
 
 export const revalidate = 3600;
 
