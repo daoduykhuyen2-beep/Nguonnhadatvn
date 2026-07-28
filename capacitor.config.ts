@@ -23,7 +23,7 @@ const config: CapacitorConfig = {
   server: {
     // URL website da deploy - app se nap trang nay.
     // Doi sang https://www.nguonnhadatvn.vn neu ban muon dung domain rieng.
-    url: 'https://nguonnhadatvn.vercel.app',
+      url: 'https://www.nguonnhadatvn.vn',
     cleartext: false,
     // Cho phep dieu huong trong cac domain nay ma khong mo trinh duyet ngoai.
     allowNavigation: [
