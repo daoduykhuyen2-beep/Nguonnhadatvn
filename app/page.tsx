@@ -33,7 +33,7 @@ export default async function HomePage() {
 
   const { count: soCanRaw } = await supabase
     .from("web_posts_public")
-    .select("id", { count: "estimated", head: true })
+    .select("id", { count: "exact", head: true })
     .eq("trang_thai", "duyet");
   const soCan = soCanRaw ?? 0;
   const soCanText = new Intl.NumberFormat("vi-VN").format(soCan);
