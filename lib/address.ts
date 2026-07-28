@@ -1,6 +1,6 @@
 import type { Post } from "@/lib/types";
 import { detectCity, pickCityImage } from "@/lib/news-image";
-
+const notEmpty = (x: any) => x != null && String(x).trim() !== "" && String(x).trim() !== "0";
 // Anh goi y theo khu vuc (danh lam thang canh) khi tin dang chua co anh that.
 // Dua vao tieu de + quan/huyen de nhan dien thanh pho, moi tin ra 1 anh on dinh theo id.
 export function fallbackImage(id: number | string, hint?: string): string {
@@ -27,13 +27,13 @@ export function publicArea(post: Post): string {
 
 // Địa chỉ đầy đủ (kèm đường & số nhà) - chỉ dành cho hội viên
 export function fullAddress(post: Post): string {
-  return [(post as any).so_nha, post.duong, post.phuong, post.quan].filter(Boolean).join(", ");
+  return [(post as any).so_nha, post.duong, post.phuong, post.quan].filter(notEmpty).join(", ");
 }
 
 // Che phần đường/số nhà trong tiêu đề. Tiêu đề dạng "Loại {đường}, {quận}, {tỉnh}".
 // Giữ lại loại BĐS + khu vực, thay phần đường bằng dấu ẩn.
 export function maskTitle(post: Post): string {
-  const title = (post.title || "").trim();
+    const title = (post.title || "").split(" - 0 -").join(" -").split(" 0 ").join(" ").trim();
   if (!title) return "Tin bất động sản";
   const area = publicArea(post);
   // Nếu có thông tin đường, cắt bỏ phần đường khỏi tiêu đề
