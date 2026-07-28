@@ -124,7 +124,7 @@ export default async function PostDetail({ params }: { params: Promise<{ id: str
           </div>
 
           <div className="card mt-6 p-6">
-            <h1 className="text-2xl font-extrabold text-ink">{displayTitle}</h1>
+            <h1 className="text-2xl font-extrabold text-ink">{displayTitle.split(" - 0 -").join(" -").split(" 0 ").join(" ")}</h1>
             <p className="mt-2 text-3xl font-black text-brand-600">{post.gia || "Thỏa thuận"}</p>
 
             {/* Địa chỉ: chỉ hiện đầy đủ cho hội viên */}
